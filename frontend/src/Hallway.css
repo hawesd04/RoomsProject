@@ -1,0 +1,19 @@
+.hallways {
+    width: 1920px;
+    border: 15px;
+    border-color: black;
+    position:relative;
+}
+
+.hallway-image {
+    position:absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+.door-image {
+    position:absolute;
+    top: -20px;
+    left: 0;
+    z-index: 1;
+}
