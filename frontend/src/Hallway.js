@@ -2,7 +2,16 @@ import './Hallway.css';
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material'
 
-const Hallway = ({rooms, isLatest}) => {
+const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
+
+    const handleDoorSelect = (door) => {
+        console.log('selected ' + door.name);
+        // will implement routing logic
+    };
+
+    const onDoorHover = (door) => {
+        console.log('hovering over' + door.name);
+    }
 
     const assets = [
         './HallwayAssets/Hallway1.png',
@@ -13,16 +22,26 @@ const Hallway = ({rooms, isLatest}) => {
         './HallwayAssets/Hallway6.png',
     ];
 
-    const bg = Math.floor(rooms.length/5);
-    const numDoors = Math.floor(rooms.length%5)
-    console.log("bg index set to:" + bg);
-    console.log("remainder set to:" + numDoors);
-
     return(
         <Box>
             <div className="hallways">
-                <img className="hallway-image" src={assets[bg]}></img>
-                <img className="door-image" src={"./HallwayAssets/door.png"}></img>
+                <img className="hallway-image" src={hallwayImage}></img>
+                <div className="doors-container">
+                    {doors.map((door, doorIndex) => (
+                        <div
+                            key={door.id}
+                            className="door"
+                            onClick={() => handleDoorSelect(door)}
+                        >
+                            <img 
+                                className="door-image" 
+                                src="./HallwayAssets/doorsingle.png"
+                                onMouseOver={(e) => e.target.src = './HallwayAssets/door_open_single1.png'}
+                                onMouseOut={(e) => e.target.src = './HallwayAssets/doorsingle.png'}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </Box>
     );

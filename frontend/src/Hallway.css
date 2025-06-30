@@ -1,21 +1,27 @@
 .hallways {
     width: 100%;
-    border: 15px;
-    border-color: black;
     position:relative;
 }
 
 .hallway-image {
     position:absolute;
-    width: 100%;
-    top: 0;
+    width:100%;
+    height:100%;
+    top: -5.5%;
     left: 0;
     z-index: 0;
 }
-.door-image {
-    position:absolute;
+.doors-container {
     width: 100%;
-    top: -20px;
-    left: 0;
+    position:relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap:0.5%;
+}
+.door {
+    translate:-5%;
+    max-width: 100%;
     z-index: 1;
+    cursor: pointer;
 }
