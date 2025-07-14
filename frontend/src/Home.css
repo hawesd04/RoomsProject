@@ -1,0 +1,13 @@
+.App {
+  background-color: #1e1f31;
+  border-width: 15px;
+  border-color:black;
+}
+.container {
+  display:flex;
+  flex-direction: column;
+  text-align: center;
+  color:white;
+  font-size: 2rem;
+  margin:auto;
+}

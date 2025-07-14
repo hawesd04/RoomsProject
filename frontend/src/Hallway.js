@@ -1,26 +1,19 @@
 import './Hallway.css';
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material'
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
+    const navigate = useNavigate();
 
     const handleDoorSelect = (door) => {
         console.log('selected ' + door.name);
-        // will implement routing logic
+        navigate(`/room/${door.id}`);
     };
 
     const onDoorHover = (door) => {
         console.log('hovering over' + door.name);
     }
-
-    const assets = [
-        './HallwayAssets/Hallway1.png',
-        './HallwayAssets/Hallway2.png',
-        './HallwayAssets/Hallway3.png',
-        './HallwayAssets/Hallway4.png',
-        './HallwayAssets/Hallway5.png',
-        './HallwayAssets/Hallway6.png',
-    ];
 
     return(
         <Box>
@@ -33,6 +26,10 @@ const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
                             className="door"
                             onClick={() => handleDoorSelect(door)}
                         >
+                            <img
+                                className='frame-image'
+                                src={door.frameImage}
+                            />
                             <img 
                                 className="door-image" 
                                 src="./HallwayAssets/doorsingle.png"
