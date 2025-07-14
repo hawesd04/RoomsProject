@@ -46,6 +46,7 @@ const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
                                 className='frame-image'
                                 src={door.frameImage}
                             />
+                            {/* User PFP Image */}
                             <img 
                                 className="door-image" 
                                 src="./HallwayAssets/doorsingle.png"
