@@ -11,3 +11,10 @@
   font-size: 2rem;
   margin:auto;
 }
+.lower-row {
+  display:flex;
+  flex-direction: row;
+  margin: auto;
+  width: 500px;
+  gap: 20%;
+}

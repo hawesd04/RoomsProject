@@ -35,3 +35,29 @@
     margin-left:66%;
     border: 0.3rem solid #141420;
 }
+
+.name-text {
+    position: fixed;
+    width: 36%;
+    top: 5%;
+    left: 43%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    filter: drop-shadow(0px 0px 3px #11112796);
+
+    padding: 0.5rem;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-button {
+    position: relative;
+    z-index: 3;
+    width: 0%;
+    left: 70%;
+    top: 65%;
+}

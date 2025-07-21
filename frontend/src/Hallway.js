@@ -1,6 +1,6 @@
 import './Hallway.css';
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
 import { useNavigate, useNavigation } from 'react-router-dom';
 /*
     Hallway Class
@@ -12,7 +12,7 @@ import { useNavigate, useNavigation } from 'react-router-dom';
     @param hallwayImage
         the rendered hallway image
 */
-const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
+const Hallway = ({devMode, doors, hallwayImage}) => {
     // navigation const (use to navigate routes)
     const navigate = useNavigate();
 
@@ -20,6 +20,31 @@ const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
     const handleDoorSelect = (door) => {
         console.log('selected ' + door.name);
         navigate(`/room/${door.id}`);
+    };
+
+    const handleRemoveRoom = (door) => {
+
+    };
+
+    const handleFrameSwap = (door) => {
+        console.log('swapping profile picture for ' + door.name)
+            let userInput = prompt("enter a url for the profile image: ")
+            const img = new Image();
+            img.src = userInput
+            img.onload = () => {
+                // Dimensions are available here
+                const width = img.naturalWidth;
+                const height = img.naturalHeight;
+                console.log(`Image dimensions: ${width}x${height}`);
+                if (width/height !== 1) {
+                    alert("image dimensions are not 1:1 (square)");
+                }
+                else {
+                    // CODE TO PUSH REQUEST NEW IMAGE TO DATABASE
+                }
+        };
+        
+
     };
 
     // door hover listener
@@ -40,18 +65,57 @@ const Hallway = ({hallwayIndex, doors, hallwayImage}) => {
                             // displays doors and handles selection
                             key={door.id}
                             className="door"
-                            onClick={() => handleDoorSelect(door)}
-                        >   {/* User PFP Image */}
+                            
+                        >   
+                            {/* Remove Button */}
+                            {devMode && (
+                                <Button
+                                    className="remove-button"
+                                    onClick={() => handleRemoveRoom(door)}
+                                    sx={{ 
+                                        fontSize: 17,
+                                        position: 'absolute',
+                                        color: 'white',
+                                        scale: 1.5,
+                                        backgroundColor: '#14142061'
+                                    }}
+                                >
+                                    🗑️
+                                </Button>
+                            )}
+                            {/* User PFP Image */}
                             <img
+                                onClick={devMode ? () => handleFrameSwap(door) : null}
                                 className='frame-image'
                                 src={door.frameImage}
                             />
-                            {/* User PFP Image */}
+                            {/* Name Text */}
+                            <Typography
+                            className='name-text'
+                                textAlign={'center'}
+                                height={'18%'}
+                                sx={{
+                                    color: 'white',
+                                    textAlign: 'center',
+                                    fontSize: door.name.length > 12 ? '20px' : 
+                                            door.name.length > 7 ? '25px' : '30px',
+                                    padding: '0.5rem',
+                                    wordWrap: 'break-word',
+                                    overflow: 'hidden',
+                                }}>
+                                {door.name}
+                            </Typography>
+                            {/* Door Image */}
                             <img 
                                 className="door-image" 
                                 src="./HallwayAssets/doorsingle.png"
-                                onMouseOver={(e) => e.target.src = './HallwayAssets/door_open_single1.png'}
-                                onMouseOut={(e) => e.target.src = './HallwayAssets/doorsingle.png'}
+                                onMouseOver={(e) => devMode ? null : e.target.src = './HallwayAssets/door_open_single1.png'}
+                                onMouseOut={(e) => devMode ? null : e.target.src = './HallwayAssets/doorsingle.png'}
+                                onClick={devMode ? null : () => handleDoorSelect(door)}
+                                style={{
+                                    cursor: devMode ? 'not-allowed' : 'pointer',
+                                    opacity: devMode ? 0.5 : 1
+                                }}
                             />
                         </div>
                     ))}
