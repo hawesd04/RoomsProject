@@ -69,7 +69,7 @@ router.put('/update/:id', async (req, res) => {
 
     console.log("Update result:", result);
     
-    // Fetch the updated document
+    // Fetch updated
     const updatedCollection = await Doormodel.findById(id);
     
     console.log("Updated document:", updatedCollection);
