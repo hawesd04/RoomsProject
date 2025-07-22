@@ -19,6 +19,20 @@ function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Create a function to update a specific door
+  const updateDoor = (doorId, updatedData) => {
+      setInitialDoors(prevDoors => 
+          prevDoors.map(door => 
+              door._id === doorId 
+                  ? { ...door, ...updatedData }
+                  : door
+          )
+      );
+  };
+
+  console.log(initialDoors)
+
+
   const handleDevModeToggle = () => {
     if (correctPass === true) {
       if (devMode === true) {
@@ -79,8 +93,8 @@ function Home() {
                 <Hallway
                   hallwayImage={`./HallwayAssets/Hallway${index + 1}.png`}
                   doors={hall}
-                  hallwayIndex={index}
                   devMode={devMode}
+                  onUpdateDoor={updateDoor}
                 />
                 ))}
               <div className='lower-row'>

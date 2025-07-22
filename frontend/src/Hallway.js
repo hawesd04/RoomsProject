@@ -2,6 +2,7 @@ import './Hallway.css';
 import { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material'
 import { useNavigate, useNavigation } from 'react-router-dom';
+import axios from 'axios';
 /*
     Hallway Class
 
@@ -12,7 +13,7 @@ import { useNavigate, useNavigation } from 'react-router-dom';
     @param hallwayImage
         the rendered hallway image
 */
-const Hallway = ({devMode, doors, hallwayImage}) => {
+const Hallway = ({devMode, doors, hallwayImage, onUpdateDoor}) => {
     // navigation const (use to navigate routes)
     const navigate = useNavigate();
 
@@ -41,11 +42,39 @@ const Hallway = ({devMode, doors, hallwayImage}) => {
                 }
                 else {
                     // CODE TO PUSH REQUEST NEW IMAGE TO DATABASE
-                }
-        };
-        
 
+                    axios.put(`http://localhost:5000/api/update/${door._id}`, {
+                        name: door.name,
+                        frameImage: userInput
+                    })
+                    .then(response => {
+                        // Use the updated document from the backend response
+                        onUpdateDoor(door._id, response.data);
+                    })
+                    .catch(error => {
+                        console.error("Error updating door:", error);
+                    });
+            }
+        };
     };
+
+    const handleNameSwap = (door) => {
+        console.log('swapping name picture for ' + door.name)
+        let userInput = prompt("enter a new name for this room: ")
+        if (userInput !== null && userInput !== "") {
+            axios.put(`http://localhost:5000/api/update/${door._id}`, {
+                name: userInput,
+                frameImage: door.frameImage
+            })
+            .then(response => {
+                // Use the updated document from the backend response
+                onUpdateDoor(door._id, response.data);
+            })
+            .catch(error => {
+                console.error("Error updating door:", error);
+            });
+        }
+    }
 
     // door hover listener
     const onDoorHover = (door) => {
@@ -94,6 +123,7 @@ const Hallway = ({devMode, doors, hallwayImage}) => {
                             className='name-text'
                                 textAlign={'center'}
                                 height={'18%'}
+                                onClick={devMode ? () => handleNameSwap(door) : null}
                                 sx={{
                                     color: 'white',
                                     textAlign: 'center',
