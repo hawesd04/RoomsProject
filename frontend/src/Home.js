@@ -1,7 +1,7 @@
 import Hallway from './Hallway';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Typography } from '@mui/material'
 import './Home.css';
 /*
@@ -32,6 +32,8 @@ function Home() {
   const [devMode, setDevMode] = useState(false);
   const [correctPass, setCorrectPass] = useState(false);
 
+  const navigate = useNavigate();
+
   /*
     Grabs the data from the database and sets the initial door list with each door
   */
@@ -53,14 +55,20 @@ function Home() {
     This method is called deeper in hallway.js and others to update content
     in the backend
   */
-  const updateDoor = (doorId, updatedData) => {
-      setInitialDoors(prevDoors => 
-          prevDoors.map(door => 
-              door._id === doorId 
+  const updateDoor = (doorID, updatedData) => {
+      setInitialDoors(newDoors => 
+          newDoors.map(door => 
+              door._id === doorID 
                   ? { ...door, ...updatedData }
                   : door
           )
       );
+  };
+
+  const removeDoor = (doorID) => {
+    setInitialDoors(newDoors =>
+      newDoors.filter(door => door._id !== doorID)
+    );
   };
 
 
@@ -104,6 +112,8 @@ function Home() {
   */
   const handleCreateRoom = () => {
     //NAVIGATE TO room-creator
+    console.log('creating new room');
+    navigate(`/create-new`);
   }
 
 
@@ -129,18 +139,22 @@ function Home() {
   */
   return (
           <div className="App">
+            <div className="background" />
             <div className="container">
               <h2>
-                Pogchat House
+                Dylan's Extra Special Awesome Hotel
               </h2>
-              {doorsInHall.map((hall, index) => (
-                <Hallway
-                  hallwayImage={`./HallwayAssets/Hallway${index + 1}.png`}
-                  doors={hall}
-                  devMode={devMode}
-                  onUpdateDoor={updateDoor}
-                />
-                ))}
+              <div className="hallways">
+                {doorsInHall.map((hall, index) => (
+                  <Hallway
+                    hallwayImage={`./HallwayAssets/Hallway${index + 1}.png`}
+                    doors={hall}
+                    devMode={devMode}
+                    onUpdateDoor={updateDoor}
+                    onRemoveDoor={removeDoor}
+                  />
+                  ))}
+                </div>
               <div className='lower-row'>
                 <Button
                     className ="button"

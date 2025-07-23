@@ -1,7 +1,18 @@
 .App {
   background-color: #1e1f31;
+  background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.1) 0%, transparent 70%);
   border-width: 15px;
   border-color:black;
+}
+
+.background-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 .container {
   display:flex;

@@ -36,6 +36,14 @@
     border: 0.3rem solid #141420;
 }
 
+.remove-button {
+    position: relative;
+    z-index: 3;
+    width: 0%;
+    left: 70%;
+    top: 65%;
+}
+
 .name-text {
     position: fixed;
     width: 36%;
@@ -52,12 +60,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.remove-button {
-    position: relative;
-    z-index: 3;
-    width: 0%;
-    left: 70%;
-    top: 65%;
 }

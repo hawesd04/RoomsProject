@@ -44,7 +44,7 @@ router.get('/data', async (req, res) => {
 });
 
 
-// Update the collection in the backend ----------------------------------------------------------------
+// Update a door in the backend ----------------------------------------------------------------
 router.put('/update/:id', async (req, res) => {
   console.log('Route /update/:id has been registered');
   console.log('PUT /update/:id route hit with ID:', req.params.id);
@@ -56,7 +56,7 @@ router.put('/update/:id', async (req, res) => {
     
     console.log("Attempting to update with:", { name, frameImage});
     
-    // Update using updateOne
+    // actually update one of the instances in the collection
     const result = await Doormodel.updateOne(
       { _id: id },
       { 
@@ -82,7 +82,59 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
+// Delete a door in the backend ----------------------------------------------------------------
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    console.log("Attempting to delete door with ID:", id);
+    
+    // Delete a door in the collection
+    const result = await Doormodel.deleteOne({ _id: id });
+    
+    console.log("Delete result:", result);
+    
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Door not found' });
+    }
+    
+    res.status(200).json({ 
+      message: 'Door deleted successfully',
+      deletedId: id 
+    });
+  } 
+  catch (error) {
+    console.error("Error deleting door:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
+
+// Create a door in the backend ----------------------------------------------------------------
+router.post('/create', async (req, res) => {
+  try {
+    const { name, frameImage } = req.body;
+    
+    console.log("Attempting to create door with:", { name, frameImage });
+    
+    // Create new door object
+    const newDoor = new Doormodel({
+      name: name || 'New Room', // Default name if not provided
+      frameImage: frameImage || 'default-frame.jpg' // Default image if not provided
+    });
+    
+    // Save to database
+    const savedDoor = await newDoor.save();
+    
+    console.log("Created door:", savedDoor);
+    
+    res.status(201).json(savedDoor);
+  } 
+  catch (error) {
+    console.error("Error creating door:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 // Start the server --------------------------------------------------------------------------------------------

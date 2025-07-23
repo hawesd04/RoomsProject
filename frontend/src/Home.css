@@ -1,9 +1,20 @@
 .App {
-  background-color: #1e1f31;
   border-width: 15px;
   border-color:black;
 }
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .container {
+  
   display:flex;
   flex-direction: column;
   text-align: center;
@@ -11,10 +22,12 @@
   font-size: 2rem;
   margin:auto;
 }
+
 .lower-row {
   display:flex;
   flex-direction: row;
-  margin: auto;
+  margin:auto;
+  translate:20%;
   width: 500px;
   gap: 20%;
 }
