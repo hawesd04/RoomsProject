@@ -21,7 +21,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
     // selects and navigates to a doors route
     const handleDoorSelect = (door) => {
         console.log('selected ' + door.name);
-        navigate(`/room/${door.name}`);
+        navigate(`/room/${door.name}`, { state: { doorData: door } });
     };
 
     const handleRemoveRoom = (door) => {
@@ -74,9 +74,14 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
         console.log('swapping name picture for ' + door.name)
         let userInput = prompt("enter a new name for this room: ")
         if (userInput !== null && userInput !== "") {
+            const primaryColor = door.assets?.textGradColors?.primary || 'grey';
+            const secondaryColor = door.assets?.textGradColors?.secondary || 'white';
+
             axios.put(`http://localhost:5000/api/update/${door._id}`, {
                 name: userInput,
-                frameImage: door.frameImage
+                frameImage: door.frameImage,
+                primaryColor: primaryColor,
+                secondaryColor: secondaryColor
             })
                 .then(response => {
                     // Use the updated document from the backend response

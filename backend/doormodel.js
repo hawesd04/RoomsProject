@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const doorSchema = new Schema({
   id: String,
   name: String,
-  frameImage: String
+  frameImage: String,
+  assets: {
+    textGradColors: {primary: String, secondary: String}
+  }
 });
 
 module.exports = mongoose.model('Door', doorSchema, "Rooms");

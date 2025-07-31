@@ -24,7 +24,29 @@ mongoose.connect(`mongodb+srv://hawesd04:nPut8NB01gOFe0Vt@roomsproject.o9axxi1.m
   console.error('Database connection error:', error);
 });
 
-
+// In your route that fetches doors
+app.get('/api/doors', async (req, res) => {
+  try {
+    let doors = await Doormodel.find();
+    
+    // Add defaults for doors that don't have assets
+    doors = doors.map(door => {
+      if (!door.assets) {
+        door.assets = {
+          textGradColors: {
+            primary: 'grey',
+            secondary: 'white'
+          }
+        };
+      }
+      return door;
+    });
+    
+    res.json(doors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // API routes -------------------------------------------------------------------------------------------
 const router = express.Router();
@@ -63,6 +85,12 @@ router.put('/update/:id', async (req, res) => {
         $set: {
           'name': name,
           'frameImage': frameImage,
+          'assets': {
+            textGradColors: {
+              primary: primaryColor,
+              secondary: secondaryColor
+            }
+          }
         }
       }
     );
@@ -120,7 +148,13 @@ router.post('/create', async (req, res) => {
     // Create new door object
     const newDoor = new Doormodel({
       name: name || 'New Room', // Default name if not provided
-      frameImage: frameImage || 'default-frame.jpg' // Default image if not provided
+      frameImage: frameImage || 'default-frame.jpg', // Default image if not provided
+      assets: {
+        textGradColors: {
+          primary: 'grey',
+          secondary: 'white'
+        }
+      }
     });
     
     // Save to database

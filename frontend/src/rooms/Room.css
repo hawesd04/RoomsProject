@@ -7,3 +7,51 @@
 body {
   background-color: #1e1f31;
 }
+h2 {
+  color:white;
+}
+
+.header-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.main-card {
+  flex: 1;
+  width: 600px;
+  height: 50%;
+  padding:2%;
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.8s ease;
+  opacity: 1;
+}
+
+.rows {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+}
+
+.gradient-text {
+  width: 50%;
+  font-size: 3rem;
+  border: 0.3rem solid #141420;
+}
+
+.section-split {
+  border: 0.3rem solid #141420;
+  padding: 5%;
+  width:400px;
+  height:100%;
+}
+
+.image {
+  width: 100%;
+}
