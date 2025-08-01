@@ -24,25 +24,28 @@ mongoose.connect(`mongodb+srv://hawesd04:nPut8NB01gOFe0Vt@roomsproject.o9axxi1.m
   console.error('Database connection error:', error);
 });
 
-// In your route that fetches doors
-app.get('/api/doors', async (req, res) => {
+// Migrate old data with new datapoints when necessary
+// visit localhost:5000/api/migrate to trigger changes in database
+app.get('/api/migrate', async (req, res) => {
   try {
-    let doors = await Doormodel.find();
-    
-    // Add defaults for doors that don't have assets
-    doors = doors.map(door => {
-      if (!door.assets) {
-        door.assets = {
-          textGradColors: {
-            primary: 'grey',
-            secondary: 'white'
+    const result = await Doormodel.updateMany(
+      { assets: { $exists: true } },
+      { 
+        $set: { 
+          "assets": {
+            "textGradColors": {
+              "primary": "#ffffff",
+              "secondary": "#777777"
+            }
           }
-        };
+        }
       }
-      return door;
-    });
+    );
     
-    res.json(doors);
+    res.json({ 
+      success: true, 
+      message: `Updated ${result.modifiedCount} documents` 
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -74,7 +77,7 @@ router.put('/update/:id', async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { name, frameImage} = req.body;
+    const { name, frameImage, primary, secondary} = req.body;
     
     console.log("Attempting to update with:", { name, frameImage});
     
@@ -87,8 +90,8 @@ router.put('/update/:id', async (req, res) => {
           'frameImage': frameImage,
           'assets': {
             textGradColors: {
-              primary: primaryColor,
-              secondary: secondaryColor
+              primary: primary,
+              secondary: secondary
             }
           }
         }

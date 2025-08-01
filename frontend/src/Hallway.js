@@ -74,14 +74,12 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
         console.log('swapping name picture for ' + door.name)
         let userInput = prompt("enter a new name for this room: ")
         if (userInput !== null && userInput !== "") {
-            const primaryColor = door.assets?.textGradColors?.primary || 'grey';
-            const secondaryColor = door.assets?.textGradColors?.secondary || 'white';
 
             axios.put(`http://localhost:5000/api/update/${door._id}`, {
                 name: userInput,
                 frameImage: door.frameImage,
-                primaryColor: primaryColor,
-                secondaryColor: secondaryColor
+                primary: '#ffffff', 
+                secondary: '#777777'
             })
                 .then(response => {
                     // Use the updated document from the backend response

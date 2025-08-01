@@ -1,0 +1,14 @@
+/* Basic ColorJoe styling - you can customize this */
+.colorPicker {
+  width: 100%;
+}
+
+/* ColorJoe comes with its own CSS, but you may want to override some styles */
+.cj {
+  font-family: inherit;
+}
+
+.cj-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
