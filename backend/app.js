@@ -33,6 +33,8 @@ app.get('/api/migrate', async (req, res) => {
       { 
         $set: { 
           "assets": {
+            "pronouns": "he/him",
+            "description": "[placeholder]",
             "textGradColors": {
               "primary": "#ffffff",
               "secondary": "#777777"
@@ -69,7 +71,7 @@ router.get('/data', async (req, res) => {
 });
 
 
-// Update a door in the backend ----------------------------------------------------------------
+// Update a DOOR in the backend ----------------------------------------------------------------
 router.put('/update/:id', async (req, res) => {
   console.log('Route /update/:id has been registered');
   console.log('PUT /update/:id route hit with ID:', req.params.id);
@@ -77,7 +79,7 @@ router.put('/update/:id', async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { name, frameImage, primary, secondary} = req.body;
+    const { name, frameImage} = req.body;
     
     console.log("Attempting to update with:", { name, frameImage});
     
@@ -88,7 +90,49 @@ router.put('/update/:id', async (req, res) => {
         $set: {
           'name': name,
           'frameImage': frameImage,
+        }
+      }
+    );
+
+    console.log("Update result:", result);
+    
+    // Fetch updated
+    const updatedCollection = await Doormodel.findById(id);
+    
+    console.log("Updated document:", updatedCollection);
+    res.status(200).json(updatedCollection);
+  } 
+  catch (error) 
+  {
+    console.error("Error updating collection:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+
+// Update a ROOM in the backend ----------------------------------------------------------------
+router.put('/updateRoom/:id', async (req, res) => {
+  console.log('Route /updateRoom/:id has been registered');
+  console.log('PUT /updateRoom/:id route hit with ID:', req.params.id);
+  console.log('Request body:', req.body);
+
+  try {
+    const { id } = req.params;
+    const { name, frameImage, pronouns, primary, secondary, description} = req.body;
+    
+    console.log("Attempting to update with:", { primary, secondary, pronouns, description});
+    
+    // actually update one of the instances in the collection
+    const result = await Doormodel.updateOne(
+      { _id: id },
+      { 
+        $set: {
+          'name': name,
+          'frameImage': frameImage,
           'assets': {
+            'pronouns': pronouns,
+            'description': description,
             textGradColors: {
               primary: primary,
               secondary: secondary
@@ -112,6 +156,8 @@ router.put('/update/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
 
 // Delete a door in the backend ----------------------------------------------------------------
 router.delete('/delete/:id', async (req, res) => {
@@ -153,9 +199,11 @@ router.post('/create', async (req, res) => {
       name: name || 'New Room', // Default name if not provided
       frameImage: frameImage || 'default-frame.jpg', // Default image if not provided
       assets: {
+        pronouns: 'they/them',
+        description: '[placeholder]',
         textGradColors: {
-          primary: 'grey',
-          secondary: 'white'
+          primary: '#ffffff',
+          secondary: '#777777'
         }
       }
     });

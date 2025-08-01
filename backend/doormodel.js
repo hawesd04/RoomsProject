@@ -6,6 +6,8 @@ const doorSchema = new Schema({
   name: String,
   frameImage: String,
   assets: {
+    pronouns: String,
+    description: String,
     textGradColors: {primary: String, secondary: String}
   }
 });

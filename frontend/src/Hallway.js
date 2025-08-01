@@ -78,8 +78,6 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
             axios.put(`http://localhost:5000/api/update/${door._id}`, {
                 name: userInput,
                 frameImage: door.frameImage,
-                primary: '#ffffff', 
-                secondary: '#777777'
             })
                 .then(response => {
                     // Use the updated document from the backend response

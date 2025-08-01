@@ -1,6 +1,5 @@
 import './Room.css';
 import GradientText from '../assets/GradientText';
-import ColorPicker from '../assets/ColorPicker';
 import { Button, Typography } from '@mui/material';
 import { Home } from 'lucide-react';
 import { useNavigate, useNavigation } from 'react-router-dom';
@@ -46,11 +45,13 @@ function Room() {
 
   const handleSaveSettings = (event) => {
     console.log("here!")
-    axios.put(`http://localhost:5000/api/update/${room._id}`, {
+    axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
       name: room.name,
       frameImage: room.frameImage,
+      pronouns: room.assets.pronouns,
+      description: room.assets.description,
       primary: secondaryColor, 
-      secondary: primaryColor
+      secondary: primaryColor,
     })
       .then(response => {
         console.log("Successfully updating room:");
@@ -107,15 +108,15 @@ function Room() {
             <div className="rows-top">
                 <GradientText
                   fontSize={50}
-                  colors={[primaryColor, secondaryColor, primaryColor]}
-                  animationSpeed={3}
+                  colors={[primaryColor, secondaryColor, primaryColor, secondaryColor, primaryColor]}
+                  animationSpeed={15}
                   showBorder={false}
                   className="gradient-text"
                 >
                   {room?.name || 'Sample Name'}
                 </GradientText>
                 <h2 className="pronouns">
-                  He / Him
+                  {room.assets.pronouns}
                 </h2>
               </div>
               <div className="rows">
@@ -128,7 +129,7 @@ function Room() {
                 </div>
                 <div className="section-split">
                   <h6 className="description">
-                    Hi my name is dylan, I am a 21 year old computer science major from blacksburg virginia! I am the worlds #1 autumn enthusiest.
+                    {room.assets.description}
                   </h6>
                 </div>
               </div>
