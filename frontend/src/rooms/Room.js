@@ -9,12 +9,19 @@ import axios from 'axios'
 
 function Room() {
   const navigate = useNavigate();
+  const root = document.documentElement;
   const location = useLocation();
   const room = location.state?.doorData;
 
   // State for gradient colors with fallback defaults
   const [primaryColor, setPrimaryColor] = useState('#ffffff');
   const [secondaryColor, setSecondaryColor] = useState('#777777');
+
+  const [BGprimaryColor, setBGPrimaryColor] = useState('#3942ca1a');
+  const [BGsecondaryColor, setBGSecondaryColor] = useState('#1e1f31ff');
+
+  root.style.setProperty('--BG-primary-color', BGprimaryColor);
+  root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
 
   console.log('Room data:', room);
   console.log('Primary color from room:', room?.assets?.textGradColors?.primary);
@@ -63,6 +70,7 @@ function Room() {
 
   return (
     <div className="Room">
+      <div className="background-custom" />
           {/* Header with back button */}
           <div className="header-nav">
             <button onClick={handleBackToHallway} className="back-to-hallway-btn">
@@ -134,8 +142,14 @@ function Room() {
                 </div>
               </div>
 
+              <div class="plain-line"></div>
+
               <div className="rows">
-                {/* You can add more content here */}
+                  <img className="banner-wide"
+                    src={"https://pbs.twimg.com/profile_banners/1094662116756336640/1706455341/1500x500"}
+                    alt="Profile"
+                    >
+                  </img>
               </div>
 
               <div className="rows">
