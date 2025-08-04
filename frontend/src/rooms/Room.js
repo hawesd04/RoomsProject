@@ -17,8 +17,8 @@ function Room() {
   const [primaryColor, setPrimaryColor] = useState('#ffffff');
   const [secondaryColor, setSecondaryColor] = useState('#777777');
 
-  const [BGprimaryColor, setBGPrimaryColor] = useState('#3942ca1a');
-  const [BGsecondaryColor, setBGSecondaryColor] = useState('#1e1f31ff');
+  const [BGprimaryColor, setBGPrimaryColor] = useState('#1f2257');
+  const [BGsecondaryColor, setBGSecondaryColor] = useState('#1e1f31');
 
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
@@ -35,19 +35,33 @@ function Room() {
     if (room?.assets?.textGradColors?.secondary) {
       setSecondaryColor(room.assets.textGradColors.secondary);
     }
+        if (room?.assets?.bgGradColors?.primary) {
+      setBGPrimaryColor(room.assets.bgGradColors.primary);
+    }
+    if (room?.assets?.bgGradColors?.secondary) {
+      setBGSecondaryColor(room.assets.bgGradColors.secondary);
+    }
   }, [room]);
 
   const handleBackToHallway = () => {
     navigate('/');
   };
 
-  // Handle color changes
+  // Handle both gradient text color changes
   const handlePrimaryColorChange = (event) => {
     setPrimaryColor(event.target.value);
   };
-
   const handleSecondaryColorChange = (event) => {
     setSecondaryColor(event.target.value);
+  };
+
+  // Handle background primary and secondary
+  const handleBGPrimColorChange = (event) => {
+    setBGPrimaryColor(event.target.value);
+  };
+
+  const handleBGSecColorChange = (event) => {
+    setBGSecondaryColor(event.target.value);
   };
 
   const handleSaveSettings = (event) => {
@@ -59,6 +73,8 @@ function Room() {
       description: room.assets.description,
       primary: secondaryColor, 
       secondary: primaryColor,
+      bgPrimary: BGprimaryColor,
+      bgSecondary: BGsecondaryColor,
     })
       .then(response => {
         console.log("Successfully updating room:");
@@ -97,6 +113,30 @@ function Room() {
                   type="color"
                   value={secondaryColor}
                   onChange={handleSecondaryColorChange}
+                  className="color-picker-input"
+                />
+              </div>
+            </div>
+
+                        {/* Color pickers for gradient colors */}
+            <div className="color-picker-container">
+              <div className="color-picker-item">
+                <label htmlFor="primary-color">BG Primary Color:</label>
+                <input
+                  id="primary-color"
+                  type="color"
+                  value={BGprimaryColor}
+                  onChange={handleBGPrimColorChange}
+                  className="color-picker-input"
+                />
+              </div>
+              <div className="color-picker-item">
+                <label htmlFor="secondary-color">BG Secondary Color:</label>
+                <input
+                  id="secondary-color"
+                  type="color"
+                  value={BGsecondaryColor}
+                  onChange={handleBGSecColorChange}
                   className="color-picker-input"
                 />
               </div>

@@ -8,7 +8,8 @@ const doorSchema = new Schema({
   assets: {
     pronouns: String,
     description: String,
-    textGradColors: {primary: String, secondary: String}
+    textGradColors: {primary: String, secondary: String},
+    bgGradColors: {primary: String, secondary: String}
   }
 });
 

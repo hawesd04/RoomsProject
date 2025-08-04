@@ -1,8 +1,9 @@
 import Hallway from './Hallway';
 import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography } from '@mui/material'
+import VariableProximity from './assets/VariableProximity';
 import './Home.css';
 /*
   Website Homepage, this is where you view the hallways and all parts of the web page!
@@ -131,6 +132,7 @@ function Home() {
   const doorsInHall = chunkArray(initialDoors, 5)
   console.log(doorsInHall)
 
+  const containerRef = useRef(null);
 
   /* 
   RETURN METHOD for HOME 
@@ -141,9 +143,20 @@ function Home() {
           <div className="App">
             <div className="background" />
             <div className="container">
-              <h2>
-                Dylan's Extra Special Awesome Hotel
-              </h2>
+              <div className="webpage-title-cont"
+                ref={containerRef}
+                style={{position: 'relative'}}
+                >
+                  <VariableProximity
+                    label={'Welcome to the Pogchat House'}
+                    className={'webpage-title'}
+                    fromFontVariationSettings="'wght' 600, 'opsz' 12"
+                    toFontVariationSettings="'wght' 1200, 'opsz' 40"
+                    containerRef={containerRef}
+                    radius={200}
+                    falloff='linear'
+                  />
+                </div>
               <div className="hallways">
                 {doorsInHall.map((hall, index) => (
                   <Hallway

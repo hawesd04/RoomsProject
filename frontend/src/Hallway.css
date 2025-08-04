@@ -10,6 +10,7 @@
     top: -5.5%;
     left: 0;
     z-index: 0;
+    animation: slideInRight 0.75s ease-out 0.3s both;
 }
 .doors-container {
     width: 100%;
@@ -26,6 +27,7 @@
 }
 .door-image {
     z-index: 1;
+    animation: fadeIn 0.75s ease-out 0.6s both;
 }
 .frame-image {
     position:absolute;
@@ -34,6 +36,7 @@
     margin-top:24%;
     margin-left:66%;
     border: 0.3rem solid #141420;
+    animation: fadeIn 0.75s ease-out 0.6s both;
 }
 
 .remove-button {
@@ -48,7 +51,7 @@
     position: fixed;
     width: 36%;
     top: 5%;
-    left: 43%;
+    left: 25%;
     transform: translateX(-50%);
     z-index: 2;
 
@@ -60,4 +63,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fadeInUp 1s ease-out 0.5s both;
 }

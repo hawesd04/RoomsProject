@@ -119,9 +119,9 @@ router.put('/updateRoom/:id', async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { name, frameImage, pronouns, primary, secondary, description} = req.body;
+    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description} = req.body;
     
-    console.log("Attempting to update with:", { primary, secondary, pronouns, description});
+    console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description});
     
     // actually update one of the instances in the collection
     const result = await Doormodel.updateOne(
@@ -136,6 +136,10 @@ router.put('/updateRoom/:id', async (req, res) => {
             textGradColors: {
               primary: primary,
               secondary: secondary
+            },
+            bgGradColors: {
+              primary: bgPrimary,
+              secondary: bgSecondary
             }
           }
         }
@@ -204,6 +208,10 @@ router.post('/create', async (req, res) => {
         textGradColors: {
           primary: '#ffffff',
           secondary: '#777777'
+        },
+        bgGradColors: {
+          primary: '#1f2257',
+          secondary: '#1e1f31'
         }
       }
     });

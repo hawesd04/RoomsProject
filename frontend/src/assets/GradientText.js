@@ -1,5 +1,9 @@
 import "./GradientText.css";
+/*
+ CREDIT REACT BITS!
 
+ https://reactbits.dev/text-animations/gradient-text
+*/
 export default function GradientText({
   children,
   className = "",
