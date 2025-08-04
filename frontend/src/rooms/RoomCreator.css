@@ -33,7 +33,7 @@
   gap: 8px;
   padding: 8px 16px;
   color: white;
-  background-color: rgba(20, 20, 32, 0.8);
+  background-color: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
   border: none;
   border-radius: 12px;
@@ -41,6 +41,7 @@
   transition: all 0.3s ease;
   font-size: 20px;
   font-weight: 500;
+  animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
 .back-to-hallway-btn:hover {
@@ -65,7 +66,7 @@
   max-width: 1200px;
 }
 
-/* Chevron buttons */
+/* Left and Right buttons */
 .chevron-btn {
   padding: 16px;
   background-color: transparent;
@@ -182,7 +183,6 @@
   background-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Submit button */
 .submit-btn {
   margin-top: 24px;
   padding: 12px 32px;
@@ -207,7 +207,7 @@
   transform: translateY(0);
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
   .content-container {
     flex-direction: column;

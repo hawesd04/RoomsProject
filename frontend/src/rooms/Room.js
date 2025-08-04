@@ -142,7 +142,7 @@ function Room() {
               </div>
             </div>
 
-            <button
+            <button className="save-button"
               onClick={handleSaveSettings}
             >
               Save Settings

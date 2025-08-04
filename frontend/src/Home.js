@@ -148,7 +148,7 @@ function Home() {
                 style={{position: 'relative'}}
                 >
                   <VariableProximity
-                    label={'Welcome to the Pogchat House'}
+                    label={'Welcome to The Hotel!'}
                     className={'webpage-title'}
                     fromFontVariationSettings="'wght' 600, 'opsz' 12"
                     toFontVariationSettings="'wght' 1200, 'opsz' 40"

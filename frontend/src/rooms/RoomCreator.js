@@ -49,12 +49,12 @@ function Room() {
       {/* Main content */}
       <div className="main-content">
         <div className="content-container">
-          {/* Left chevron */}
+          {/* Left arrow */}
           <button className="chevron-btn left-chevron">
             <ChevronLeft size={40} />
           </button>
 
-          {/* Main card */}
+          {/* Main Section */}
           <div className="main-card">
             {/* Top highlight */}
             <div className="card-highlight" />
@@ -106,7 +106,7 @@ function Room() {
             </div>
           </div>
 
-          {/* Right chevron */}
+          {/* Right arrow */}
           <button className="chevron-btn right-chevron">
             <ChevronRight size={40} />
           </button>
