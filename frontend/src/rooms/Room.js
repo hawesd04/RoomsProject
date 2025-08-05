@@ -89,11 +89,13 @@ function Room() {
       <div className="background-custom" />
           {/* Header with back button */}
           <div className="header-nav">
+            {/* Top right panel*/}
             <button onClick={handleBackToHallway} className="back-to-hallway-btn">
               <Home size={50} />
               Back to Hallway
             </button>
             
+            {/*eventually a side panel for customization*/}
             {/* Color pickers for gradient colors */}
             <div className="color-picker-container">
               <div className="color-picker-item">
@@ -118,7 +120,7 @@ function Room() {
               </div>
             </div>
 
-                        {/* Color pickers for gradient colors */}
+            {/* Color pickers for gradient colors */}
             <div className="color-picker-container">
               <div className="color-picker-item">
                 <label htmlFor="primary-color">BG Primary Color:</label>
@@ -141,18 +143,19 @@ function Room() {
                 />
               </div>
             </div>
-
+            {/*Save Button (send customization data to database)*/}
             <button className="save-button"
               onClick={handleSaveSettings}
             >
               Save Settings
             </button>
-
-
-
         </div>
+
+        {/* Main Content Display Card */}
         <div className="main-content">
-          <div className="main-card">
+          <div className="main-card-section">
+
+            {/* Section for Name/Pronouns (Top) */}
             <div className="rows-top">
                 <GradientText
                   fontSize={50}
@@ -161,12 +164,14 @@ function Room() {
                   showBorder={false}
                   className="gradient-text"
                 >
-                  {room?.name || 'Sample Name'}
+                  {room?.name || 'Fallback'}
                 </GradientText>
                 <h2 className="pronouns">
                   {room.assets.pronouns}
                 </h2>
               </div>
+
+              {/* Custom DIV's Begin (PFP/DESC) */}
               <div className="rows">
                 <div className="section-split">
                   <img className="image"
@@ -182,8 +187,10 @@ function Room() {
                 </div>
               </div>
 
+              {/* Plain Line for Separation */}
               <div class="plain-line"></div>
 
+              {/* Banner Section */}
               <div className="rows">
                   <img className="banner-wide"
                     src={"https://pbs.twimg.com/profile_banners/1094662116756336640/1706455341/1500x500"}
@@ -192,9 +199,135 @@ function Room() {
                   </img>
               </div>
 
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+
+              {/* Wide Text */}
               <div className="rows">
-                {/* You can add more content here */}
+                  <h6 className="wide-text">
+                    [Placeholder]
+                  </h6>
               </div>
+
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+
+              {/* Tri-Text */}
+              <div className="rows">
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+              </div>
+
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+              
+              {/* Tri-Text, Labels */}
+              <div className="rows-label">
+                <div className="section-split-tri">
+                  <h2 className="tri-label">Label</h2>
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h2 className="tri-label">Label</h2>
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h2 className="tri-label">Label</h2>
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+              </div>
+
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+
+              {/* Image, Text, Text */}
+              <div className="rows">
+                <div className="section-split-tri">
+                  <img className="image-tri"
+                    src={room?.frameImage}
+                    alt="Profile"
+                    >
+                  </img>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+              </div>
+
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+
+              {/* Text, Image, Text */}
+              <div className="rows">
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <img className="image-tri"
+                    src={room?.frameImage}
+                    alt="Profile"
+                    >
+                  </img>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+              </div>
+
+              {/* Plain Line for Separation */}
+              <div class="plain-line"></div>
+
+              {/* Text, Text, Image */}
+              <div className="rows">
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <h6 className="text-tri">
+                    [Placeholder]
+                  </h6>
+                </div>
+                <div className="section-split-tri">
+                  <img className="image-tri"
+                    src={room?.frameImage}
+                    alt="Profile"
+                    >
+                  </img>
+                </div>
+              </div>
+
           </div>
         </div>
     </div>

@@ -40,12 +40,21 @@
 }
 
 /* Main CSS */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent page scrolling */
+}
+
 .Room {
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   animation: fadeIn 0.8s ease-out;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent Room from scrolling */
 }
 
 .background-custom {
@@ -57,6 +66,7 @@
   background: radial-gradient(ellipse at center, var(--BG-primary-color) 0%, transparent 70%);
   pointer-events: none;
   animation: backgroundPulse 0.6s ease-out;
+  overflow: hidden;
 }
 
 body {
@@ -98,20 +108,29 @@ h6 {
   animation: slideInRight 0.5s ease-out 0.25s both;
 }
 
-.main-card {
+.main-card-section {
   flex: 1;
   width: 600px;
-  height: 50%;
+  height:1100px;
+  max-height: calc(100vh - 100px); /* Leave space for other elements */
   padding: 2%;
+  border-radius: 24px;
+
   background-color: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+
   position: relative;
-  overflow: hidden;
   transition: all 0.4s ease;
+  
+  overflow-y: auto; /* Only vertical scrolling for the card */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+
   opacity: 0;
   animation: fadeInUp 0.6s ease-out 0.15s both;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
 }
 
 .rows-top {
@@ -134,6 +153,13 @@ h6 {
   animation: fadeInUp 0.5s ease-out 0.3s both;
 }
 
+.rows-label {
+  display: flex;
+  flex-direction: row;
+  margin-top: 23px;
+  animation: fadeInUp 0.5s ease-out 0.3s both;
+}
+
 .gradient-text {
   margin-left: 2%;
   width: 50%;
@@ -146,6 +172,33 @@ h6 {
   padding: 3%;
   width: 400px;
   animation: fadeInUp 0.5s ease-out 0.45s both;
+}
+
+.section-split-tri {
+  border-radius: 1.2rem;
+  margin: 3%;
+  width: 30%;
+  height: 170px;
+  background-color: #ffffff09;
+  animation: fadeInUp 0.5s ease-out 0.45s both;
+}
+
+.tri-label{
+  margin-top: -35px;
+  margin-bottom:-0px;
+}
+
+.text-tri {
+  border-radius: 1.2rem;
+  margin-top: -0px;
+  padding: 4%;
+  height: 190px;
+}
+.image-tri {
+  border-radius: 1.2rem;
+  margin-top: -0px;
+  height: 100%;
+  width: 100%;
 }
 
 .save-button{
@@ -172,6 +225,7 @@ h6 {
 }
 
 .banner-wide {
+  margin-top: -10px;
   width: 94%;
   padding: 3%;
   border-radius: 2.2rem;
@@ -190,6 +244,21 @@ h6 {
   animation: fadeIn 0.6s ease-out 0.55s both;
 }
 
+.wide-text {
+  margin-top: 7px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom: 15px;
+
+  padding: 3%;
+  width: 88%;
+
+  border-radius: 1.2rem;
+  height: 100%;
+  background-color: #ffffff09;
+  animation: fadeIn 0.6s ease-out 0.55s both;
+}
+
 .plain-line {
   border-bottom: 4px solid #ffffff09;
   border-radius: 1.2rem;
@@ -200,9 +269,9 @@ h6 {
 }
 
 
-
-
-
+.main-card-section::-webkit-scrollbar {
+  display: none;
+}
 
 /* Color picker styles with animations */
 .color-picker-container {
