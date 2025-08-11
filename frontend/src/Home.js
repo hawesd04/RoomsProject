@@ -157,7 +157,7 @@ function Home() {
                     falloff='linear'
                   />
                 </div>
-              <div className="hallways">
+              <div className="hallways-home-cont">
                 {doorsInHall.map((hall, index) => (
                   <Hallway
                     hallwayImage={`./HallwayAssets/Hallway${index + 1}.png`}

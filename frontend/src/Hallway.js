@@ -68,6 +68,22 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                     });
             }
         };
+
+        img.onerror = function() {
+        // This code executes when an error occurs during image loading
+        console.error("Image failed to load!");
+            axios.put(`http://localhost:5000/api/update/${door._id}`, {
+                name: door.name,
+                frameImage: "https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg"
+            })
+            .then(response => {
+                // Use the updated document from the backend response
+                onUpdateDoor(door._id, response.data);
+                })
+                    .catch(error => {
+                    console.error("Error updating door:", error);
+                });
+        };
     };
 
     const handleNameSwap = (door) => {
@@ -96,7 +112,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
 
     // display hallway assets and functionality
     return (
-        <Box>
+        <Box className="hallways-container">
             <div className="hallways">
                 {/* Hallway Render */}
                 <img className="hallway-image" src={hallwayImage}></img>

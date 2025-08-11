@@ -17,10 +17,13 @@ function Room() {
 
   const handleSubmit = () => {
     console.log('Submitting room data:', { roomName, profileUrl });
-    if (roomName !== null && roomName.trim() !== "") {
+    const img = new Image();
+    img.src = profileUrl
+    img.onload = () => {
+      if (roomName !== null && roomName.trim() !== "") {
       axios.post(`http://localhost:5000/api/create`, {
         name: roomName,
-        frameImage: profileUrl || undefined 
+        frameImage: profileUrl 
       })
       .then(response => {
         console.log('Door created successfully:', response.data);
@@ -30,6 +33,23 @@ function Room() {
         console.error("Error creating door:", error);
         alert('Failed to create door');
       });
+    }
+    };  
+    img.onerror = function() {
+      if (roomName !== null && roomName.trim() !== "") {
+      axios.post(`http://localhost:5000/api/create`, {
+        name: roomName,
+        frameImage: 'https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg'
+      })
+      .then(response => {
+        console.log('Door created successfully:', response.data);
+        handleBackToHallway();
+      })
+      .catch(error => {
+        console.error("Error creating door:", error);
+        alert('Failed to create door');
+      });
+    }
     }
   };
 

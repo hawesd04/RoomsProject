@@ -1,5 +1,6 @@
 .home-container {
   height:100%;
+  width:100%;
 }
 
 .background {
@@ -20,14 +21,24 @@
   animation: fadeInUp 1.4s ease-out 0s both;
 }
 
+.hallways-home-cont {
+  height:80vh;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  display:none;
+} 
+
 .container {
-  
+
   display:flex;
   flex-direction: column;
   text-align: center;
   color:white;
   font-size: 2rem;
   margin:auto;
+  
 }
 
 .lower-row {
@@ -36,6 +47,7 @@
   margin:auto;
   translate:20%;
   width: 500px;
+    margin-top: 30px;
   gap: 20%;
   animation: fadeInUp 1s ease-out 1s both;
 }

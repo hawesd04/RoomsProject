@@ -201,7 +201,7 @@ router.post('/create', async (req, res) => {
     // Create new door object
     const newDoor = new Doormodel({
       name: name || 'New Room', // Default name if not provided
-      frameImage: frameImage || 'default-frame.jpg', // Default image if not provided
+      frameImage: frameImage || 'https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg', // Default image if not provided
       assets: {
         pronouns: 'they/them',
         description: '[placeholder]',

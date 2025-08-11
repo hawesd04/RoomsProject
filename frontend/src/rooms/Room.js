@@ -1,5 +1,6 @@
 import './Room.css';
 import GradientText from '../assets/GradientText';
+import DivManager from './DivManager'
 import { Button, Typography } from '@mui/material';
 import { Home } from 'lucide-react';
 import { useNavigate, useNavigation } from 'react-router-dom';
@@ -38,6 +39,7 @@ function Room() {
     Base room config state. Holds the configuration of the entire room beyond pfp
     and description.
   */
+
   const [roomConfig, setRoomConfig] = useState({
     enabledDivs: ['banner-wide', 'wide-text', 'tri-text', 'image-text-text', 'text-image-text', 'wide-text'],
     divData: {
@@ -51,7 +53,7 @@ function Room() {
     Every available div to choose from in rendering. Each labeled div can be
     toggled based on room config. 
   */
-  const AVAILABLE_DIVS = {
+  const availableDivs = {
     'banner-wide': {
       name: 'Wide Banner',
       description: 'Full-width banner image',
@@ -178,7 +180,7 @@ function Room() {
         <div className="rows">
           <div className="section-split-tri">
             <img className="image-tri"
-              src={data?.imageUrl || room?.frameImage}
+              src={data?.imageUrl || PFP}
               alt="Profile"
             />
           </div>
@@ -207,7 +209,7 @@ function Room() {
           </div>
           <div className="section-split-tri">
             <img className="image-tri"
-              src={data?.imageUrl || room?.frameImage}
+              src={data?.imageUrl || PFP}
               alt="Profile"
             />
           </div>
@@ -236,7 +238,7 @@ function Room() {
           </div>
           <div className="section-split-tri">
             <img className="image-tri"
-              src={data?.imageUrl || room?.frameImage}
+              src={data?.imageUrl || PFP}
               alt="Profile"
             />
           </div>
@@ -429,7 +431,7 @@ function Room() {
               {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
               <h3 className="profile-custom">Additional Options</h3>
               <div className="div-editor-container">
-              
+
               </div>
 
               {/*Save Button (send customization data to database)*/}
