@@ -140,7 +140,7 @@ function Home() {
   Everything the user can VISUALLY see in the frontend. 
   */
   return (
-          <div className="App">
+          <div className="home-container">
             <div className="background" />
             <div className="container">
               <div className="webpage-title-cont"

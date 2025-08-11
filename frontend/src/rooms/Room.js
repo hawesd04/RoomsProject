@@ -20,12 +20,234 @@ function Room() {
   const [BGprimaryColor, setBGPrimaryColor] = useState('#1f2257');
   const [BGsecondaryColor, setBGSecondaryColor] = useState('#1e1f31');
 
+  const [name, setName] = useState(room.name);
+  const [PFP, setPFP] = useState(room.frameImage);
+  const [pronouns, setPronouns] = useState(room.assets.pronouns);
+  const [description, setDescription] = useState(room.assets.description);
+
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
 
   console.log('Room data:', room);
   console.log('Primary color from room:', room?.assets?.textGradColors?.primary);
   console.log('Secondary color from room:', room?.assets?.textGradColors?.secondary);
+
+  // TESTING FULL DIV SETUP
+
+  /* 
+    Base room config state. Holds the configuration of the entire room beyond pfp
+    and description.
+  */
+  const [roomConfig, setRoomConfig] = useState({
+    enabledDivs: ['banner-wide', 'wide-text', 'tri-text', 'image-text-text', 'text-image-text', 'wide-text'],
+    divData: {
+      'wide-text': {
+        text: 'Wide Text Customization',
+      }
+    }
+  });
+
+  /* 
+    Every available div to choose from in rendering. Each labeled div can be
+    toggled based on room config. 
+  */
+  const AVAILABLE_DIVS = {
+    'banner-wide': {
+      name: 'Wide Banner',
+      description: 'Full-width banner image',
+      defaultData: { 
+        imageUrl: 'https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large' 
+      }
+    },
+    'wide-text': {
+      name: 'Full Width Text',
+      description: 'Text spanning full width',
+      defaultData: { text: '' }
+    },
+    'tri-text': {
+      name: 'Three Column Text',
+      description: 'Three text columns side by side',
+      defaultData: { text1: '', text2: '', text3: '' }
+    },
+    'tri-text-labeled': {
+      name: 'Labeled Three Column Text',
+      description: 'Three text columns with labels',
+      defaultData: { 
+        label1: 'Label', text1: '',
+        label2: 'Label', text2: '',
+        label3: 'Label', text3: ''
+      }
+    },
+    'image-text-text': {
+      name: 'Image + Two Text Columns',
+      description: 'Image on left, two text columns on right',
+      defaultData: { imageUrl: '', text1: '', text2: '' }
+    },
+    'text-image-text': {
+      name: 'Text + Image + Text',
+      description: 'Text, image in center, text',
+      defaultData: { text1: '', imageUrl: '', text2: '' }
+    },
+    'text-text-image': {
+      name: 'Two Text + Image',
+      description: 'Two text columns on left, image on right',
+      defaultData: { text1: '', text2: '', imageUrl: '' }
+    }
+  };
+
+  /* 
+    Div Components is a variable that stores the existance of "divs" that I have
+    Labeled and preset with css formatting. This is to allow users to pick and choose
+    How to represent their information on the webpage.
+  */
+  const DivComponents = {
+    'banner-wide': ({ data }) => (
+      <>
+        <div className="rows">
+          <img className="banner-wide"
+            src={data?.imageUrl || "https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large"}
+            alt="Profile"
+          />
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'wide-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <h6 className="wide-text">
+            {data?.text || '[Placeholder]'}
+          </h6>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'tri-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text3 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'tri-text-labeled': ({ data }) => (
+      <>
+        <div className="rows-label">
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label1 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label2 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label3 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text3 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'image-text-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || room?.frameImage}
+              alt="Profile"
+            />
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'text-image-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || room?.frameImage}
+              alt="Profile"
+            />
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'text-text-image': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || room?.frameImage}
+              alt="Profile"
+            />
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    )
+  };
+
+
+
 
   // Update colors when room data is available
   useEffect(() => {
@@ -55,6 +277,22 @@ function Room() {
     setSecondaryColor(event.target.value);
   };
 
+  const handleNameUpdate = (event) => {
+    setName(event.target.value);
+  };
+
+  const handlePronounUpdate = (event) => {
+    setPronouns(event.target.value);
+  };
+
+  const handlePFPUpdate = (event) => {
+    setPFP(event.target.value);
+  };
+
+  const handleDescUpdate = (event) => {
+    setDescription(event.target.value);
+  };
+
   // Handle background primary and secondary
   const handleBGPrimColorChange = (event) => {
     setBGPrimaryColor(event.target.value);
@@ -67,10 +305,10 @@ function Room() {
   const handleSaveSettings = (event) => {
     console.log("here!")
     axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
-      name: room.name,
-      frameImage: room.frameImage,
-      pronouns: room.assets.pronouns,
-      description: room.assets.description,
+      name: name,
+      frameImage: PFP,
+      pronouns: pronouns,
+      description: description,
       primary: secondaryColor, 
       secondary: primaryColor,
       bgPrimary: BGprimaryColor,
@@ -91,65 +329,117 @@ function Room() {
           <div className="header-nav">
             {/* Top right panel*/}
             <button onClick={handleBackToHallway} className="back-to-hallway-btn">
-              <Home size={50} />
+              <Home size={30} />
               Back to Hallway
             </button>
-            
-            {/*eventually a side panel for customization*/}
-            {/* Color pickers for gradient colors */}
-            <div className="color-picker-container">
-              <div className="color-picker-item">
-                <label htmlFor="primary-color">Primary Color:</label>
-                <input
-                  id="primary-color"
-                  type="color"
-                  value={primaryColor}
-                  onChange={handlePrimaryColorChange}
-                  className="color-picker-input"
-                />
-              </div>
-              <div className="color-picker-item">
-                <label htmlFor="secondary-color">Secondary Color:</label>
-                <input
-                  id="secondary-color"
-                  type="color"
-                  value={secondaryColor}
-                  onChange={handleSecondaryColorChange}
-                  className="color-picker-input"
-                />
-              </div>
-            </div>
+          </div>
+          <div className="edit-panel-container">
+            <div className="edit-panel-trigger">⚙️</div>  
+            <div className="edit-panel">
 
-            {/* Color pickers for gradient colors */}
-            <div className="color-picker-container">
-              <div className="color-picker-item">
-                <label htmlFor="primary-color">BG Primary Color:</label>
-                <input
-                  id="primary-color"
-                  type="color"
-                  value={BGprimaryColor}
-                  onChange={handleBGPrimColorChange}
-                  className="color-picker-input"
-                />
+              {/* Color pickers for gradient colors */}
+              <h1 className="profile-editor-text">Profile Editor</h1>
+              <div class="plain-line-editor"></div>
+              <h3 className="text-grad-text">Text Gradient</h3>
+              <div className="color-picker-container">
+                <div className="color-picker-item">
+                  <label htmlFor="primary-color">Primary Color:</label>
+                  <input
+                    id="primary-color"
+                    type="color"
+                    value={primaryColor}
+                    onChange={handlePrimaryColorChange}
+                    className="color-picker-input"
+                  />
+                </div>
+                <div className="color-picker-item">
+                  <label htmlFor="secondary-color">Secondary Color:</label>
+                  <input
+                    id="secondary-color"
+                    type="color"
+                    value={secondaryColor}
+                    onChange={handleSecondaryColorChange}
+                    className="color-picker-input"
+                  />
+                </div>
               </div>
-              <div className="color-picker-item">
-                <label htmlFor="secondary-color">BG Secondary Color:</label>
-                <input
-                  id="secondary-color"
-                  type="color"
-                  value={BGsecondaryColor}
-                  onChange={handleBGSecColorChange}
-                  className="color-picker-input"
-                />
+              <div class="plain-line-editor"></div>
+              <h3 className="bg-grad-text">Background Gradient</h3>
+              {/* Color pickers for gradient colors */}
+              <div className="color-picker-container">
+                <div className="color-picker-item">
+                  <label htmlFor="primary-color">Primary Color:</label>
+                  <input
+                    id="primary-color"
+                    type="color"
+                    value={BGprimaryColor}
+                    onChange={handleBGPrimColorChange}
+                    className="color-picker-input"
+                  />
+                </div>
+                <div className="color-picker-item">
+                  <label htmlFor="secondary-color">Secondary Color:</label>
+                  <input
+                    id="secondary-color"
+                    type="color"
+                    value={BGsecondaryColor}
+                    onChange={handleBGSecColorChange}
+                    className="color-picker-input"
+                  />
+                </div>
               </div>
+              <div class="plain-line-editor"></div>
+
+              <h3 className="profile-custom">Profile Customization</h3>
+              <div className="profile-info-cont">
+                <label htmlFor="name-input">Name:</label>
+                <input
+                  id="name-input"
+                  value={name}
+                  onChange={handleNameUpdate}
+                >
+                </input>
+                <label htmlFor="pronoun-input">Pronouns:</label>
+                <input
+                  id="pronoun-input"
+                  value={pronouns}
+                  onChange={handlePronounUpdate}
+                >
+                </input>
+                <label htmlFor="pfp-input">Profile Picture:</label>
+                <input
+                  placeholder='https://website.com/image-link'
+                  id="pfp-input"
+                  value={PFP}
+                  onChange={handlePFPUpdate}
+                >
+                </input>
+                <label htmlFor="desc-input">Bio/Description:</label>
+                <textarea
+                  className="desc-input"
+                  placeholder='Enter whatever you would like :)'
+                  id="desc-input"
+                  value={description}
+                  onChange={handleDescUpdate}
+                >
+                </textarea>
+              </div>
+              <div class="plain-line-editor"></div>
+
+              {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
+              <h3 className="profile-custom">Additional Options</h3>
+              <div className="div-editor-container">
+              
+              </div>
+
+              {/*Save Button (send customization data to database)*/}
+              <button className="save-button"
+                onClick={handleSaveSettings}
+              >
+                Save Settings
+              </button>
             </div>
-            {/*Save Button (send customization data to database)*/}
-            <button className="save-button"
-              onClick={handleSaveSettings}
-            >
-              Save Settings
-            </button>
-        </div>
+          </div>
 
         {/* Main Content Display Card */}
         <div className="main-content">
@@ -164,10 +454,10 @@ function Room() {
                   showBorder={false}
                   className="gradient-text"
                 >
-                  {room?.name || 'Fallback'}
+                  {name || '[Placeholder]'}
                 </GradientText>
                 <h2 className="pronouns">
-                  {room.assets.pronouns}
+                  {pronouns}
                 </h2>
               </div>
 
@@ -175,14 +465,14 @@ function Room() {
               <div className="rows">
                 <div className="section-split">
                   <img className="image"
-                    src={room?.frameImage}
+                    src={PFP}
                     alt="Profile"
                     >
                   </img>
                 </div>
                 <div className="section-split">
                   <h6 className="description">
-                    {room.assets.description}
+                    {description}
                   </h6>
                 </div>
               </div>
@@ -190,144 +480,20 @@ function Room() {
               {/* Plain Line for Separation */}
               <div class="plain-line"></div>
 
-              {/* Banner Section */}
-              <div className="rows">
-                  <img className="banner-wide"
-                    src={"https://pbs.twimg.com/profile_banners/1094662116756336640/1706455341/1500x500"}
-                    alt="Profile"
-                    >
-                  </img>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-
-              {/* Wide Text */}
-              <div className="rows">
-                  <h6 className="wide-text">
-                    [Placeholder]
-                  </h6>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-
-              {/* Tri-Text */}
-              <div className="rows">
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-              
-              {/* Tri-Text, Labels */}
-              <div className="rows-label">
-                <div className="section-split-tri">
-                  <h2 className="tri-label">Label</h2>
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h2 className="tri-label">Label</h2>
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h2 className="tri-label">Label</h2>
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-
-              {/* Image, Text, Text */}
-              <div className="rows">
-                <div className="section-split-tri">
-                  <img className="image-tri"
-                    src={room?.frameImage}
-                    alt="Profile"
-                    >
-                  </img>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-
-              {/* Text, Image, Text */}
-              <div className="rows">
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <img className="image-tri"
-                    src={room?.frameImage}
-                    alt="Profile"
-                    >
-                  </img>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-              </div>
-
-              {/* Plain Line for Separation */}
-              <div class="plain-line"></div>
-
-              {/* Text, Text, Image */}
-              <div className="rows">
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <h6 className="text-tri">
-                    [Placeholder]
-                  </h6>
-                </div>
-                <div className="section-split-tri">
-                  <img className="image-tri"
-                    src={room?.frameImage}
-                    alt="Profile"
-                    >
-                  </img>
-                </div>
-              </div>
-
+              {/* Render Selected Divs */}
+              {roomConfig.enabledDivs.map((divId, index) => {
+                const DivComponent = DivComponents[divId];
+                const divData = roomConfig.divData[divId];
+                
+                if (!DivComponent) return null;
+                
+                return (
+                  <DivComponent
+                    key={`${divId}-${index}`}
+                    data={divData}
+                  />
+                );
+              })}
           </div>
         </div>
     </div>

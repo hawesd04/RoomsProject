@@ -45,7 +45,7 @@
 }
 
 .back-to-hallway-btn:hover {
-  background-color: rgba(20, 20, 32, 0.9);
+  background-color: rgba(255, 255, 255, 0.049);
   transform: translateY(-2px);
 }
 
