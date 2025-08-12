@@ -39,7 +39,7 @@
   }
 }
 
-/* Main CSS */
+/* -------------------------------- MAIN CSS (Background/Base) -------------------------------- */
 html, body {
   height: 100%;
   margin: 0;
@@ -103,6 +103,7 @@ h6 {
   animation: fadeInUp 0.5s ease-out 0.3s both;
 }
 
+/* Back to Hallway button Pos */
 .header-nav {
   position: absolute;
   top: 20px;
@@ -111,6 +112,7 @@ h6 {
   animation: slideInRight 0.5s ease-out 0.25s both;
 }
 
+/* -------------------------------- EDIT PANEL SECTION -------------------------------- */
 .edit-panel-container {
   position: fixed;
   right: 0;
@@ -163,19 +165,20 @@ h6 {
   transition: transform 0.15s ease-out;
 }
 
-/* Hide trigger and show panel on hover */
+/* Hide the editor trigger on hover */
 .edit-panel-container:hover .edit-panel-trigger {
   opacity: 0;
   pointer-events: none;
 }
 
+/* Reposition Edit Panel */
 .edit-panel-container:hover .edit-panel {
   transform: translateX(0);
 }
 
 .profile-editor-text {
   margin-top: -10px;
-  margin-left: 37px;
+  margin-left: 70px;
   margin-bottom: 5px;
 }
 
@@ -184,6 +187,243 @@ h6 {
   align-items: flex-start;
 }
 
+
+.plain-line-editor {
+  border-bottom: 4px solid #ffffff09;
+  border-radius: 1.2rem;
+  margin: auto;
+  width: 90%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left:2px;
+  animation: fadeInUp 0.5s ease-out 0.4s both;
+}
+
+/* Buttons */
+button:active {
+  transform: translateY(5px); 
+  box-shadow: none; 
+}
+
+.save-button{
+  display: flex;
+  align-items: center;
+  margin-left:95px;
+  margin-top: 15px;
+  margin-bottom:0px;
+  gap: 8px;
+  padding: 8px 16px;
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+button:hover{
+ background-color: rgba(255, 255, 255, 0.035);
+}
+
+/* Labels */
+label {
+  font-size: 16px;
+  font-weight: 100;
+  color: #ffffff;
+  white-space: nowrap;
+}
+ 
+/* Inputs */ 
+input {
+  display:flex;
+  flex-direction:column;
+  width:263px;
+  height: 20px;
+  padding:1%;
+  font-size: 14px;
+  font-weight: 100;
+  color:white;
+
+  margin-top:4px;
+  margin-bottom:10px;
+
+  background-color: #ffffff09;
+  border-radius: 10px;
+  border: 2px solid #ffffff09;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+input:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+input:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.desc-input {
+  display:flex;
+  flex-direction:column;
+  width:263px;
+  height: 20px;
+  padding:1%;
+  font-size: 14px;
+  font-weight: 100;
+  color:white;
+  margin-top:4px;
+  background-color: #ffffff09;
+  border-radius: 10px;
+  border: 2px solid #ffffff09;
+  resize:none;
+
+  height: 100px;
+  text-align: left; 
+  vertical-align: top; 
+  padding: 5px; 
+
+  margin-bottom:20px;
+}
+
+.desc-input::-webkit-scrollbar {
+  display: none;
+} 
+
+.profile-info-cont  {
+  margin-left: 35px;
+  margin-top: -15px;
+  margin-bottom: 5px;
+}
+
+/* Color Pickers */
+.color-picker-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-left: 60px;
+  margin-bottom: 6px;
+  margin-top: -10px;
+  animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.color-picker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.color-picker-input {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #dddddd14;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  padding: 0;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.color-picker-input:hover {
+  transform: scale(1.05);
+  border-color: #dddddd22;
+}
+
+.color-picker-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+}
+
+.color-picker-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+.color-picker-input::-moz-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+/* Additional Options and Beyond */
+.div-editor-container {
+  margin-bottom:20px;
+  display:flex; 
+  flex-direction: row;
+  gap:5%;
+  width: 90%;
+  height: 100%;
+  border-radius: 1.2rem;
+}
+/* Sample Contents */
+.sample-container {
+  min-height:200px;
+  padding:1rem;
+  width:50%;
+  display:flex;
+  flex-direction: column;
+  border-radius: 1.2rem;
+  background-color: #00000015;
+
+}
+/* Current Array Contents (enabled divs) */
+.current-container {
+  min-height:200px;
+  padding:1rem;
+  width:50%;
+  display:flex;
+  flex-direction: column;
+  border-radius: 1.2rem;
+  background-color: #00000015;
+}
+
+.available{
+  padding:0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 1.2rem;
+  background-color: #ffffff07;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin:auto;
+  font-size: 16px;
+
+  margin-bottom:10px;
+  margin-top:10px;
+}
+.available.dragging {
+  opacity:0.5;
+  background-color: rgba(0, 0, 0, 0.11);
+}
+
+.enabled{
+  padding:0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 1.2rem;
+  background-color: #ffffff21;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin:auto;
+  font-size: 16px;
+
+  margin-bottom:10px;
+  margin-top:10px;
+}
+
+/* -------------------------------- MAIN CARD SECTION -------------------------------- */
 .main-card-section {
   flex: 1;
   width: 600px;
@@ -280,35 +520,6 @@ h6 {
   width: 100%;
 }
 
-button:active {
-  transform: translateY(5px); 
-  box-shadow: none; 
-}
-
-.save-button{
-  display: flex;
-  align-items: center;
-  margin-left:95px;
-  margin-top: 5px;
-  margin-bottom:-5px;
-  gap: 8px;
-  padding: 8px 16px;
-  color: white; 
-  background-color: rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 20px;
-  font-weight: 500;
-  animation: fadeIn 0.5s ease-out 0.6s both;
-}
-
-button:hover{
- background-color: rgba(255, 255, 255, 0.035);
-}
-
 .image {
   border-radius: inherit;
   width: 100%;
@@ -372,137 +583,6 @@ button:hover{
   animation: fadeInUp 0.5s ease-out 0.4s both;
 }
 
-.plain-line-editor {
-  border-bottom: 4px solid #ffffff09;
-  border-radius: 1.2rem;
-  margin: auto;
-  width: 90%;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left:2px;
-  animation: fadeInUp 0.5s ease-out 0.4s both;
-}
-
-
 .main-card-section::-webkit-scrollbar {
   display: none;
-}
-
-/* Color picker styles with animations */
-.color-picker-container {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  margin-left: 75px;
-  margin-bottom: 6px;
-  margin-top: -10px;
-  animation: fadeIn 0.5s ease-out 0.6s both;
-}
-
-.color-picker-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-
-label {
-  font-size: 14px;
-  font-weight: 100;
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-input {
-  display:flex;
-  flex-direction:column;
-  width:263px;
-  height: 20px;
-  padding:1%;
-  font-size: 14px;
-  font-weight: 100;
-  color:white;
-  margin-top:4px;
-  background-color: #ffffff09;
-  border-radius: 10px;
-  border: 2px solid #ffffff09;
-}
-
-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-input:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-input:focus {
-  border-color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.desc-input {
-  display:flex;
-  flex-direction:column;
-  width:263px;
-  height: 20px;
-  padding:1%;
-  font-size: 14px;
-  font-weight: 100;
-  color:white;
-  margin-top:4px;
-  background-color: #ffffff09;
-  border-radius: 10px;
-  border: 2px solid #ffffff09;
-  resize:none;
-
-  height: 100px;
-  text-align: left; /* Horizontal alignment to the left */
-  vertical-align: top; /* Vertical alignment to the top */
-  padding: 5px; /* Add some padding for better appearance */
-}
-
-.desc-input::-webkit-scrollbar {
-  display: none;
-} 
-
-.profile-info-cont  {
-  margin-left: 35px;
-  margin-top: -15px;
-  margin-bottom: 5px;
-}
-
-.color-picker-input {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #dddddd14;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-  padding: 0;
-  background: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.color-picker-input:hover {
-  transform: scale(1.05);
-  border-color: #dddddd22;
-}
-
-.color-picker-input::-webkit-color-swatch-wrapper {
-  padding: 0;
-  border: none;
-  border-radius: 6px;
-}
-
-.color-picker-input::-webkit-color-swatch {
-  border: none;
-  border-radius: 6px;
-}
-
-.color-picker-input::-moz-color-swatch {
-  border: none;
-  border-radius: 6px;
 }

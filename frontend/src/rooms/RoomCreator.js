@@ -19,6 +19,7 @@ function Room() {
     console.log('Submitting room data:', { roomName, profileUrl });
     const img = new Image();
     img.src = profileUrl
+    // load image to check validity
     img.onload = () => {
       if (roomName !== null && roomName.trim() !== "") {
       axios.post(`http://localhost:5000/api/create`, {
@@ -35,6 +36,7 @@ function Room() {
       });
     }
     };  
+    // If Image link is invalid, use fallback image
     img.onerror = function() {
       if (roomName !== null && roomName.trim() !== "") {
       axios.post(`http://localhost:5000/api/create`, {

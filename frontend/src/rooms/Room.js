@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 
 function Room() {
+
+  /* ------------------------ MODEL ------------------------ */
   const navigate = useNavigate();
   const root = document.documentElement;
   const location = useLocation();
@@ -29,9 +31,9 @@ function Room() {
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
 
-  console.log('Room data:', room);
-  console.log('Primary color from room:', room?.assets?.textGradColors?.primary);
-  console.log('Secondary color from room:', room?.assets?.textGradColors?.secondary);
+  // console.log('Room data:', room);
+  // console.log('Primary color from room:', room?.assets?.textGradColors?.primary);
+  // console.log('Secondary color from room:', room?.assets?.textGradColors?.secondary);
 
   // TESTING FULL DIV SETUP
 
@@ -41,7 +43,7 @@ function Room() {
   */
 
   const [roomConfig, setRoomConfig] = useState({
-    enabledDivs: ['banner-wide', 'wide-text', 'tri-text', 'image-text-text', 'text-image-text', 'wide-text'],
+    enabledDivs: ['wide-text'],
     divData: {
       'wide-text': {
         text: 'Wide Text Customization',
@@ -100,7 +102,7 @@ function Room() {
   /* 
     Div Components is a variable that stores the existance of "divs" that I have
     Labeled and preset with css formatting. This is to allow users to pick and choose
-    How to represent their information on the webpage.
+    How to represent their information on the webpage. PART OF VIEW
   */
   const DivComponents = {
     'banner-wide': ({ data }) => (
@@ -250,8 +252,7 @@ function Room() {
 
 
 
-
-  // Update colors when room data is available
+  /* ------------------------ CONTROLLER ------------------------ */
   useEffect(() => {
     if (room?.assets?.textGradColors?.primary) {
       setPrimaryColor(room.assets.textGradColors.primary);
@@ -305,7 +306,6 @@ function Room() {
   };
 
   const handleSaveSettings = (event) => {
-    console.log("here!")
     axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
       name: name,
       frameImage: PFP,
@@ -324,6 +324,85 @@ function Room() {
     });
   };
 
+  /* ------------------------ DRAGGING LOGIC ------------------------ */
+  // const draggables = document.querySelectorAll('.available');
+  // const containers = document.querySelectorAll('.current-container', '.sample-container');
+
+  // draggables.forEach(draggable => {
+  //   draggable.addEventListener('dragstart', () => {
+  //     draggable.classList.add('dragging')
+  //   })
+
+  //   draggable.addEventListener('dragend', () => {
+  //     draggable.classList.remove('dragging')
+  //   })
+  // })
+
+  // containers.forEach(container => {
+  //   container.addEventListener('dragover', () => {
+  //     const draggable = document.querySelector('.dragging')
+  //     console.log(/*I need the name of the draggable to insert into the enabledDivs*/)
+  //   })
+  // })
+
+  const [draggedItem, setDraggedItem] = useState(null);
+
+  // pick up an item and start drag
+  const handleDragStart = (e, key, source) => {
+    console.log('dragstart')
+    setDraggedItem({key, source});
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  // while dragging an item over a container
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  // if you drop a dragged item
+  const handleDrop = (e, targetContainer) => {
+    // get rid of stupid ass default drop block symbol
+    e.preventDefault();
+    console.log("drop triggered")
+
+    // edge case to manage if you are stupid and whats dropped is not the proper item
+    if (!draggedItem) return;
+
+    // split dragged into its carried key and source
+    const {key, source} = draggedItem;
+
+    if (targetContainer === 'enabled') {
+      // Adding dragged to the enabled divs
+      if (source === 'available') {
+        setRoomConfig(prev => ({
+          ...prev,
+          enabledDivs: [...prev.enabledDivs, key]
+        }));
+      }
+    } else if (targetContainer === 'available') {
+      // Removing dragged from the enabled divs
+      if (source === 'enabled') {
+        setRoomConfig(prev => ({
+          ...prev,
+          enabledDivs: prev.enabledDivs.filter(divKey => divKey !== key)
+        }));
+      }
+    }
+
+
+    const getAvailableDivs = () => {
+      return Object.entries(availableDivs).filter(([key]) => 
+        !roomConfig.enabledDivs.includes(key)
+      );
+    };
+  }
+
+  /* Selection View */
+
+  const [selectedDiv, setSelectedDiv] = useState('');
+
+  /* ------------------------ VIEW ------------------------ */
   return (
     <div className="Room">
       <div className="background-custom" />
@@ -431,8 +510,64 @@ function Room() {
               {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
               <h3 className="profile-custom">Additional Options</h3>
               <div className="div-editor-container">
+                <div className="sample-container">
+                  <h2>Available</h2>
+                    <div 
+                      className='available-divs'
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, 'available')}  
+                    >
+
+
+                      {Object.entries(availableDivs).map(([key, value], index) => {   
+                        return (
+                          <h4 
+                          key={key} 
+                          className="available" 
+                          draggable="true" 
+                          onDragStart={(e) => handleDragStart(e, key, 'available')}
+                          >
+                            {value.name}
+                          </h4>
+                        );
+                      })}
+
+
+                    </div>
+                  </div>
+                <div className="current-container">
+                  <h2>In Use</h2>
+                    <div 
+                      className='enabled-divs'
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, 'enabled')}
+                      style={{ 
+                        minHeight: '500px', 
+                      }}
+                    >
+
+
+                      {roomConfig.enabledDivs.map((key, index) => {
+                        const divInfo = availableDivs[key];
+                        return (
+                          <h4 
+                          key={`${key}-${index}`} 
+                          className="enabled" 
+                          draggable="true" 
+                          onDragStart={(e) => handleDragStart(e, key, 'enabled')}
+                          >
+                            {divInfo?.name}
+                          </h4>
+                        );
+                      })}
+
+
+                    </div>
+                </div>
 
               </div>
+              <div class="plain-line-editor"></div>
+
 
               {/*Save Button (send customization data to database)*/}
               <button className="save-button"
@@ -463,7 +598,7 @@ function Room() {
                 </h2>
               </div>
 
-              {/* Custom DIV's Begin (PFP/DESC) */}
+              {/* PFP and Desc Base */}
               <div className="rows">
                 <div className="section-split">
                   <img className="image"
