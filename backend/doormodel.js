@@ -10,6 +10,16 @@ const doorSchema = new Schema({
     description: String,
     textGradColors: {primary: String, secondary: String},
     bgGradColors: {primary: String, secondary: String}
+  },
+  roomConfig: {
+    enabledDivs: [String],
+    divData: {
+      type: Map,
+      of: Schema.Types.Mixed,
+      default: new Map([
+        ['wide-text', { text: 'Default Wide Text (test)' }]
+      ])
+    }
   }
 });
 

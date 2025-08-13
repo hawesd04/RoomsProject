@@ -119,9 +119,9 @@ router.put('/updateRoom/:id', async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description} = req.body;
+    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description, roomConfig} = req.body;
     
-    console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description});
+    console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description, roomConfig});
     
     // actually update one of the instances in the collection
     const result = await Doormodel.updateOne(
@@ -141,7 +141,8 @@ router.put('/updateRoom/:id', async (req, res) => {
               primary: bgPrimary,
               secondary: bgSecondary
             }
-          }
+          },
+          'roomConfig': roomConfig  
         }
       }
     );

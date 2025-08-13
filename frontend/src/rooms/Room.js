@@ -42,14 +42,8 @@ function Room() {
     and description.
   */
 
-  const [roomConfig, setRoomConfig] = useState({
-    enabledDivs: ['wide-text'],
-    divData: {
-      'wide-text': {
-        text: 'Wide Text Customization',
-      }
-    }
-  });
+  console.log(room);
+  const [roomConfig, setRoomConfig] = useState(room.roomConfig);
 
   /* 
     Every available div to choose from in rendering. Each labeled div can be
@@ -510,6 +504,7 @@ const handlers = {
       secondary: primaryColor,
       bgPrimary: BGprimaryColor,
       bgSecondary: BGsecondaryColor,
+      roomConfig: roomConfig,
     })
       .then(response => {
         console.log("Successfully updating room:");
