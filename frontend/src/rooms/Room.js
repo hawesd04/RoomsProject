@@ -1,6 +1,5 @@
 import './Room.css';
 import GradientText from '../assets/GradientText';
-import DivManager from './DivManager'
 import { Button, Typography } from '@mui/material';
 import { Home } from 'lucide-react';
 import { useNavigate, useNavigation } from 'react-router-dom';
@@ -98,6 +97,8 @@ function Room() {
       defaultData: { text1: '', text2: '', imageUrl: '' }
     }
   };
+
+
 
   /* 
     Div Components is a variable that stores the existance of "divs" that I have
@@ -250,7 +251,160 @@ function Room() {
     )
   };
 
+  /* 
+    Div Components is a variable that stores the existance of "divs" that I have
+    Labeled and preset with css formatting. This is to allow users to pick and choose
+    How to represent their information on the webpage. PART OF VIEW
+  */
+  const DivEditors = {
+    'banner-wide': ({ data }) => (
+      <>
+        <div className="rows">
+          <img className="banner-wide"
+            src={data?.imageUrl || "https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large"}
+            alt="Profile"
+          />
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
 
+    'wide-text': ({ data }) => (
+      <>
+        <div className="profile-info-cont">
+          <label htmlFor="widetext-input">Wide Text:</label>
+          <textarea
+            className="widetext-input"
+            placeholder='Enter whatever you would like :)'
+            id="widetext-input"
+            value={roomConfig.divData['wide-text']?.text || ''}
+            onChange={handleWideTextChange}
+          />
+        </div>
+      </>
+    ),
+
+    'tri-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text3 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'tri-text-labeled': ({ data }) => (
+      <>
+        <div className="rows-label">
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label1 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label2 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h2 className="tri-label">{data?.label3 || 'Label'}</h2>
+            <h6 className="text-tri">
+              {data?.text3 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'image-text-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || PFP}
+              alt="Profile"
+            />
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'text-image-text': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || PFP}
+              alt="Profile"
+            />
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    ),
+
+    'text-text-image': ({ data }) => (
+      <>
+        <div className="rows">
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text1 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <h6 className="text-tri">
+              {data?.text2 || '[Placeholder]'}
+            </h6>
+          </div>
+          <div className="section-split-tri">
+            <img className="image-tri"
+              src={data?.imageUrl || PFP}
+              alt="Profile"
+            />
+          </div>
+        </div>
+        <div className="plain-line"></div>
+      </>
+    )
+  };
 
   /* ------------------------ CONTROLLER ------------------------ */
   useEffect(() => {
@@ -273,37 +427,55 @@ function Room() {
   };
 
   // Handle both gradient text color changes
-  const handlePrimaryColorChange = (event) => {
-    setPrimaryColor(event.target.value);
+  const handlePrimaryColorChange = (e) => {
+    setPrimaryColor(e.target.value);
   };
-  const handleSecondaryColorChange = (event) => {
-    setSecondaryColor(event.target.value);
-  };
-
-  const handleNameUpdate = (event) => {
-    setName(event.target.value);
+  const handleSecondaryColorChange = (e) => {
+    setSecondaryColor(e.target.value);
   };
 
-  const handlePronounUpdate = (event) => {
-    setPronouns(event.target.value);
+  const handleNameUpdate = (e) => {
+    setName(e.target.value);
   };
 
-  const handlePFPUpdate = (event) => {
-    setPFP(event.target.value);
+  const handlePronounUpdate = (e) => {
+    setPronouns(e.target.value);
   };
 
-  const handleDescUpdate = (event) => {
-    setDescription(event.target.value);
+  const handlePFPUpdate = (e) => {
+    setPFP(e.target.value);
+  };
+
+  const handleDescUpdate = (e) => {
+    setDescription(e.target.value);
   };
 
   // Handle background primary and secondary
-  const handleBGPrimColorChange = (event) => {
-    setBGPrimaryColor(event.target.value);
+  const handleBGPrimColorChange = (e) => {
+    setBGPrimaryColor(e.target.value);
   };
 
-  const handleBGSecColorChange = (event) => {
-    setBGSecondaryColor(event.target.value);
+  const handleBGSecColorChange = (e) => {
+    setBGSecondaryColor(e.target.value);
   };
+
+  // ALL OF THE EVENT HANDLERS FOR DIV EDITOR!!!! (A LOT OF THEM)
+
+  const handleWideTextChange = (e) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'wide-text': {
+          ...prev.divData['wide-text'],
+          text: e.target.value
+        }
+      }
+    }));
+  }
+
+
+
 
   const handleSaveSettings = (event) => {
     axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
@@ -383,24 +555,28 @@ function Room() {
     } else if (targetContainer === 'available') {
       // Removing dragged from the enabled divs
       if (source === 'enabled') {
+        setSelectedDiv(null);
         setRoomConfig(prev => ({
           ...prev,
           enabledDivs: prev.enabledDivs.filter(divKey => divKey !== key)
         }));
       }
     }
-
-
-    const getAvailableDivs = () => {
-      return Object.entries(availableDivs).filter(([key]) => 
-        !roomConfig.enabledDivs.includes(key)
-      );
-    };
   }
 
   /* Selection View */
 
-  const [selectedDiv, setSelectedDiv] = useState('');
+  const [selectedDiv, setSelectedDiv] = useState(null);
+  const handleSelectDiv = (e, targetContainer) => {
+    if (selectedDiv===targetContainer) {
+      setSelectedDiv(null);
+      console.log('deselected div')
+    }
+    else {
+      setSelectedDiv(targetContainer)
+      console.log('selected div: ' + selectedDiv)
+    }
+  }
 
   /* ------------------------ VIEW ------------------------ */
   return (
@@ -549,12 +725,18 @@ function Room() {
 
                       {roomConfig.enabledDivs.map((key, index) => {
                         const divInfo = availableDivs[key];
+
+                        const isSelected = (key === selectedDiv)
                         return (
                           <h4 
+                          onClick={(e) => handleSelectDiv(e, key)}
                           key={`${key}-${index}`} 
                           className="enabled" 
                           draggable="true" 
                           onDragStart={(e) => handleDragStart(e, key, 'enabled')}
+                          style = {{
+                            backgroundColor: isSelected ? "#00000036" : "#ffffff21"
+                          }}
                           >
                             {divInfo?.name}
                           </h4>
@@ -567,6 +749,22 @@ function Room() {
 
               </div>
               <div class="plain-line-editor"></div>
+
+                            {/* Render Selected Divs */}
+              {roomConfig.enabledDivs.map((divId, index) => {
+                const DivEditor = DivEditors[divId];
+                const divData = roomConfig.divData[divId];
+                
+                const isSelected = (divId===selectedDiv)
+                
+                return (
+                  isSelected ? (
+                  <DivEditor
+                    key={`${divId}-${index}`}
+                    data={divData}
+                  /> ) : null
+                );
+              })}
 
 
               {/*Save Button (send customization data to database)*/}
@@ -616,7 +814,6 @@ function Room() {
 
               {/* Plain Line for Separation */}
               <div class="plain-line"></div>
-
               {/* Render Selected Divs */}
               {roomConfig.enabledDivs.map((divId, index) => {
                 const DivComponent = DivComponents[divId];
