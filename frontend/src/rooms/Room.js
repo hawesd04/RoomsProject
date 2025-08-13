@@ -4,7 +4,8 @@ import { Button, Typography } from '@mui/material';
 import { Home } from 'lucide-react';
 import { useNavigate, useNavigation } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import DivEditors from './EditableComponents'
 import axios from 'axios'
 
 function Room() {
@@ -256,155 +257,156 @@ function Room() {
     Labeled and preset with css formatting. This is to allow users to pick and choose
     How to represent their information on the webpage. PART OF VIEW
   */
-  const DivEditors = {
-    'banner-wide': ({ data }) => (
-      <>
-        <div className="rows">
-          <img className="banner-wide"
-            src={data?.imageUrl || "https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large"}
-            alt="Profile"
-          />
-        </div>
-        <div className="plain-line"></div>
-      </>
-    ),
+  // const DivEditors = {
+  //   'banner-wide': ({ data }) => (
+  //     <>
+  //       <div className="rows">
+  //         <img className="banner-wide"
+  //           src={data?.imageUrl || "https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large"}
+  //           alt="Profile"
+  //         />
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   ),
 
-    'wide-text': ({ data }) => (
-      <>
-        <div className="profile-info-cont">
-          <label htmlFor="widetext-input">Wide Text:</label>
-          <textarea
-            className="widetext-input"
-            placeholder='Enter whatever you would like :)'
-            id="widetext-input"
-            value={roomConfig.divData['wide-text']?.text || ''}
-            onChange={handleWideTextChange}
-          />
-        </div>
-      </>
-    ),
+  //   'wide-text': ({ data, }) => (
+  //     <>
+  //       <div className="profile-info-cont">
+  //         <label htmlFor="widetext-input">Wide Text:</label>
+  //         <textarea
+  //           key="wide-text-textarea"
+  //           className="widetext-input"
+  //           placeholder='Enter whatever you would like :)'
+  //           id="widetext-input"
+  //           value={roomConfig.divData['wide-text']?.text || ''}
+  //           onChange={handleWideTextChange}
+  //         />
+  //       </div>
+  //     </>
+  //   ),
 
-    'tri-text': ({ data }) => (
-      <>
-        <div className="rows">
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text1 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text2 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text3 || '[Placeholder]'}
-            </h6>
-          </div>
-        </div>
-        <div className="plain-line"></div>
-      </>
-    ),
+  //   'tri-text': ({ data }) => (
+  //     <>
+  //       <div className="rows">
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text1 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text2 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text3 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   ),
 
-    'tri-text-labeled': ({ data }) => (
-      <>
-        <div className="rows-label">
-          <div className="section-split-tri">
-            <h2 className="tri-label">{data?.label1 || 'Label'}</h2>
-            <h6 className="text-tri">
-              {data?.text1 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h2 className="tri-label">{data?.label2 || 'Label'}</h2>
-            <h6 className="text-tri">
-              {data?.text2 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h2 className="tri-label">{data?.label3 || 'Label'}</h2>
-            <h6 className="text-tri">
-              {data?.text3 || '[Placeholder]'}
-            </h6>
-          </div>
-        </div>
-        <div className="plain-line"></div>
-      </>
-    ),
+  //   'tri-text-labeled': ({ data }) => (
+  //     <>
+  //       <div className="rows-label">
+  //         <div className="section-split-tri">
+  //           <h2 className="tri-label">{data?.label1 || 'Label'}</h2>
+  //           <h6 className="text-tri">
+  //             {data?.text1 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h2 className="tri-label">{data?.label2 || 'Label'}</h2>
+  //           <h6 className="text-tri">
+  //             {data?.text2 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h2 className="tri-label">{data?.label3 || 'Label'}</h2>
+  //           <h6 className="text-tri">
+  //             {data?.text3 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   ),
 
-    'image-text-text': ({ data }) => (
-      <>
-        <div className="rows">
-          <div className="section-split-tri">
-            <img className="image-tri"
-              src={data?.imageUrl || PFP}
-              alt="Profile"
-            />
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text1 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text2 || '[Placeholder]'}
-            </h6>
-          </div>
-        </div>
-        <div className="plain-line"></div>
-      </>
-    ),
+  //   'image-text-text': ({ data }) => (
+  //     <>
+  //       <div className="rows">
+  //         <div className="section-split-tri">
+  //           <img className="image-tri"
+  //             src={data?.imageUrl || PFP}
+  //             alt="Profile"
+  //           />
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text1 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text2 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   ),
 
-    'text-image-text': ({ data }) => (
-      <>
-        <div className="rows">
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text1 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <img className="image-tri"
-              src={data?.imageUrl || PFP}
-              alt="Profile"
-            />
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text2 || '[Placeholder]'}
-            </h6>
-          </div>
-        </div>
-        <div className="plain-line"></div>
-      </>
-    ),
+  //   'text-image-text': ({ data }) => (
+  //     <>
+  //       <div className="rows">
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text1 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <img className="image-tri"
+  //             src={data?.imageUrl || PFP}
+  //             alt="Profile"
+  //           />
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text2 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   ),
 
-    'text-text-image': ({ data }) => (
-      <>
-        <div className="rows">
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text1 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <h6 className="text-tri">
-              {data?.text2 || '[Placeholder]'}
-            </h6>
-          </div>
-          <div className="section-split-tri">
-            <img className="image-tri"
-              src={data?.imageUrl || PFP}
-              alt="Profile"
-            />
-          </div>
-        </div>
-        <div className="plain-line"></div>
-      </>
-    )
-  };
+  //   'text-text-image': ({ data }) => (
+  //     <>
+  //       <div className="rows">
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text1 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <h6 className="text-tri">
+  //             {data?.text2 || '[Placeholder]'}
+  //           </h6>
+  //         </div>
+  //         <div className="section-split-tri">
+  //           <img className="image-tri"
+  //             src={data?.imageUrl || PFP}
+  //             alt="Profile"
+  //           />
+  //         </div>
+  //       </div>
+  //       <div className="plain-line"></div>
+  //     </>
+  //   )
+  // };
 
   /* ------------------------ CONTROLLER ------------------------ */
   useEffect(() => {
@@ -461,18 +463,39 @@ function Room() {
 
   // ALL OF THE EVENT HANDLERS FOR DIV EDITOR!!!! (A LOT OF THEM)
 
-  const handleWideTextChange = (e) => {
+const handlers = {
+  handleWideTextChange: (e) => {
     setRoomConfig(prev => ({
       ...prev,
       divData: {
         ...prev.divData,
-        'wide-text': {
-          ...prev.divData['wide-text'],
-          text: e.target.value
-        }
+        'wide-text': { ...prev.divData['wide-text'], text: e.target.value }
       }
     }));
-  }
+  },
+
+  handleBannerChange: (e) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'banner-wide': { ...prev.divData['banner-wide'], imageUrl: e.target.value }
+      }
+    }));
+  },
+
+  handleTriTextChange: (field, value) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'tri-text': { ...prev.divData['tri-text'], [field]: value }
+      }
+    }));
+  },
+
+  // Add more handlers...
+};
 
 
 
@@ -750,21 +773,22 @@ function Room() {
               </div>
               <div class="plain-line-editor"></div>
 
-                            {/* Render Selected Divs */}
-              {roomConfig.enabledDivs.map((divId, index) => {
-                const DivEditor = DivEditors[divId];
-                const divData = roomConfig.divData[divId];
-                
-                const isSelected = (divId===selectedDiv)
-                
-                return (
-                  isSelected ? (
-                  <DivEditor
-                    key={`${divId}-${index}`}
-                    data={divData}
-                  /> ) : null
-                );
-              })}
+                {/* Render Selected Divs */}
+                {roomConfig.enabledDivs.map((divId, index) => {
+                  const isSelected = (divId === selectedDiv);
+                  
+                  if (!isSelected) return null;
+                  
+                  const DivEditor = DivEditors[divId];
+                  
+                  return DivEditor ? (
+                    <DivEditor
+                      key={`${divId}-${index}`}
+                      roomConfig={roomConfig}
+                      handlers={handlers}
+                    />
+                  ) : null;
+                })}
 
 
               {/*Save Button (send customization data to database)*/}

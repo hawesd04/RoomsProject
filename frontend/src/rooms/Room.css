@@ -74,33 +74,33 @@ body {
 }
 h1 {
   color: white;
-  animation: fadeInUp 0.4s ease-out 0.075s both;
+  animation: fadeInUp 0.20s ease-out 0.075s both;
 }
 h2 {
   color: white;
-  animation: fadeInUp 0.5s ease-out 0.1s both;
+  animation: fadeInUp 0.25s ease-out 0.1s both;
 }
 
 h3 {
   color: white;
-  animation: fadeInUp 0.5s ease-out 0.15s both;
+  animation: fadeInUp 0.25s ease-out 0.15s both;
 }
 
 h4 {
   color: white;
-  animation: fadeInUp 0.5s ease-out 0.2s both;
+  animation: fadeInUp 0.25s ease-out 0.2s both;
 }
 
 h5 {
   color: white;
-  animation: fadeInUp 0.5s ease-out 0.25s both;
+  animation: fadeInUp 0.25s ease-out 0.25s both;
 }
 
 h6 {
   color: white;
   font-size: 16px;
   font-weight: 200;
-  animation: fadeInUp 0.5s ease-out 0.3s both;
+  animation: fadeInUp 0.25s ease-out 0.3s both;
 }
 
 /* Back to Hallway button Pos */
@@ -422,34 +422,6 @@ input:focus {
   margin-bottom:10px;
   margin-top:10px;
 }
-
-/* ---------------------------- EDITOR ADDITIONAL SECTION -------------------------------- */
-.widetext-input {
-  display:flex;
-  flex-direction:column;
-  width:263px;
-  height: 20px;
-  padding:1%;
-  font-size: 14px;
-  font-weight: 100;
-  color:white;
-  margin-top:4px;
-  background-color: #ffffff09;
-  border-radius: 10px;
-  border: 2px solid #ffffff09;
-  resize:none;
-
-  height: 100px;
-  text-align: left; 
-  vertical-align: top; 
-  padding: 5px; 
-
-  margin-bottom:20px;
-}
-
-.widetext-input::-webkit-scrollbar {
-  display: none;
-} 
 
 
 /* -------------------------------- MAIN CARD SECTION -------------------------------- */
