@@ -488,6 +488,19 @@ const handlers = {
     }));
   },
 
+  handleLabelTriTextChange: (field, value) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'tri-text-labeled': { 
+          ...prev.divData['tri-text-labeled'], 
+          [field]: value 
+        }
+      }
+    }));
+  },
+
   // Add more handlers...
 };
 

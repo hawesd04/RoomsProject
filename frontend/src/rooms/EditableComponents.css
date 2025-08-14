@@ -32,3 +32,26 @@
 .widetext-input::-webkit-scrollbar {
   display: none;
 } 
+
+.tri-textarea {
+  display:flex;
+  flex-direction:column;
+  width:263px;
+  height: 20px;
+  padding:1%;
+  font-size: 14px;
+  font-weight: 100;
+  color:white;
+  background-color: #ffffff09;
+  border-radius: 10px;
+  border: 2px solid #ffffff09;
+  resize:none;
+
+  height: 100px;
+  text-align: left; 
+  vertical-align: top; 
+  padding: 5px; 
+
+  margin-top:4px;
+  margin-bottom:20px;
+}
