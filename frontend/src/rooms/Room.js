@@ -501,6 +501,45 @@ const handlers = {
     }));
   },
 
+  handleITTChange: (field, value) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'image-text-text': { 
+          ...prev.divData['image-text-text'], 
+          [field]: value 
+        }
+      }
+    }));
+  },
+
+  handleTITChange: (field, value) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'text-image-text': { 
+          ...prev.divData['text-image-text'], 
+          [field]: value 
+        }
+      }
+    }));
+  },
+
+  handleTTIChange: (field, value) => {
+    setRoomConfig(prev => ({
+      ...prev,
+      divData: {
+        ...prev.divData,
+        'text-text-image': { 
+          ...prev.divData['text-text-image'], 
+          [field]: value 
+        }
+      }
+    }));
+  },
+
   // Add more handlers...
 };
 
@@ -528,26 +567,6 @@ const handlers = {
   };
 
   /* ------------------------ DRAGGING LOGIC ------------------------ */
-  // const draggables = document.querySelectorAll('.available');
-  // const containers = document.querySelectorAll('.current-container', '.sample-container');
-
-  // draggables.forEach(draggable => {
-  //   draggable.addEventListener('dragstart', () => {
-  //     draggable.classList.add('dragging')
-  //   })
-
-  //   draggable.addEventListener('dragend', () => {
-  //     draggable.classList.remove('dragging')
-  //   })
-  // })
-
-  // containers.forEach(container => {
-  //   container.addEventListener('dragover', () => {
-  //     const draggable = document.querySelector('.dragging')
-  //     console.log(/*I need the name of the draggable to insert into the enabledDivs*/)
-  //   })
-  // })
-
   const [draggedItem, setDraggedItem] = useState(null);
 
   // pick up an item and start drag
@@ -575,6 +594,13 @@ const handlers = {
     // split dragged into its carried key and source
     const {key, source} = draggedItem;
 
+    for (const enabledDiv of roomConfig.enabledDivs) {
+        if (enabledDiv === key) {
+          return;
+        }
+    };
+
+
     if (targetContainer === 'enabled') {
       // Adding dragged to the enabled divs
       if (source === 'available') {
@@ -596,7 +622,6 @@ const handlers = {
   }
 
   /* Selection View */
-
   const [selectedDiv, setSelectedDiv] = useState(null);
   const handleSelectDiv = (e, targetContainer) => {
     if (selectedDiv===targetContainer) {

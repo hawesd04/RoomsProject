@@ -368,6 +368,11 @@ input:focus {
 /* Sample Contents */
 .sample-container {
   min-height:200px;
+  max-height:400px;
+
+  overflow:hidden;
+  overflow-y: scroll;
+
   padding:1rem;
   width:50%;
   display:flex;
@@ -379,6 +384,11 @@ input:focus {
 /* Current Array Contents (enabled divs) */
 .current-container {
   min-height:200px;
+  max-height:400px;
+
+  overflow:hidden;
+  overflow-y: scroll;
+
   padding:1rem;
   width:50%;
   display:flex;

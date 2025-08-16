@@ -98,5 +98,87 @@ export const DivEditors = {
       />
     </div>
   ),
+
+  'image-text-text': ({ roomConfig, handlers }) => (
+    <div className="component-info-cont">
+      <label>Image + Text + Text:</label>
+      <input
+        type="text"
+        className="banner-input"
+        placeholder='Enter image URL'
+        value={roomConfig.divData['image-text-text']?.imageUrl || ''}
+        onChange={(e) => handlers.handleITTChange('imageUrl', e.target.value)}
+      />
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 1"
+        value={roomConfig.divData['image-text-text']?.text1 || ''}
+        onChange={(e) => handlers.handleITTChange('text1', e.target.value)}
+      />
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 2"
+        value={roomConfig.divData['image-text-text']?.text2 || ''}
+        onChange={(e) => handlers.handleITTChange('text2', e.target.value)}
+      />
+    </div>
+  ),
+
+    'text-image-text': ({ roomConfig, handlers }) => (
+    <div className="component-info-cont">
+      <label>Text + Image + Text:</label>
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 1"
+        value={roomConfig.divData['text-image-text']?.text1 || ''}
+        onChange={(e) => handlers.handleTITChange('text1', e.target.value)}
+      />
+      <input
+        type="text"
+        className="banner-input"
+        placeholder='Enter image URL'
+        value={roomConfig.divData['text-image-text']?.imageUrl || ''}
+        onChange={(e) => handlers.handleTITChange('imageUrl', e.target.value)}
+      />
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 2"
+        value={roomConfig.divData['text-image-text']?.text2 || ''}
+        onChange={(e) => handlers.handleTITChange('text2', e.target.value)}
+      />
+    </div>
+  ),
+
+  'text-text-image': ({ roomConfig, handlers }) => (
+    <div className="component-info-cont">
+      <label>Text + Text + Image:</label>
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 1"
+        value={roomConfig.divData['text-text-image']?.text1 || ''}
+        onChange={(e) => handlers.handleTTIChange('text1', e.target.value)}
+      />
+      <textarea
+        className="widetext-input"
+        type="text"
+        placeholder="Text 2"
+        value={roomConfig.divData['text-text-image']?.text2 || ''}
+        onChange={(e) => handlers.handleTTIChange('text2', e.target.value)}
+      />
+      <input
+        type="text"
+        className="banner-input"
+        placeholder='Enter image URL'
+        value={roomConfig.divData['text-text-image']?.imageUrl || ''}
+        onChange={(e) => handlers.handleTTIChange('imageUrl', e.target.value)}
+      />
+    </div>
+  ),
+
 };
 export default DivEditors;
