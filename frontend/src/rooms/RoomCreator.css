@@ -1,7 +1,7 @@
 /* Main container */
 .room-creator {
   min-height: 100vh;
-  background-color: #1e1f31;
+  background-color: var(--BG-secondary-color);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -17,6 +17,26 @@
   bottom: 0;
   background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.1) 0%, transparent 70%);
   pointer-events: none;
+}
+
+.background-custom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, var(--BG-primary-color) 0%, transparent 70%);
+  pointer-events: none;
+  animation: backgroundPulse 0.6s ease-out;
+  overflow: hidden;
+}
+
+.gradient-box {
+    width: 210px;
+    height: 100px;
+    border-radius: 1.2rem;
+    background-image: linear-gradient(to right, var(--BG-primary-color), var(--BG-secondary-color));
+    filter: drop-shadow(0 0 0.50rem rgba(0, 0, 0, 0.150));
 }
 
 /* Header navigation */
@@ -94,6 +114,8 @@
   overflow: hidden;
   transition: all 0.8s ease;
   opacity: 1;
+  height: 660px;
+  max-height: 660px;
 }
 
 .card-highlight {
@@ -111,6 +133,23 @@
   flex-direction: column;
   align-items: center;
   gap: 32px;
+}
+.grad-text-box {
+  margin:auto;
+  background-color: rgba(0, 0, 0, 0);
+  width: 190px;
+}
+.cr-gradient-text {
+  border-radius: 0;
+  font-size: 2rem;
+  animation: fadeInUp 0s ease-out 0.2s both;
+  filter: drop-shadow(0 0 0.50rem rgba(0, 0, 0, 0.407));
+}
+
+.page-num {
+  position:fixed;
+  top:0;
+  left:93.5%;
 }
 
 /* Header text */
@@ -158,6 +197,11 @@
   font-weight: 500;
 }
 
+.form-row {
+  display:flex;
+  flex-direction: row;
+}
+
 .form-input {
   width: 100%;
   padding: 12px 16px;
@@ -168,6 +212,7 @@
   font-size: 16px;
   transition: all 0.3s ease;
   outline: none;
+  resize:none;
 }
 
 .form-input::placeholder {
@@ -184,9 +229,12 @@
 }
 
 .submit-btn {
+  width:200px;
+  margin-left:auto;
+  margin-right:auto;
   margin-top: 24px;
   padding: 12px 32px;
-  background-color: #141420;
+  background-color: #00000036;
   color: white;
   border: none;
   border-radius: 12px;
@@ -198,7 +246,7 @@
 }
 
 .submit-btn:hover {
-  background-color: #1f1f3a;
+  background-color: #00000015;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(20, 20, 32, 0.4);
 }

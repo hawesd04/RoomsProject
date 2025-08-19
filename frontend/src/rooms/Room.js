@@ -42,7 +42,6 @@ function Room() {
     and description.
   */
 
-  console.log(room);
   const [roomConfig, setRoomConfig] = useState(room.roomConfig);
 
   /* 
@@ -246,161 +245,6 @@ function Room() {
     )
   };
 
-  /* 
-    Div Components is a variable that stores the existance of "divs" that I have
-    Labeled and preset with css formatting. This is to allow users to pick and choose
-    How to represent their information on the webpage. PART OF VIEW
-  */
-  // const DivEditors = {
-  //   'banner-wide': ({ data }) => (
-  //     <>
-  //       <div className="rows">
-  //         <img className="banner-wide"
-  //           src={data?.imageUrl || "https://pbs.twimg.com/media/GxJLiItXoAEasfB?format=png&name=large"}
-  //           alt="Profile"
-  //         />
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   ),
-
-  //   'wide-text': ({ data, }) => (
-  //     <>
-  //       <div className="profile-info-cont">
-  //         <label htmlFor="widetext-input">Wide Text:</label>
-  //         <textarea
-  //           key="wide-text-textarea"
-  //           className="widetext-input"
-  //           placeholder='Enter whatever you would like :)'
-  //           id="widetext-input"
-  //           value={roomConfig.divData['wide-text']?.text || ''}
-  //           onChange={handleWideTextChange}
-  //         />
-  //       </div>
-  //     </>
-  //   ),
-
-  //   'tri-text': ({ data }) => (
-  //     <>
-  //       <div className="rows">
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text1 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text2 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text3 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   ),
-
-  //   'tri-text-labeled': ({ data }) => (
-  //     <>
-  //       <div className="rows-label">
-  //         <div className="section-split-tri">
-  //           <h2 className="tri-label">{data?.label1 || 'Label'}</h2>
-  //           <h6 className="text-tri">
-  //             {data?.text1 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h2 className="tri-label">{data?.label2 || 'Label'}</h2>
-  //           <h6 className="text-tri">
-  //             {data?.text2 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h2 className="tri-label">{data?.label3 || 'Label'}</h2>
-  //           <h6 className="text-tri">
-  //             {data?.text3 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   ),
-
-  //   'image-text-text': ({ data }) => (
-  //     <>
-  //       <div className="rows">
-  //         <div className="section-split-tri">
-  //           <img className="image-tri"
-  //             src={data?.imageUrl || PFP}
-  //             alt="Profile"
-  //           />
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text1 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text2 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   ),
-
-  //   'text-image-text': ({ data }) => (
-  //     <>
-  //       <div className="rows">
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text1 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <img className="image-tri"
-  //             src={data?.imageUrl || PFP}
-  //             alt="Profile"
-  //           />
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text2 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   ),
-
-  //   'text-text-image': ({ data }) => (
-  //     <>
-  //       <div className="rows">
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text1 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <h6 className="text-tri">
-  //             {data?.text2 || '[Placeholder]'}
-  //           </h6>
-  //         </div>
-  //         <div className="section-split-tri">
-  //           <img className="image-tri"
-  //             src={data?.imageUrl || PFP}
-  //             alt="Profile"
-  //           />
-  //         </div>
-  //       </div>
-  //       <div className="plain-line"></div>
-  //     </>
-  //   )
-  // };
 
   /* ------------------------ CONTROLLER ------------------------ */
   useEffect(() => {
@@ -454,6 +298,12 @@ function Room() {
   const handleBGSecColorChange = (e) => {
     setBGSecondaryColor(e.target.value);
   };
+
+  const handlePassEncrypt = () => {
+    const passcode = (document.getElementById('pass-input')).value;
+    if (passcode.contains)
+    console.log("passcode:" + passcode);
+  }
 
   // ALL OF THE EVENT HANDLERS FOR DIV EDITOR!!!! (A LOT OF THEM)
 
@@ -649,9 +499,25 @@ const handlers = {
           <div className="edit-panel-container">
             <div className="edit-panel-trigger">⚙️</div>  
             <div className="edit-panel">
+              <h1 className="profile-editor-text">Profile Editor</h1>
+              
+              {/* Password Section */}
+              <div className="pass-info-cont">
+                <label htmlFor="pass-input">Enter Your Passcode:</label>
+                <input
+                  id="pass-input"
+                ></input>
+                
+              </div>
+              {/*Enter Passcode Button (send customization data to database)*/}
+              <button className="enter-code-button"
+                onClick={handlePassEncrypt}
+              >
+                Enter Password
+              </button>
+
 
               {/* Color pickers for gradient colors */}
-              <h1 className="profile-editor-text">Profile Editor</h1>
               <div class="plain-line-editor"></div>
               <h3 className="text-grad-text">Text Gradient</h3>
               <div className="color-picker-container">

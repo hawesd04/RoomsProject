@@ -225,6 +225,27 @@ button:active {
   animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
+
+.enter-code-button{
+  display: flex;
+  align-items: center;
+  margin-left:80px;
+  margin-top: 0px;
+  margin-bottom:10px;
+  gap: 8px;
+  padding: 8px 16px;
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
 button:hover{
  background-color: rgba(255, 255, 255, 0.035);
 }
@@ -296,6 +317,11 @@ input:focus {
   display: none;
 } 
 
+.pass-info-cont {
+  margin-left: 35px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
 .profile-info-cont  {
   margin-left: 35px;
   margin-top: -15px;
