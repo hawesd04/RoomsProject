@@ -195,7 +195,7 @@ router.delete('/delete/:id', async (req, res) => {
 // Create a door in the backend ----------------------------------------------------------------
 router.post('/create', async (req, res) => {
   try {
-    const { name, frameImage } = req.body;
+    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description} = req.body;
     
     console.log("Attempting to create door with:", { name, frameImage });
     
@@ -204,15 +204,15 @@ router.post('/create', async (req, res) => {
       name: name || 'New Room', // Default name if not provided
       frameImage: frameImage || 'https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg', // Default image if not provided
       assets: {
-        pronouns: 'they/them',
-        description: '[placeholder]',
+        pronouns: pronouns || 'they/them',
+        description: description || '[placeholder]',
         textGradColors: {
-          primary: '#ffffff',
-          secondary: '#777777'
+          primary: primary || '#ffffff',
+          secondary: secondary || '#777777'
         },
         bgGradColors: {
-          primary: '#1f2257',
-          secondary: '#1e1f31'
+          primary: bgPrimary || '#1f2257',
+          secondary: bgSecondary || '#1e1f31'
         }
       }
     });

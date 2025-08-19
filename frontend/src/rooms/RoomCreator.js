@@ -76,7 +76,13 @@ function Room() {
       if (roomName !== null && roomName.trim() !== "") {
       axios.post(`http://localhost:5000/api/create`, {
         name: roomName,
-        frameImage: profileUrl 
+        frameImage: profileUrl ,
+        pronouns: pronouns,
+        description: description,
+        primary: secondaryColor, 
+        secondary: primaryColor,
+        bgPrimary: BGprimaryColor,
+        bgSecondary: BGsecondaryColor,
       })
       .then(response => {
         console.log('Door created successfully:', response.data);
@@ -148,7 +154,7 @@ function Room() {
                   It's time to build a room!
                 </h1>
                 <p className="subtitle">
-                  To begin, please enter the following data
+                  To begin, please fill out the sections below
                 </p>
               </div>
 
@@ -280,8 +286,6 @@ function Room() {
                     <h3 className="field-label">Enter a password *</h3>
                     <input
                       type="text"
-                      value={pronouns}
-                      onChange={(e) => setPronouns(e.target.value)}
                       placeholder="Password"
                       className="form-input"
                     />
@@ -290,8 +294,6 @@ function Room() {
                     <h3 className="field-label">Re-Enter the password *</h3>
                     <input
                       type="text"
-                      value={pronouns}
-                      onChange={(e) => setPronouns(e.target.value)}
                       placeholder="Password"
                       className="form-input"
                     />
