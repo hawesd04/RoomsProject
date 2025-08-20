@@ -301,7 +301,6 @@ function Room() {
 
   const handlePassEncrypt = () => {
     const passcode = (document.getElementById('pass-input')).value;
-    if (passcode.contains)
     console.log("passcode:" + passcode);
   }
 
@@ -750,6 +749,7 @@ const handlers = {
                     data={divData}
                   />
                 );
+
               })}
           </div>
         </div>

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Doormodel = require('./doormodel');
+const bcrypt = require('bcryptjs');
 
 // Initialize express app
 const app = express();
@@ -69,6 +70,10 @@ router.get('/data', async (req, res) => {
       res.status(500).json({ message: error.message });
     }
 });
+
+app.post('/api/auth/login', async (req, res) => {
+  const { password } = req.body;  // Plain text password from frontend
+})
 
 
 // Update a DOOR in the backend ----------------------------------------------------------------

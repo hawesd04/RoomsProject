@@ -69,6 +69,28 @@ function Room() {
 
   const handleSubmit = () => {
     console.log('Submitting room data:', { roomName, profileUrl });
+
+    const passcode1 = (document.getElementById('pass-input1')).value;
+    const passcode2 = (document.getElementById('pass-input2')).value;
+    
+    if (passcode1!==passcode2) {
+      alert("passwords dont match")
+      console.log("passwords dont match")
+      return;
+    }
+
+    const saltRounds = 10;
+
+    // bcrypt.hash(passcode1, saltRounds, function(error, hash) {
+    //   if (error) {
+    //     console.error('Error hashing passwords:', error);
+    //     return;
+    //   }
+    //   console.log("Password Hashed:", hash);
+    //   }
+    // )
+
+
     const img = new Image();
     img.src = profileUrl
     // load image to check validity
@@ -285,6 +307,7 @@ function Room() {
                   <div className="form-field">
                     <h3 className="field-label">Enter a password *</h3>
                     <input
+                      id="pass-input1"
                       type="text"
                       placeholder="Password"
                       className="form-input"
@@ -293,6 +316,7 @@ function Room() {
                   <div className="form-field">
                     <h3 className="field-label">Re-Enter the password *</h3>
                     <input
+                      id="pass-input2"
                       type="text"
                       placeholder="Password"
                       className="form-input"

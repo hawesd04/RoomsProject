@@ -11,6 +11,9 @@ const doorSchema = new Schema({
     textGradColors: {primary: String, secondary: String},
     bgGradColors: {primary: String, secondary: String}
   },
+  authentication: {
+    hash: String
+  },
   roomConfig: {
     enabledDivs: [String],
     divData: {
