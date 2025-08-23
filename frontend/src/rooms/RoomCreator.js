@@ -79,16 +79,17 @@ function Room() {
       return;
     }
 
-    const saltRounds = 10;
-
-    // bcrypt.hash(passcode1, saltRounds, function(error, hash) {
-    //   if (error) {
-    //     console.error('Error hashing passwords:', error);
-    //     return;
-    //   }
-    //   console.log("Password Hashed:", hash);
-    //   }
-    // )
+    axios.post(`http://localhost:5000/api/auth/hashnew`, {
+      name: roomName,
+      password: passcode1,
+    })
+    .then(response => {
+      console.log('password hashed successfully', response.data)
+    })
+    .catch(error => {
+      console.log('password hashing error')
+      return;
+    })
 
 
     const img = new Image();

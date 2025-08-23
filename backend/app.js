@@ -2,7 +2,39 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Doormodel = require('./doormodel');
+const authModel = require('./authmodel');
 const bcrypt = require('bcryptjs');
+
+// test bcrypt
+const saltRounds = 12;
+var password = "hello_world!"
+
+bcrypt.genSalt(saltRounds, function(error, salt) {
+  bcrypt.hash(password, salt, function(error, hash) {
+    console.log(hash)
+  });
+});
+
+var password2 = "hello_world"
+var hash = '$2b$10$WvGu293AOmhxdIK78hIn3uvcmcynvVIGQEwtl0BKcvqka4sRqaaf.';
+
+bcrypt.compare(password, hash, function(error, result) {
+  if (result) {
+    console.log("password " + password + " matches " + hash)
+  }
+  else {
+    console.log("password " + password + " does not match hash " + hash)
+  }
+})
+
+bcrypt.compare(password2, hash, function(error, result) {
+  if (result) {
+    console.log("password " + password2 + " matches " + hash)
+  }
+  else {
+    console.log("password " + password2 + " does not match hash " + hash)
+  }
+})
 
 // Initialize express app
 const app = express();
@@ -25,34 +57,32 @@ mongoose.connect(`mongodb+srv://hawesd04:nPut8NB01gOFe0Vt@roomsproject.o9axxi1.m
   console.error('Database connection error:', error);
 });
 
-// Migrate old data with new datapoints when necessary
-// visit localhost:5000/api/migrate to trigger changes in database
-app.get('/api/migrate', async (req, res) => {
-  try {
-    const result = await Doormodel.updateMany(
-      { assets: { $exists: true } },
-      { 
-        $set: { 
-          "assets": {
-            "pronouns": "he/him",
-            "description": "[placeholder]",
-            "textGradColors": {
-              "primary": "#ffffff",
-              "secondary": "#777777"
-            }
-          }
-        }
-      }
-    );
+// app.get('/api/migrate', async (req, res) => {
+//   try {
+//     const result = await Doormodel.updateMany(
+//       { assets: { $exists: true } },
+//       { 
+//         $set: { 
+//           "assets": {
+//             "pronouns": "he/him",
+//             "description": "[placeholder]",
+//             "textGradColors": {
+//               "primary": "#ffffff",
+//               "secondary": "#777777"
+//             }
+//           }
+//         }
+//       }
+//     );
     
-    res.json({ 
-      success: true, 
-      message: `Updated ${result.modifiedCount} documents` 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+//     res.json({ 
+//       success: true, 
+//       message: `Updated ${result.modifiedCount} documents` 
+//     });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 // API routes -------------------------------------------------------------------------------------------
 const router = express.Router();
@@ -71,10 +101,58 @@ router.get('/data', async (req, res) => {
     }
 });
 
-app.post('/api/auth/login', async (req, res) => {
-  const { password } = req.body;  // Plain text password from frontend
-})
+// Create authentication for a user
+router.post('/auth/hashnew', async (req, res) => {
+  try {
+      const { roomID } = req.params;
+      const { password, name } = req.body;  
+      const saltRounds = 12;
 
+      bcrypt.genSalt(saltRounds, function(error, salt) {
+        bcrypt.hash(password, salt, async function(error, hash) {
+          console.log(hash)
+
+          const newAuth = new authModel({
+            roomID: roomID,
+            name: name,
+            hash: hash,
+          });
+          const savedAuth = await newAuth.save();
+    
+          console.log("Created auth:", savedAuth);
+
+        });
+      });
+      res.status(201).json({message: 'Password registered successfully'})
+  }
+  catch (error) {
+      console.error("Error hashing password", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Check authentication
+router.post('/auth/login', async (req, res) => {
+  const { enteredPass, name } = req.body;
+  try {
+    const auth = await authModel.findOne({ name })
+    if (!auth) {
+      return res.status(401).json({error: 'Invalid password'});
+    }
+
+    const isPassValid = await bcrypt.compare(enteredPass, auth.hash);
+
+    if (!isPassValid) {
+      return res.status(401).json({error: 'Invalid password'});
+    }
+
+    return res.status(200).json({ message: 'Login successful' });
+  }
+  catch (error) {
+    console.error('login error:' + error);
+    res.status(500).json({error:'Server error'});
+  }
+})
 
 // Update a DOOR in the backend ----------------------------------------------------------------
 router.put('/update/:id', async (req, res) => {

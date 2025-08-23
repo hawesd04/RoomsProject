@@ -28,6 +28,8 @@ function Room() {
   const [pronouns, setPronouns] = useState(room.assets.pronouns);
   const [description, setDescription] = useState(room.assets.description);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
 
@@ -299,10 +301,35 @@ function Room() {
     setBGSecondaryColor(e.target.value);
   };
 
-  const handlePassEncrypt = () => {
+  const handleLogin = async () => {
     const passcode = (document.getElementById('pass-input')).value;
     console.log("passcode:" + passcode);
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({ 
+          name, 
+          enteredPass: passcode  
+        }),
+    });
+
+    if(response.ok) {
+      console.log('Logged into room successfully!')
+      setIsLoggedIn(true);
+    }
+    else {
+      alert('incorrect password');
+    }  
   }
+  catch (error) {
+    console.error('login failed: ', error)
+    
+  }
+};
 
   // ALL OF THE EVENT HANDLERS FOR DIV EDITOR!!!! (A LOT OF THEM)
 
@@ -501,200 +528,207 @@ const handlers = {
               <h1 className="profile-editor-text">Profile Editor</h1>
               
               {/* Password Section */}
-              <div className="pass-info-cont">
-                <label htmlFor="pass-input">Enter Your Passcode:</label>
-                <input
-                  id="pass-input"
-                ></input>
-                
-              </div>
-              {/*Enter Passcode Button (send customization data to database)*/}
-              <button className="enter-code-button"
-                onClick={handlePassEncrypt}
-              >
-                Enter Password
-              </button>
-
-
-              {/* Color pickers for gradient colors */}
-              <div class="plain-line-editor"></div>
-              <h3 className="text-grad-text">Text Gradient</h3>
-              <div className="color-picker-container">
-                <div className="color-picker-item">
-                  <label htmlFor="primary-color">Primary Color:</label>
-                  <input
-                    id="primary-color"
-                    type="color"
-                    value={primaryColor}
-                    onChange={handlePrimaryColorChange}
-                    className="color-picker-input"
-                  />
-                </div>
-                <div className="color-picker-item">
-                  <label htmlFor="secondary-color">Secondary Color:</label>
-                  <input
-                    id="secondary-color"
-                    type="color"
-                    value={secondaryColor}
-                    onChange={handleSecondaryColorChange}
-                    className="color-picker-input"
-                  />
-                </div>
-              </div>
-              <div class="plain-line-editor"></div>
-              <h3 className="bg-grad-text">Background Gradient</h3>
-              {/* Color pickers for gradient colors */}
-              <div className="color-picker-container">
-                <div className="color-picker-item">
-                  <label htmlFor="primary-color">Primary Color:</label>
-                  <input
-                    id="primary-color"
-                    type="color"
-                    value={BGprimaryColor}
-                    onChange={handleBGPrimColorChange}
-                    className="color-picker-input"
-                  />
-                </div>
-                <div className="color-picker-item">
-                  <label htmlFor="secondary-color">Secondary Color:</label>
-                  <input
-                    id="secondary-color"
-                    type="color"
-                    value={BGsecondaryColor}
-                    onChange={handleBGSecColorChange}
-                    className="color-picker-input"
-                  />
-                </div>
-              </div>
-              <div class="plain-line-editor"></div>
-
-              <h3 className="profile-custom">Profile Customization</h3>
-              <div className="profile-info-cont">
-                <label htmlFor="name-input">Name:</label>
-                <input
-                  id="name-input"
-                  value={name}
-                  onChange={handleNameUpdate}
-                >
-                </input>
-                <label htmlFor="pronoun-input">Pronouns:</label>
-                <input
-                  id="pronoun-input"
-                  value={pronouns}
-                  onChange={handlePronounUpdate}
-                >
-                </input>
-                <label htmlFor="pfp-input">Profile Picture:</label>
-                <input
-                  placeholder='https://website.com/image-link'
-                  id="pfp-input"
-                  value={PFP}
-                  onChange={handlePFPUpdate}
-                >
-                </input>
-                <label htmlFor="desc-input">Bio/Description:</label>
-                <textarea
-                  className="desc-input"
-                  placeholder='Enter whatever you would like :)'
-                  id="desc-input"
-                  value={description}
-                  onChange={handleDescUpdate}
-                >
-                </textarea>
-              </div>
-              <div class="plain-line-editor"></div>
-
-              {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
-              <h3 className="profile-custom">Additional Options</h3>
-              <div className="div-editor-container">
-                <div className="sample-container">
-                  <h2>Available</h2>
-                    <div 
-                      className='available-divs'
-                      onDragOver={handleDragOver}
-                      onDrop={(e) => handleDrop(e, 'available')}  
-                    >
-
-
-                      {Object.entries(availableDivs).map(([key, value], index) => {   
-                        return (
-                          <h4 
-                          key={key} 
-                          className="available" 
-                          draggable="true" 
-                          onDragStart={(e) => handleDragStart(e, key, 'available')}
-                          >
-                            {value.name}
-                          </h4>
-                        );
-                      })}
-
-
-                    </div>
+              {isLoggedIn === false && (
+                <div className="logged-out">
+                  <div className="pass-info-cont">
+                    <label htmlFor="pass-input">Enter Your Passcode:</label>
+                    <input
+                      id="pass-input"
+                    ></input>
+                    
                   </div>
-                <div className="current-container">
-                  <h2>In Use</h2>
-                    <div 
-                      className='enabled-divs'
-                      onDragOver={handleDragOver}
-                      onDrop={(e) => handleDrop(e, 'enabled')}
-                      style={{ 
-                        minHeight: '500px', 
-                      }}
-                    >
-
-
-                      {roomConfig.enabledDivs.map((key, index) => {
-                        const divInfo = availableDivs[key];
-
-                        const isSelected = (key === selectedDiv)
-                        return (
-                          <h4 
-                          onClick={(e) => handleSelectDiv(e, key)}
-                          key={`${key}-${index}`} 
-                          className="enabled" 
-                          draggable="true" 
-                          onDragStart={(e) => handleDragStart(e, key, 'enabled')}
-                          style = {{
-                            backgroundColor: isSelected ? "#00000036" : "#ffffff21"
-                          }}
-                          >
-                            {divInfo?.name}
-                          </h4>
-                        );
-                      })}
-
-
-                    </div>
+                  {/*Enter Passcode Button (send customization data to database)*/}
+                  <button className="enter-code-button"
+                    onClick={handleLogin}
+                  >
+                    Enter Password
+                  </button>
                 </div>
+              )}
 
-              </div>
-              <div class="plain-line-editor"></div>
-
-                {/* Render Selected Divs */}
-                {roomConfig.enabledDivs.map((divId, index) => {
-                  const isSelected = (divId === selectedDiv);
-                  
-                  if (!isSelected) return null;
-                  
-                  const DivEditor = DivEditors[divId];
-                  
-                  return DivEditor ? (
-                    <DivEditor
-                      key={`${divId}-${index}`}
-                      roomConfig={roomConfig}
-                      handlers={handlers}
+              {isLoggedIn=== true && (
+                <div className="logged-in">
+                {/* Color pickers for gradient colors */}
+                <div class="plain-line-editor"></div>
+                <h3 className="text-grad-text">Text Gradient</h3>
+                <div className="color-picker-container">
+                  <div className="color-picker-item">
+                    <label htmlFor="primary-color">Primary Color:</label>
+                    <input
+                      id="primary-color"
+                      type="color"
+                      value={primaryColor}
+                      onChange={handlePrimaryColorChange}
+                      className="color-picker-input"
                     />
-                  ) : null;
-                })}
+                  </div>
+                  <div className="color-picker-item">
+                    <label htmlFor="secondary-color">Secondary Color:</label>
+                    <input
+                      id="secondary-color"
+                      type="color"
+                      value={secondaryColor}
+                      onChange={handleSecondaryColorChange}
+                      className="color-picker-input"
+                    />
+                  </div>
+                </div>
+                <div class="plain-line-editor"></div>
+                <h3 className="bg-grad-text">Background Gradient</h3>
+                {/* Color pickers for gradient colors */}
+                <div className="color-picker-container">
+                  <div className="color-picker-item">
+                    <label htmlFor="primary-color">Primary Color:</label>
+                    <input
+                      id="primary-color"
+                      type="color"
+                      value={BGprimaryColor}
+                      onChange={handleBGPrimColorChange}
+                      className="color-picker-input"
+                    />
+                  </div>
+                  <div className="color-picker-item">
+                    <label htmlFor="secondary-color">Secondary Color:</label>
+                    <input
+                      id="secondary-color"
+                      type="color"
+                      value={BGsecondaryColor}
+                      onChange={handleBGSecColorChange}
+                      className="color-picker-input"
+                    />
+                  </div>
+                </div>
+                <div class="plain-line-editor"></div>
+
+                <h3 className="profile-custom">Profile Customization</h3>
+                <div className="profile-info-cont">
+                  <label htmlFor="name-input">Name:</label>
+                  <input
+                    id="name-input"
+                    value={name}
+                    onChange={handleNameUpdate}
+                  >
+                  </input>
+                  <label htmlFor="pronoun-input">Pronouns:</label>
+                  <input
+                    id="pronoun-input"
+                    value={pronouns}
+                    onChange={handlePronounUpdate}
+                  >
+                  </input>
+                  <label htmlFor="pfp-input">Profile Picture:</label>
+                  <input
+                    placeholder='https://website.com/image-link'
+                    id="pfp-input"
+                    value={PFP}
+                    onChange={handlePFPUpdate}
+                  >
+                  </input>
+                  <label htmlFor="desc-input">Bio/Description:</label>
+                  <textarea
+                    className="desc-input"
+                    placeholder='Enter whatever you would like :)'
+                    id="desc-input"
+                    value={description}
+                    onChange={handleDescUpdate}
+                  >
+                  </textarea>
+                </div>
+                <div class="plain-line-editor"></div>
+
+                {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
+                <h3 className="profile-custom">Additional Options</h3>
+                <div className="div-editor-container">
+                  <div className="sample-container">
+                    <h2>Available</h2>
+                      <div 
+                        className='available-divs'
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, 'available')}  
+                      >
 
 
-              {/*Save Button (send customization data to database)*/}
-              <button className="save-button"
-                onClick={handleSaveSettings}
-              >
-                Save Settings
-              </button>
+                        {Object.entries(availableDivs).map(([key, value], index) => {   
+                          return (
+                            <h4 
+                            key={key} 
+                            className="available" 
+                            draggable="true" 
+                            onDragStart={(e) => handleDragStart(e, key, 'available')}
+                            >
+                              {value.name}
+                            </h4>
+                          );
+                        })}
+
+
+                      </div>
+                    </div>
+                  <div className="current-container">
+                    <h2>In Use</h2>
+                      <div 
+                        className='enabled-divs'
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, 'enabled')}
+                        style={{ 
+                          minHeight: '500px', 
+                        }}
+                      >
+
+
+                        {roomConfig.enabledDivs.map((key, index) => {
+                          const divInfo = availableDivs[key];
+
+                          const isSelected = (key === selectedDiv)
+                          return (
+                            <h4 
+                            onClick={(e) => handleSelectDiv(e, key)}
+                            key={`${key}-${index}`} 
+                            className="enabled" 
+                            draggable="true" 
+                            onDragStart={(e) => handleDragStart(e, key, 'enabled')}
+                            style = {{
+                              backgroundColor: isSelected ? "#00000036" : "#ffffff21"
+                            }}
+                            >
+                              {divInfo?.name}
+                            </h4>
+                          );
+                        })}
+
+
+                      </div>
+                  </div>
+
+                </div>
+                <div class="plain-line-editor"></div>
+
+                  {/* Render Selected Divs */}
+                  {roomConfig.enabledDivs.map((divId, index) => {
+                    const isSelected = (divId === selectedDiv);
+                    
+                    if (!isSelected) return null;
+                    
+                    const DivEditor = DivEditors[divId];
+                    
+                    return DivEditor ? (
+                      <DivEditor
+                        key={`${divId}-${index}`}
+                        roomConfig={roomConfig}
+                        handlers={handlers}
+                      />
+                    ) : null;
+                  })}
+
+
+                {/*Save Button (send customization data to database)*/}
+                <button className="save-button"
+                  onClick={handleSaveSettings}
+                  >
+                    Save Settings
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
