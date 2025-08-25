@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 // test bcrypt
 const saltRounds = 12;
-var password = "hello_world!"
+var password = "temp"
 
 bcrypt.genSalt(saltRounds, function(error, salt) {
   bcrypt.hash(password, salt, function(error, hash) {
@@ -16,7 +16,7 @@ bcrypt.genSalt(saltRounds, function(error, salt) {
 });
 
 var password2 = "hello_world"
-var hash = '$2b$10$WvGu293AOmhxdIK78hIn3uvcmcynvVIGQEwtl0BKcvqka4sRqaaf.';
+var hash = '$2b$12$rmocJaugqEYhMMlWp4j3i.76k0tChSjhFq2hPZNYJUZ5.WRqHPFzS';
 
 bcrypt.compare(password, hash, function(error, result) {
   if (result) {

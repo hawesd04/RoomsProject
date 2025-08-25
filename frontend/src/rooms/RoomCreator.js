@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Home } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Eye, EyeClosed } from 'lucide-react';
 import GradientText from '../assets/GradientText';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -66,6 +66,17 @@ function Room() {
   const handleBGSecColorChange = (e) => {
     setBGSecondaryColor(e.target.value);
   };
+
+  const [passInputVisibility1, setPassInput1Visiblity1] = useState(false);
+  const [passInputVisibility2, setPassInput1Visiblity2] = useState(false);
+
+  function togglePassInputVisibility1() {
+    setPassInput1Visiblity1(!passInputVisibility1)
+  }
+
+    function togglePassInputVisibility2() {
+    setPassInput1Visiblity2(!passInputVisibility2)
+  }
 
   const handleSubmit = () => {
     console.log('Submitting room data:', { roomName, profileUrl });
@@ -309,19 +320,31 @@ function Room() {
                     <h3 className="field-label">Enter a password *</h3>
                     <input
                       id="pass-input1"
-                      type="text"
+                      type={passInputVisibility1 ? "text" : "password"} 
                       placeholder="Password"
                       className="form-input"
                     />
+                    <button 
+                      className="toggle-password"
+                      onClick={togglePassInputVisibility1}
+                      >
+                        {passInputVisibility1 ? <Eye></Eye> : <EyeClosed></EyeClosed>}
+                    </button>
                   </div>
                   <div className="form-field">
                     <h3 className="field-label">Re-Enter the password *</h3>
                     <input
                       id="pass-input2"
-                      type="text"
+                      type={passInputVisibility2 ? "text" : "password"} 
                       placeholder="Password"
                       className="form-input"
                     />
+                    <button 
+                      className="toggle-password2"
+                      onClick={togglePassInputVisibility2}
+                      >
+                        {passInputVisibility2 ? <Eye></Eye> : <EyeClosed></EyeClosed>}
+                    </button>
                   </div>
                   {/* Submit button */}
                   <button onClick={handleSubmit} className="submit-btn">

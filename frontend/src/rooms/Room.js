@@ -550,7 +550,7 @@ const handlers = {
                 <div className="logged-in">
                 {/* Color pickers for gradient colors */}
                 <div class="plain-line-editor"></div>
-                <h3 className="text-grad-text">Text Gradient</h3>
+                <h3 className="section-label">Text Gradient</h3>
                 <div className="color-picker-container">
                   <div className="color-picker-item">
                     <label htmlFor="primary-color">Primary Color:</label>
@@ -574,7 +574,7 @@ const handlers = {
                   </div>
                 </div>
                 <div class="plain-line-editor"></div>
-                <h3 className="bg-grad-text">Background Gradient</h3>
+                <h3 className="section-label">Background Gradient</h3>
                 {/* Color pickers for gradient colors */}
                 <div className="color-picker-container">
                   <div className="color-picker-item">
@@ -600,23 +600,23 @@ const handlers = {
                 </div>
                 <div class="plain-line-editor"></div>
 
-                <h3 className="profile-custom">Profile Customization</h3>
+                <h3 className="section-label">Profile Customization</h3>
                 <div className="profile-info-cont">
-                  <label htmlFor="name-input">Name:</label>
+                  <label className="prof-label" htmlFor="name-input">Name:</label>
                   <input
                     id="name-input"
                     value={name}
                     onChange={handleNameUpdate}
                   >
                   </input>
-                  <label htmlFor="pronoun-input">Pronouns:</label>
+                  <label className="prof-label" htmlFor="pronoun-input">Pronouns:</label>
                   <input
                     id="pronoun-input"
                     value={pronouns}
                     onChange={handlePronounUpdate}
                   >
                   </input>
-                  <label htmlFor="pfp-input">Profile Picture:</label>
+                  <label className="prof-label" htmlFor="pfp-input">Profile Picture:</label>
                   <input
                     placeholder='https://website.com/image-link'
                     id="pfp-input"
@@ -624,7 +624,7 @@ const handlers = {
                     onChange={handlePFPUpdate}
                   >
                   </input>
-                  <label htmlFor="desc-input">Bio/Description:</label>
+                  <label className="prof-label" htmlFor="desc-input">Bio/Description:</label>
                   <textarea
                     className="desc-input"
                     placeholder='Enter whatever you would like :)'
@@ -637,7 +637,7 @@ const handlers = {
                 <div class="plain-line-editor"></div>
 
                 {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
-                <h3 className="profile-custom">Additional Options</h3>
+                <h3 className="section-label">Additional Options</h3>
                 <div className="div-editor-container">
                   <div className="sample-container">
                     <h2>Available</h2>

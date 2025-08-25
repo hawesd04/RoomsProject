@@ -228,6 +228,38 @@
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+.toggle-password {
+  width:30px;
+  height:30px;
+  color:rgb(193, 193, 193);
+  border: none;
+  background-color: transparent;
+
+  position:fixed;
+  top: 305px;
+  right: 240px;
+}
+
+.toggle-password2 {
+  width:30px;
+  height:30px;
+  color:rgb(193, 193, 193);
+  border: none;
+  background-color: transparent;
+
+  position:fixed;
+  top: 460px;
+  right: 240px;
+}
+
+.toggle-password2:hover {
+  background-color: transparent;
+}
+
+.toggle-password:hover {
+  background-color: transparent;
+}
+
 .submit-btn {
   width:200px;
   margin-left:auto;
