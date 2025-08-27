@@ -35,7 +35,14 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                     console.error("Error deleting door:", error);
                     alert('Failed to delete door');
                 });
-        }
+            }
+            axios.delete(`http://localhost:5000/api/auth/delete/${door}`).then(response => {
+                console.log('Auth deleted: ', response.data)
+            })
+            .catch(error => {
+                    console.error("Error deleting auth:", error);
+                    alert('Failed to delete auth');
+            })
     };
 
     const handleFrameSwap = (door) => {
@@ -104,17 +111,12 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
         }
     }
 
-    // door hover listener
-    const onDoorHover = (door) => {
-        console.log('hovering over' + door.name);
-    }
-
     // display hallway assets and functionality
     return (
         <Box className="hallways-container">
             <div className="hallways">
                 {/* Hallway Render */}
-                <img className="hallway-image" src={hallwayImage}></img>
+                <img className="hallway-image" src={hallwayImage} alt="hey"></img>
                 {/* Doors in the hallway */}
                 <div className="doors-container">
                     {doors.map((door, doorIndex) => (
@@ -145,6 +147,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                                 onClick={devMode ? () => handleFrameSwap(door) : null}
                                 className='frame-image'
                                 src={door.frameImage}
+                                alt="hey"
                             />
                             {/* Name Text */}
                             <Typography
@@ -170,6 +173,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                                 onMouseOver={(e) => devMode ? null : e.target.src = './HallwayAssets/door_open_single1.png'}
                                 onMouseOut={(e) => devMode ? null : e.target.src = './HallwayAssets/doorsingle.png'}
                                 onClick={devMode ? null : () => handleDoorSelect(door)}
+                                alt="hey"
                                 style={{
                                     cursor: devMode ? 'not-allowed' : 'pointer',
                                     opacity: devMode ? 0.5 : 1

@@ -225,6 +225,55 @@ button:active {
   animation: fadeIn 0.5s ease-out 0.6s both;
 }
 
+.editor-remove-button{
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  margin-top:auto;
+  margin-bottom:auto;
+  align-items: center;
+
+  height:40px;
+  width:40px;
+
+  transition: all 0.3s ease;
+  font-size: 20px;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.editor-remove-button:hover{
+   background-color: rgba(255, 24, 24, 0.455);
+}
+
+.editor-html-button{
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  margin-top:auto;
+  margin-bottom:auto;
+  align-items: center;
+
+  height:40px;
+  width:40px;
+
+  transition: all 0.3s ease;
+  font-size: 20px;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease-out 0.6s both;
+}
+
+.editor-html-button:hover{
+  background-color: rgba(24, 255, 62, 0.455);
+}
 
 .enter-code-button{
   display: flex;
@@ -297,6 +346,18 @@ input:hover {
 input:focus {
   border-color: rgba(255, 255, 255, 0.8);
   background-color: rgba(255, 255, 255, 0.08);
+}
+
+.toggle-roompass {
+  width:30px;
+  height:30px;
+  color:rgb(193, 193, 193);
+  border: none;
+  background-color: transparent;
+
+  position:fixed;
+  right:100px;
+  top:83px;
 }
 
 .desc-input {
@@ -466,6 +527,22 @@ input:focus {
 
   margin-bottom:10px;
   margin-top:10px;
+}
+
+.text-row {
+  margin:auto;
+  text-align: center;
+  height:50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.text-row-text {
+  margin-top:auto;
+  margin-bottom:auto;
+  text-align: center;
 }
 
 

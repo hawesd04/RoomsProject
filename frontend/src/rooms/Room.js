@@ -1,10 +1,9 @@
 import './Room.css';
 import GradientText from '../assets/GradientText';
-import { Button, Typography } from '@mui/material';
-import { Home } from 'lucide-react';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { Home, Eye, EyeClosed } from 'lucide-react';
+import { useNavigate,  } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import DivEditors from './EditableComponents'
 import axios from 'axios'
 
@@ -29,6 +28,14 @@ function Room() {
   const [description, setDescription] = useState(room.assets.description);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [passInputVisibility1, setPassInput1Visiblity1] = useState(false);
+  function togglePassInputVisibility1() {
+    setPassInput1Visiblity1(!passInputVisibility1)
+  }
+
+  const [useHTML, setUseHTML] = useState('false');
+
 
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
@@ -422,7 +429,7 @@ const handlers = {
 
 
 
-  const handleSaveSettings = (event) => {
+  const handleSaveSettings = () => {
     axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
       name: name,
       frameImage: PFP,
@@ -441,6 +448,34 @@ const handlers = {
         console.error("Error updating room:", error);
     });
   };
+
+  const handleToggleHTML = () => {
+    setUseHTML(!useHTML);
+  }
+
+  const handleRemoveRoom = () => {
+            if (window.confirm('Are you sure you want to delete this room?')) {
+              axios.delete(`http://localhost:5000/api/delete/${room._id}`).then(response => {
+                  console.log('Room deleted:', response.data);
+                  
+              })
+                  .catch(error => {
+                      console.error("Error deleting room:", error);
+                      alert('Failed to delete room');
+              });
+              axios.delete(`http://localhost:5000/api/auth/delete/${room.name}`).then(response => {
+                  console.log('Auth deleted: ', response.data)
+              })
+              .catch(error => {
+                      console.error("Error deleting auth:", error);
+                      alert('Failed to delete auth');
+              })
+              handleBackToHallway();
+              }
+              else {
+                return;
+              }
+  }
 
   /* ------------------------ DRAGGING LOGIC ------------------------ */
   const [draggedItem, setDraggedItem] = useState(null);
@@ -465,19 +500,16 @@ const handlers = {
     console.log("drop triggered")
 
     // edge case to manage if you are stupid and whats dropped is not the proper item
-    if (!draggedItem) return;
-
+    if (!draggedItem) {
+      console.log("returned")
+      return;
+    }
     // split dragged into its carried key and source
     const {key, source} = draggedItem;
 
-    for (const enabledDiv of roomConfig.enabledDivs) {
-        if (enabledDiv === key) {
-          return;
-        }
-    };
-
 
     if (targetContainer === 'enabled') {
+      console.log('dropped in enabled')
       // Adding dragged to the enabled divs
       if (source === 'available') {
         setRoomConfig(prev => ({
@@ -486,6 +518,7 @@ const handlers = {
         }));
       }
     } else if (targetContainer === 'available') {
+      console.log('dropped in available')
       // Removing dragged from the enabled divs
       if (source === 'enabled') {
         setSelectedDiv(null);
@@ -533,8 +566,15 @@ const handlers = {
                   <div className="pass-info-cont">
                     <label htmlFor="pass-input">Enter Your Passcode:</label>
                     <input
+                      type= {passInputVisibility1 ? "text" : "password"}
                       id="pass-input"
                     ></input>
+                    <button 
+                      className="toggle-roompass"
+                      onClick={togglePassInputVisibility1}
+                      >
+                        {passInputVisibility1 ? <Eye></Eye> : <EyeClosed></EyeClosed>}
+                    </button>
                     
                   </div>
                   {/*Enter Passcode Button (send customization data to database)*/}
@@ -718,21 +758,55 @@ const handlers = {
                         handlers={handlers}
                       />
                     ) : null;
+                    
                   })}
 
 
                 {/*Save Button (send customization data to database)*/}
+                <h3 className="section-label">Advanced Options</h3>
+                <div className="profile-info-cont">
+                  <div className="text-row">
+                    <h6 className="text-row-text">Remove Room: </h6>
+                    <button 
+                      className="editor-remove-button"
+                      onClick={handleRemoveRoom}
+                      >
+                        🗑️
+                      </button>
+                  </div>
+                  <div className="text-row">
+                    <h6 className="text-row-text">Use Custom HTML: </h6>
+                    <button 
+                      className="editor-html-button"
+                      onClick={handleToggleHTML}
+                      sx={{
+                        backgroundColor: useHTML ? "blue" :"green"
+                      }}
+                      >
+                        {useHTML ? "✘":"✔"}
+                      </button>
+                  </div>
+
+
+                </div>
+                <h3 className="section-label">Save Settings</h3>
                 <button className="save-button"
                   onClick={handleSaveSettings}
                   >
                     Save Settings
-                  </button>
-                </div>
+                </button>
+              </div>
               )}
             </div>
           </div>
 
-        {/* Main Content Display Card */}
+
+
+
+
+
+
+        {/* --------------------------------- Main Content Display Card -------------------------------- */}
         <div className="main-content">
           <div className="main-card-section">
 

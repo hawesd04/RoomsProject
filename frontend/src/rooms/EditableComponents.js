@@ -4,7 +4,7 @@ import './EditableComponents.css'
 export const DivEditors = {
   'wide-text': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label htmlFor="widetext-input">Wide Text:</label>
+      <label className="prof-label" htmlFor="widetext-input">Wide Text:</label>
       <textarea
         className="widetext-input"
         placeholder='Enter whatever you would like :)'
@@ -16,7 +16,7 @@ export const DivEditors = {
 
   'banner-wide': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label htmlFor="banner-input">Banner Image URL:</label>
+      <label className="prof-label" htmlFor="banner-input">Banner Image URL:</label>
       <input
         type="text"
         className="banner-input"
@@ -29,7 +29,7 @@ export const DivEditors = {
 
   'tri-text': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label>Three Column Text:</label>
+      <label className="prof-label" >Three Column Text:</label>
       <textarea
         className="widetext-input"
         type="text"
@@ -56,7 +56,7 @@ export const DivEditors = {
 
     'tri-text-labeled': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label>Labeled Three Column Text</label>
+      <label className="prof-label">Labeled Three Column Text</label>
       <input
         type="label"
         placeholder="Label 1"
@@ -101,7 +101,7 @@ export const DivEditors = {
 
   'image-text-text': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label>Image + Text + Text:</label>
+      <label className="prof-label">Image + Text + Text:</label>
       <input
         type="text"
         className="banner-input"
@@ -128,7 +128,7 @@ export const DivEditors = {
 
     'text-image-text': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label>Text + Image + Text:</label>
+      <label className="prof-label">Text + Image + Text:</label>
       <textarea
         className="widetext-input"
         type="text"
@@ -155,7 +155,7 @@ export const DivEditors = {
 
   'text-text-image': ({ roomConfig, handlers }) => (
     <div className="component-info-cont">
-      <label>Text + Text + Image:</label>
+      <label className="prof-label">Text + Text + Image:</label>
       <textarea
         className="widetext-input"
         type="text"

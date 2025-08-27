@@ -154,6 +154,32 @@ router.post('/auth/login', async (req, res) => {
   }
 })
 
+// Delete authentication
+router.delete('/auth/delete/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    
+    console.log("Attempting to delete auth with name:", name);
+    
+    // Delete a door in the collection
+    const result = await authModel.deleteOne({ name: name });
+    
+    console.log("Delete result:", result);
+    
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Auth not found' });
+    }
+    
+    res.status(200).json({ 
+      message: 'Auth deleted successfully',
+    });
+  } 
+  catch (error) {
+    console.error("Error deleting auth:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update a DOOR in the backend ----------------------------------------------------------------
 router.put('/update/:id', async (req, res) => {
   console.log('Route /update/:id has been registered');
