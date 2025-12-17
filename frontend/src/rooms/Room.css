@@ -451,7 +451,7 @@ input:focus {
   border-radius: 6px;
 }
 
-/* Additional Options and Beyond */
+/* Additional Options */
 .div-editor-container {
   margin-bottom:20px;
   display:flex; 
@@ -461,7 +461,6 @@ input:focus {
   height: 100%;
   border-radius: 1.2rem;
 }
-/* Sample Contents */
 .sample-container {
   min-height:200px;
   max-height:400px;
@@ -475,9 +474,9 @@ input:focus {
   flex-direction: column;
   border-radius: 1.2rem;
   background-color: #00000015;
+  scrollbar-width: none;
 
 }
-/* Current Array Contents (enabled divs) */
 .current-container {
   min-height:200px;
   max-height:400px;
@@ -491,6 +490,7 @@ input:focus {
   flex-direction: column;
   border-radius: 1.2rem;
   background-color: #00000015;
+  scrollbar-width: none;
 }
 
 .available{
@@ -676,6 +676,7 @@ input:focus {
   animation: fadeIn 0.6s ease-out 0.55s both;
   margin-bottom: -50px;
   font-size: 1.1rem;
+  scrollbar-width: none; /* Firefox */
 }
 
 .description::-webkit-scrollbar {

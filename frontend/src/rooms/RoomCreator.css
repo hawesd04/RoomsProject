@@ -252,11 +252,19 @@
   right: 240px;
 }
 
-.toggle-password2:hover {
+.toggle-secret {
+  width:30px;
+  height:30px;
+  color:rgb(193, 193, 193);
+  border: none;
   background-color: transparent;
+
+  position:fixed;
+  top: 460px;
+  right: 240px;
 }
 
-.toggle-password:hover {
+.toggle-password2:hover .toggle-password:hover .toggle-secret:hover{
   background-color: transparent;
 }
 

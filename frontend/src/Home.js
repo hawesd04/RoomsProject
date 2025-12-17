@@ -78,7 +78,7 @@ function Home() {
 
     Includes passcode system
   */
-  const handleDevModeToggle = () => {
+  const handleDevModeToggle = async () => {
     if (correctPass === true) {
       if (devMode === true) {
         setDevMode(false);
@@ -90,12 +90,30 @@ function Home() {
     else {
       let userInput = prompt("Enter the dev passcode: ");
       if (userInput !== null && userInput !== "") {
-        if (userInput == "temp") {
-          setDevMode(true);
-          setCorrectPass(true);
+        try {
+        const response = await fetch(`http://localhost:5000/api/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+            body: JSON.stringify({ 
+              name: "master",
+              enteredPass: userInput  
+            }),
+          });
+
+          if(!response.ok) {
+            alert('incorrect dev password');
+            return;
+          }
+          else {
+            setDevMode(true)
+            setCorrectPass(true)
+          }
         }
-        else {
-          alert("incorrect passcode");
+        catch (error) {
+          console.error('devmode login failed: ', error)
+          return;
         }
       }
       else {

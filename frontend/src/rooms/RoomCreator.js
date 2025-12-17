@@ -10,6 +10,9 @@ function Room() {
   const root = document.documentElement;
 
   const [roomName, setRoomName] = useState('');
+  const [passcode1, setPasscode1] = useState('');
+  const [passcode2, setPasscode2] = useState('');
+  const [secret, setSecret] = useState('');
   const [profileUrl, setProfileUrl] = useState('');
   const [pronouns, setPronouns] = useState('');
   const [description, setDescription] = useState('');
@@ -36,7 +39,7 @@ function Room() {
   const handlePageRight = () => {
     let nextpage = parseInt(currPage) + 1
     console.log('Curr page: ' + currPage + ", page right triggered");
-    if (nextpage >= 5 ) {
+    if (nextpage >= 6 ) {
       return;
     }
     setCurrPage(nextpage);
@@ -69,26 +72,51 @@ function Room() {
 
   const [passInputVisibility1, setPassInput1Visiblity1] = useState(false);
   const [passInputVisibility2, setPassInput1Visiblity2] = useState(false);
+  const [secretInputVisibility, setSecretInputVisibility] = useState(false);
 
   function togglePassInputVisibility1() {
     setPassInput1Visiblity1(!passInputVisibility1)
   }
 
-    function togglePassInputVisibility2() {
+  function togglePassInputVisibility2() {
     setPassInput1Visiblity2(!passInputVisibility2)
   }
 
-  const handleSubmit = () => {
-    console.log('Submitting room data:', { roomName, profileUrl });
+  function toggleSecretInputVisibility() {
+    setSecretInputVisibility(!secretInputVisibility)
+  }
 
-    const passcode1 = (document.getElementById('pass-input1')).value;
-    const passcode2 = (document.getElementById('pass-input2')).value;
+  const handleSubmit = async () => {
+    console.log('Submitting room data:', { roomName, profileUrl });
     
     if (passcode1!==passcode2) {
       alert("passwords dont match")
       console.log("passwords dont match")
       return;
     }
+
+    try {
+    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({ 
+          name: "creationcode",
+          enteredPass: secret  
+        }),
+      });
+
+      if(!response.ok) {
+        alert('incorrect secret code');
+        return;
+      }  
+    }
+    catch (error) {
+      console.error('room creation failed: ', error)
+      return;
+    }
+
 
     axios.post(`http://localhost:5000/api/auth/hashnew`, {
       name: roomName,
@@ -178,7 +206,7 @@ function Room() {
             
             <div className="card-content">
               <h2 className="page-num">
-                {currPage}/4
+                {currPage}/5
               </h2>
 
 
@@ -320,7 +348,9 @@ function Room() {
                     <h3 className="field-label">Enter a password *</h3>
                     <input
                       id="pass-input1"
-                      type={passInputVisibility1 ? "text" : "password"} 
+                      type={passInputVisibility1 ? "text" : "password"}
+                      value={passcode1}
+                      onChange={(e) => setPasscode1(e.target.value)} 
                       placeholder="Password"
                       className="form-input"
                     />
@@ -336,6 +366,8 @@ function Room() {
                     <input
                       id="pass-input2"
                       type={passInputVisibility2 ? "text" : "password"} 
+                      value={passcode2}
+                      onChange={(e) => setPasscode2(e.target.value)}
                       placeholder="Password"
                       className="form-input"
                     />
@@ -344,6 +376,38 @@ function Room() {
                       onClick={togglePassInputVisibility2}
                       >
                         {passInputVisibility2 ? <Eye></Eye> : <EyeClosed></EyeClosed>}
+                    </button>
+                  </div>
+                  {/* Submit button */}
+                  <button onClick={handleSubmit} className="submit-btn">
+                    Create Room
+                  </button>
+                </div>
+              )}
+              {/* Page 5 */}
+              {currPage === 5 && (
+                <div className="form-container">
+                  <div className="form-field">
+                    <h3 className="field-label">To make sure only pogchat members can create rooms, we have
+                      a secret passcode that we all know and love dearly. Provide this key to finish creating
+                      your room!
+                    </h3>
+                  </div>
+                  <div className="form-field">
+                    <h3 className="field-label">Enter the secret room creation code:</h3>
+                    <input
+                      id="secret-input"
+                      type={secretInputVisibility ? "text" : "password"} 
+                      value={secret}
+                      onChange={(e) => setSecret(e.target.value)}
+                      placeholder="secret code"
+                      className="form-input"
+                    />
+                    <button 
+                      className="toggle-secret"
+                      onClick={toggleSecretInputVisibility}
+                      >
+                        {secretInputVisibility ? <Eye></Eye> : <EyeClosed></EyeClosed>}
                     </button>
                   </div>
                   {/* Submit button */}

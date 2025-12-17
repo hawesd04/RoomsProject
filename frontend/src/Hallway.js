@@ -36,13 +36,13 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                     alert('Failed to delete door');
                 });
             }
-            axios.delete(`http://localhost:5000/api/auth/delete/${door}`).then(response => {
+            axios.delete(`http://localhost:5000/api/auth/delete/${door.name}`).then(response => {
                 console.log('Auth deleted: ', response.data)
             })
             .catch(error => {
                     console.error("Error deleting auth:", error);
                     alert('Failed to delete auth');
-            })
+        })
     };
 
     const handleFrameSwap = (door) => {
