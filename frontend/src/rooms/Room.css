@@ -137,23 +137,27 @@ input[type="range"] {
   background: transparent;
 }
 
-/* WebKit track */
+/* Style the track (the part before the thumb) */
 input[type="range"]::-webkit-slider-runnable-track {
   height: 6px;
-  background: #555;
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  z-index: -0;
 }
 
-/* WebKit thumb */
+/* Style the thumb */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
+  cursor: pointer;
   margin-top: -4px;
-  box-shadow: -100vw 0 0 100vw var(--Secondary-color);
+  position: relative;
 }
+
+
 
 /* Firefox */
 input[type="range"]::-moz-range-track {
