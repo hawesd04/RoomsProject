@@ -8,6 +8,7 @@ import './RoomCreator.css';
 function Room() {
 
   const root = document.documentElement;
+  const url = "https://pogchat-suite.onrender.com"
 
   const [roomName, setRoomName] = useState('');
   const [passcode1, setPasscode1] = useState('');
@@ -23,13 +24,13 @@ function Room() {
   const [BGprimaryColor, setBGPrimaryColor] = useState('#1f2257');
   const [BGsecondaryColor, setBGSecondaryColor] = useState('#1e1f31');
 
+  const [isCreating, setIsCreating] = useState(false);
+
   console.log(BGsecondaryColor)
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
 
   const [currPage, setCurrPage] = useState(1);
-
-  const url = "https://pogchat-suite.onrender.com"
 
   const navigate = useNavigate();
 
@@ -97,6 +98,7 @@ function Room() {
       return;
     }
 
+    setIsCreating(true);
     try {
     const response = await fetch(url + `/api/auth/login`, {
       method: 'POST',
@@ -117,6 +119,9 @@ function Room() {
     catch (error) {
       console.error('room creation failed: ', error)
       return;
+    }
+    finally {
+      setIsCreating(false);
     }
 
 
@@ -179,8 +184,17 @@ function Room() {
 
   return (
     <div className="room-creator">
-      {/* Background decoration */}
+      {/* Background */}
       <div className="background-custom" />
+
+      <>
+        {isCreating && (
+          <div className="loading-overlay">
+            <div className="spinner"></div>
+            <h6>Creating room...</h6>
+          </div>
+        )}
+      </>
       
       {/* Header with back button */}
       <div className="header-nav">
@@ -380,10 +394,6 @@ function Room() {
                         {passInputVisibility2 ? <Eye></Eye> : <EyeClosed></EyeClosed>}
                     </button>
                   </div>
-                  {/* Submit button */}
-                  <button onClick={handleSubmit} className="submit-btn">
-                    Create Room
-                  </button>
                 </div>
               )}
               {/* Page 5 */}
@@ -413,7 +423,11 @@ function Room() {
                     </button>
                   </div>
                   {/* Submit button */}
-                  <button onClick={handleSubmit} className="submit-btn">
+                  <button 
+                    onClick={handleSubmit} 
+                    disabled={isCreating}
+                    className="submit-btn"
+                  >
                     Create Room
                   </button>
                 </div>

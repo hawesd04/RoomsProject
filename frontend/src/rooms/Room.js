@@ -16,6 +16,8 @@ function Room() {
   const location = useLocation();
   const room = location.state?.doorData;
 
+  const url = "https://pogchat-suite.onrender.com"
+
   // State for gradient colors with fallback defaults
   const [primaryColor, setPrimaryColor] = useState('#ffffff');
   const [secondaryColor, setSecondaryColor] = useState('#777777');
@@ -43,10 +45,10 @@ function Room() {
     setPassInput1Visiblity1(!passInputVisibility1)
   }
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [useHTML, setUseHTML] = useState(room.assets.useHTML);
   const [renderSnow, setRenderSnow] = useState(room.assets.renderSnow);
-
-  const url = "https://pogchat-suite.onrender.com"
 
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
@@ -327,6 +329,7 @@ function Room() {
   const handleLogin = async () => {
     const passcode = (document.getElementById('pass-input')).value;
 
+  setIsLoading(true);
   try {
     const response = await fetch(url + `/api/auth/login`, {
       method: 'POST',
@@ -340,16 +343,18 @@ function Room() {
     });
 
     if(response.ok) {
+      setIsLoading(false);
       console.log('Logged into room successfully!')
       setIsLoggedIn(true);
     }
     else {
+      setIsLoading(false);
       alert('incorrect password');
     }  
   }
   catch (error) {
+    setIsLoading(false);
     console.error('login failed: ', error)
-    
   }
 };
 
@@ -445,6 +450,7 @@ const handlers = {
 
 
   const handleSaveSettings = () => {
+    setIsLoading(true);
     axios.put(url + `/api/updateRoom/${room._id}`, {
       name: name,
       frameImage: PFP,
@@ -465,9 +471,11 @@ const handlers = {
       musicImg: musicImg,
     })
       .then(response => {
+        setIsLoading(false);
         console.log("Successfully updating room:");
     })
       .catch(error => {
+        setIsLoading(false);
         console.error("Error updating room:", error);
     });
   };
@@ -484,27 +492,30 @@ const handlers = {
   }
 
   const handleRemoveRoom = () => {
-            if (window.confirm('Are you sure you want to delete this room?')) {
-              axios.delete(url + `/api/delete/${room._id}`).then(response => {
-                  console.log('Room deleted:', response.data);
-                  
-              })
-                  .catch(error => {
-                      console.error("Error deleting room:", error);
-                      alert('Failed to delete room');
-              });
-              axios.delete(url + `/api/auth/delete/${room.name}`).then(response => {
-                  console.log('Auth deleted: ', response.data)
-              })
-              .catch(error => {
-                      console.error("Error deleting auth:", error);
-                      alert('Failed to delete auth');
-              })
-              handleBackToHallway();
-              }
-              else {
-                return;
-              }
+    setIsLoading(true);
+    if (window.confirm('Are you sure you want to delete this room?')) {
+      axios.delete(url + `/api/delete/${room._id}`).then(response => {
+          console.log('Room deleted:', response.data);
+          
+      })
+          .catch(error => {
+              console.error("Error deleting room:", error);
+              alert('Failed to delete room');
+      });
+      axios.delete(url + `/api/auth/delete/${room.name}`).then(response => {
+          console.log('Auth deleted: ', response.data)
+      })
+      .catch(error => {
+              console.error("Error deleting auth:", error);
+              alert('Failed to delete auth');
+      })
+    setIsLoading(false);
+    handleBackToHallway();
+    }
+    else {
+      setIsLoading(false);
+      return;
+    }
   }
 
   /* ------------------------ DRAGGING LOGIC ------------------------ */
@@ -578,6 +589,15 @@ const handlers = {
     <div className="Room">
       <div className="background-custom" />
 
+      <>
+        {isLoading && (
+          <div className="loading-overlay">
+            <div className="spinner"></div>
+            <h6>Loading...</h6>
+          </div>
+        )}
+      </>
+
         {/* Background Music */}
         {useBGMusic && bgMusicUrl && (
           <audio
@@ -645,9 +665,10 @@ const handlers = {
                     </button>
                     
                   </div>
-                  {/*Enter Passcode Button (send customization data to database)*/}
+                  {/* Enter Passcode Button */}
                   <button className="enter-code-button"
                     onClick={handleLogin}
+                    disabled={isLoading}
                   >
                     Enter Password
                   </button>
@@ -925,6 +946,7 @@ const handlers = {
                 <h3 className="section-label">Save Settings</h3>
                 <button className="save-button"
                   onClick={handleSaveSettings}
+                  disabled={isLoading}
                   >
                     Save Settings
                 </button>

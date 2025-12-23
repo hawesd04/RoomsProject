@@ -15,7 +15,7 @@ function About() {
 
   return (
     <div className="temp">
-        <background></background>
+        <div className="background" />
         {/* Header with back button */}
         <div className="header-nav">
             <button onClick={handleBackToHallway} className="back-to-hallway-btn">
@@ -24,7 +24,7 @@ function About() {
             </button>
         </div>
 
-        <div className="about-cont">=
+        <div className="about-cont">
             <h2>pogchat 🔥🔥💯</h2>
             <img
                 src={"./pogfish_transparent.png"}
