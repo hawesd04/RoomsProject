@@ -6,6 +6,9 @@ import { Button, Typography } from '@mui/material'
 import VariableProximity from './assets/VariableProximity';
 import Snowfall from 'react-snowfall'
 import './Home.css';
+
+const url = "https://pogchat-suite.onrender.com"
+const localhost = "http://localhost:5000/api/data"
 /*
   Website Homepage, this is where you view the hallways and all parts of the web page!
   This is essentially "the top" of the program, the file highest up in the heirarchy,
@@ -44,7 +47,7 @@ function Home() {
     Grabs the data from the database and sets the initial door list with each door
   */
   useEffect(() => {
-    axios.get("http://localhost:5000/api/data")
+    axios.get(url)
     .then(response => {
       setInitialDoors(response.data);
     })
@@ -96,7 +99,7 @@ function Home() {
       let userInput = prompt("Enter the dev passcode: ");
       if (userInput !== null && userInput !== "") {
         try {
-        const response = await fetch(`http://localhost:5000/api/auth/login`, {
+        const response = await fetch(url + `/api/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

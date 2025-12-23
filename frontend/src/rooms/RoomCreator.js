@@ -29,6 +29,8 @@ function Room() {
 
   const [currPage, setCurrPage] = useState(1);
 
+  const url = "https://pogchat-suite.onrender.com"
+
   const navigate = useNavigate();
 
   const handleBackToHallway = () => {
@@ -96,7 +98,7 @@ function Room() {
     }
 
     try {
-    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    const response = await fetch(url + `/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +120,7 @@ function Room() {
     }
 
 
-    axios.post(`http://localhost:5000/api/auth/hashnew`, {
+    axios.post(url + `/api/auth/hashnew`, {
       name: roomName,
       password: passcode1,
     })
@@ -136,7 +138,7 @@ function Room() {
     // load image to check validity
     img.onload = () => {
       if (roomName !== null && roomName.trim() !== "") {
-      axios.post(`http://localhost:5000/api/create`, {
+      axios.post(url + `/api/create`, {
         name: roomName,
         frameImage: profileUrl ,
         pronouns: pronouns,
@@ -159,7 +161,7 @@ function Room() {
     // If Image link is invalid, use fallback image
     img.onerror = function() {
       if (roomName !== null && roomName.trim() !== "") {
-      axios.post(`http://localhost:5000/api/create`, {
+      axios.post(url + `/api/create`, {
         name: roomName,
         frameImage: 'https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg'
       })

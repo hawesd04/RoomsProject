@@ -3,6 +3,9 @@ import { Box, Typography, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+    const url = "https://pogchat-suite.onrender.com"
+// const localhost = "http://localhost:5000/api/data"
+
 /*
     Hallway Class
 
@@ -26,7 +29,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
     const handleRemoveRoom = (door) => {
 
         if (window.confirm('Are you sure you want to delete this door?')) {
-            axios.delete(`http://localhost:5000/api/delete/${door._id}`).then(response => {
+            axios.delete(url + `/api/delete/${door._id}`).then(response => {
 
                 console.log('Door deleted:', response.data);
                 onRemoveDoor(door._id);
@@ -36,7 +39,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                     alert('Failed to delete door');
                 });
             }
-            axios.delete(`http://localhost:5000/api/auth/delete/${door.name}`).then(response => {
+            axios.delete(url + `/api/auth/delete/${door.name}`).then(response => {
             })
             .catch(error => {
                     console.error("Error deleting auth:", error);
@@ -60,7 +63,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
             else {
                 // CODE TO PUSH REQUEST NEW IMAGE TO DATABASE
 
-                axios.put(`http://localhost:5000/api/update/${door._id}`, {
+                axios.put(url + `/api/update/${door._id}`, {
                     name: door.name,
                     frameImage: userInput
                 })
@@ -77,7 +80,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
         img.onerror = function() {
         // This code executes when an error occurs during image loading
         console.error("Image failed to load!");
-            axios.put(`http://localhost:5000/api/update/${door._id}`, {
+            axios.put(url + `/api/update/${door._id}`, {
                 name: door.name,
                 frameImage: "https://www.wolflair.com/wp-content/uploads/2017/01/placeholder.jpg"
             })
@@ -96,7 +99,7 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
         let userInput = prompt("enter a new name for this room: ")
         if (userInput !== null && userInput !== "") {
 
-            axios.put(`http://localhost:5000/api/update/${door._id}`, {
+            axios.put(url + `/api/update/${door._id}`, {
                 name: userInput,
                 frameImage: door.frameImage,
             })

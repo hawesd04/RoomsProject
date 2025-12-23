@@ -46,6 +46,7 @@ function Room() {
   const [useHTML, setUseHTML] = useState(room.assets.useHTML);
   const [renderSnow, setRenderSnow] = useState(room.assets.renderSnow);
 
+  const url = "https://pogchat-suite.onrender.com"
 
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
@@ -327,7 +328,7 @@ function Room() {
     const passcode = (document.getElementById('pass-input')).value;
 
   try {
-    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    const response = await fetch(url + `/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -444,7 +445,7 @@ const handlers = {
 
 
   const handleSaveSettings = () => {
-    axios.put(`http://localhost:5000/api/updateRoom/${room._id}`, {
+    axios.put(url + `/api/updateRoom/${room._id}`, {
       name: name,
       frameImage: PFP,
       pronouns: pronouns,
@@ -484,7 +485,7 @@ const handlers = {
 
   const handleRemoveRoom = () => {
             if (window.confirm('Are you sure you want to delete this room?')) {
-              axios.delete(`http://localhost:5000/api/delete/${room._id}`).then(response => {
+              axios.delete(url + `/api/delete/${room._id}`).then(response => {
                   console.log('Room deleted:', response.data);
                   
               })
@@ -492,7 +493,7 @@ const handlers = {
                       console.error("Error deleting room:", error);
                       alert('Failed to delete room');
               });
-              axios.delete(`http://localhost:5000/api/auth/delete/${room.name}`).then(response => {
+              axios.delete(url + `/api/auth/delete/${room.name}`).then(response => {
                   console.log('Auth deleted: ', response.data)
               })
               .catch(error => {
