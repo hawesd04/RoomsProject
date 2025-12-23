@@ -16,7 +16,7 @@ function Room() {
   const location = useLocation();
   const room = location.state?.doorData;
 
-  const url = "https://pogchat-suite.onrender.com"
+  const url = "http://localhost:5000"
 
   // State for gradient colors with fallback defaults
   const [primaryColor, setPrimaryColor] = useState('#ffffff');
@@ -31,7 +31,34 @@ function Room() {
   const [description, setDescription] = useState(room.assets.description);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [customHTML, setCustomHTML] = useState(room.assets.customHTML);
+  const [customCSS, setCustomCSS] = useState(room.assets.customCSS);
+  const [customJS, setCustomJS] = useState(room.assets.customJS);
+
+const [combined, setCombined] = useState('');
+
+useEffect(() => {
+  setCombined(`
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+${customCSS}
+    </style>
+  </head>
+  <body>
+${customHTML}
+
+<script>
+${customJS}
+</script>
+  </body>
+</html>
+`);
+}, [customHTML, customCSS, customJS]);
 
   const [bgMusicUrl, setBgMusicUrl] = useState(room.assets.bgMusicUrl || '');
   const [useBGMusic, setUseBGMusic] = useState(room.assets.useBGMusic || false);
@@ -313,9 +340,19 @@ function Room() {
     setDescription(e.target.value);
   };
 
-    const handleCustomHTMLUpdate = (e) => {
+  const handleCustomHTMLUpdate = (e) => {
     setCustomHTML(e.target.value);
+    console.log(combined);
   };
+      const handleCustomCSSUpdate = (e) => {
+    setCustomCSS(e.target.value);
+    console.log(combined);
+  };
+      const handleCustomJSUpdate = (e) => {
+    setCustomJS(e.target.value);
+    console.log(combined);
+  };
+  
 
   // Handle background primary and secondary
   const handleBGPrimColorChange = (e) => {
@@ -464,6 +501,8 @@ const handlers = {
       renderSnow: renderSnow,
       useHTML: useHTML,
       customHTML: customHTML,
+      customCSS: customCSS,
+      customJS: customJS,
       useBGMusic: useBGMusic,
       bgMusicUrl: bgMusicUrl,
       musicArtist: musicArtist,
@@ -610,30 +649,32 @@ const handlers = {
             }}
           />
         )}
-        <div className="mp">
-          <label className="label">Volume: {(musicVolume * 100).toFixed(0)}%</label>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={musicVolume}
-            onChange={(e) => setMusicVolume(Number(e.target.value))}
-            style={{ width: "100%" }}
-          />
-          <div className="music-row">
-            <img 
-              className = "music-img"
-              src={musicImg}
+        {useBGMusic === true && (
+          <div className="mp">
+            <label className="label">Volume: {(musicVolume * 100).toFixed(0)}%</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={musicVolume}
+              onChange={(e) => setMusicVolume(Number(e.target.value))}
+              style={{ width: "100%" }}
             />
-            <div className="song-artist">
-              <label className ="label-song"> {musicName}</label>
-              <label className ="label-artist"> {musicArtist}</label>
-            </div>
+            <div className="music-row">
+              <img 
+                className = "music-img"
+                src={musicImg}
+              />
+              <div className="song-artist">
+                <label className ="label-song"> {musicName}</label>
+                <label className ="label-artist"> {musicArtist}</label>
+              </div>
 
+            </div>
+            
           </div>
-          
-        </div>
+        )}
 
           {/* Header with back button */}
           <div className="header-nav">
@@ -941,6 +982,27 @@ const handlers = {
                       >
                       </textarea>
 
+                      <label className="prof-label" htmlFor="desc-input">Custom CSS:</label>
+                      <textarea
+                        className="html-input"
+                        placeholder='Enter your CSS code here'
+                        id="css-input"
+                        value={customCSS}
+                        onChange={handleCustomCSSUpdate}
+                      >
+                      </textarea>
+
+                      
+                      <label className="prof-label" htmlFor="desc-input">Custom JavaScript:</label>
+                      <textarea
+                        className="html-input"
+                        placeholder='Enter your JavaScript code here'
+                        id="js-input"
+                        value={customJS}
+                        onChange={handleCustomJSUpdate}
+                      >
+                      </textarea>
+
                   </div>)}
                 </div>
                 <h3 className="section-label">Save Settings</h3>
@@ -955,16 +1017,16 @@ const handlers = {
             </div>
           </div>
 
-
-
         {/* ------------------------------ Custom HTML iFRAME Below Editor ----------------------------- */}
         {useHTML === true && (
           <iframe 
             className="html-overlay" 
             sandbox="allow-scripts"
-            srcDoc={customHTML}
+            srcDoc={combined}
           />
         )}
+
+
 
 
         {/* --------------------------------- Main Content Display Card -------------------------------- */}

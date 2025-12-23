@@ -202,10 +202,10 @@ router.put('/updateRoom/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description, roomConfig, 
-      renderSnow, useHTML, customHTML, bgMusicUrl, useBGMusic, musicArtist, musicImg, musicName} = req.body;
+      renderSnow, useHTML, customHTML, customCSS, customJS, bgMusicUrl, useBGMusic, musicArtist, musicImg, musicName} = req.body;
     
     console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description, 
-      renderSnow, useHTML, customHTML, useBGMusic, bgMusicUrl, musicArtist, musicName, musicImg, roomConfig });
+      renderSnow, useHTML, customHTML, customCSS, useBGMusic, bgMusicUrl, musicArtist, musicName, musicImg, roomConfig });
     
     // actually update one of the instances in the collection
     const result = await Doormodel.updateOne(
@@ -228,6 +228,8 @@ router.put('/updateRoom/:id', async (req, res) => {
             renderSnow: renderSnow,
             useHTML: useHTML,
             customHTML: customHTML,
+            customCSS: customCSS,
+            customJS: customJS,
             useBGMusic: useBGMusic,
             bgMusicUrl: bgMusicUrl,
             musicName: musicName,

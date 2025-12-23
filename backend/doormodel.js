@@ -13,6 +13,8 @@ const doorSchema = new Schema({
     useHTML: Boolean,
     renderSnow: Boolean,
     customHTML: String,
+    customCSS: String,
+    customJS: String,
     useBGMusic: Boolean,
     bgMusicUrl: String,
     musicName: String,
