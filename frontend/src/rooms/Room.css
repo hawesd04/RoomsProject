@@ -57,6 +57,10 @@ html, body {
   overflow: hidden;
 }
 
+.snow {
+  z-index: 50;
+}
+
 .background-custom {
   position: absolute;
   top: 0;
