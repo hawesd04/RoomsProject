@@ -16,7 +16,7 @@ function Room() {
   const location = useLocation();
   const room = location.state?.doorData;
 
-  const url = "http://localhost:5000"
+  const url = "https://pogchat-suite.onrender.com";
 
   // State for gradient colors with fallback defaults
   const [primaryColor, setPrimaryColor] = useState('#ffffff');

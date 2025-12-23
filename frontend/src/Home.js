@@ -7,8 +7,8 @@ import VariableProximity from './assets/VariableProximity';
 import Snowfall from 'react-snowfall'
 import './Home.css';
 
-// const url = "https://pogchat-suite.onrender.com"
-const url = "http://localhost:5000"
+const url = "https://pogchat-suite.onrender.com";
+// const url = "http://localhost:5000"
 /*
   Website Homepage, this is where you view the hallways and all parts of the web page!
   This is essentially "the top" of the program, the file highest up in the heirarchy,
