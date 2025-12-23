@@ -5,36 +5,6 @@ const Doormodel = require('./doormodel');
 const authModel = require('./authmodel');
 const bcrypt = require('bcryptjs');
 
-// test bcrypt
-const saltRounds = 12;
-var password = "temp"
-
-bcrypt.genSalt(saltRounds, function(error, salt) {
-  bcrypt.hash(password, salt, function(error, hash) {
-    console.log(hash)
-  });
-});
-
-var password2 = "hello_world"
-var hash = '$2b$12$rmocJaugqEYhMMlWp4j3i.76k0tChSjhFq2hPZNYJUZ5.WRqHPFzS';
-
-bcrypt.compare(password, hash, function(error, result) {
-  if (result) {
-    console.log("password " + password + " matches " + hash)
-  }
-  else {
-    console.log("password " + password + " does not match hash " + hash)
-  }
-})
-
-bcrypt.compare(password2, hash, function(error, result) {
-  if (result) {
-    console.log("password " + password2 + " matches " + hash)
-  }
-  else {
-    console.log("password " + password2 + " does not match hash " + hash)
-  }
-})
 
 // Initialize express app
 const app = express();
