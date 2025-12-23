@@ -47,7 +47,7 @@ function Home() {
     Grabs the data from the database and sets the initial door list with each door
   */
   useEffect(() => {
-    axios.get(url)
+    axios.get(url + `/api/data`)
     .then(response => {
       setInitialDoors(response.data);
     })
