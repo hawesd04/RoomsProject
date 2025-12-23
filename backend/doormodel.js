@@ -9,7 +9,15 @@ const doorSchema = new Schema({
     pronouns: String,
     description: String,
     textGradColors: {primary: String, secondary: String},
-    bgGradColors: {primary: String, secondary: String}
+    bgGradColors: {primary: String, secondary: String},
+    useHTML: Boolean,
+    renderSnow: Boolean,
+    customHTML: String,
+    useBGMusic: Boolean,
+    bgMusicUrl: String,
+    musicName: String,
+    musicArtist: String,
+    musicImg: String,
   },
   authentication: {
     hash: String

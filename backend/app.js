@@ -231,9 +231,11 @@ router.put('/updateRoom/:id', async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description, roomConfig} = req.body;
+    const { name, frameImage, pronouns, primary, secondary, bgPrimary, bgSecondary, description, roomConfig, 
+      renderSnow, useHTML, customHTML, bgMusicUrl, useBGMusic, musicArtist, musicImg, musicName} = req.body;
     
-    console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description, roomConfig});
+    console.log("Attempting to update with:", { primary, secondary, bgPrimary, bgSecondary, pronouns, description, 
+      renderSnow, useHTML, customHTML, useBGMusic, bgMusicUrl, musicArtist, musicName, musicImg, roomConfig });
     
     // actually update one of the instances in the collection
     const result = await Doormodel.updateOne(
@@ -252,7 +254,15 @@ router.put('/updateRoom/:id', async (req, res) => {
             bgGradColors: {
               primary: bgPrimary,
               secondary: bgSecondary
-            }
+            },
+            renderSnow: renderSnow,
+            useHTML: useHTML,
+            customHTML: customHTML,
+            useBGMusic: useBGMusic,
+            bgMusicUrl: bgMusicUrl,
+            musicName: musicName,
+            musicImg: musicImg,
+            musicArtist: musicArtist,
           },
           'roomConfig': roomConfig  
         }
@@ -318,6 +328,9 @@ router.post('/create', async (req, res) => {
       assets: {
         pronouns: pronouns || 'they/them',
         description: description || '[placeholder]',
+        useHTML: false,
+        useBGMusic: false,
+        renderSnow: false,
         textGradColors: {
           primary: primary || '#ffffff',
           secondary: secondary || '#777777'

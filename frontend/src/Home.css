@@ -1,6 +1,11 @@
+.body {
+  overflow:hidden;
+}
+
 .home-container {
   height:100%;
   width:100%;
+  overflow:hidden;
 }
 
 .background {
@@ -9,10 +14,59 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(33, 181, 250, 0.1) 0%, transparent 70%);
   pointer-events: none;
-  background-color: #1e1f31;
+  background-color: #18332d;
   animation: backgroundPulse 0.6s ease-out;
+}
+
+.menu-left {
+  width: 50%;
+
+  padding-left:60px;
+  gap: 40px;
+  flex-direction: row;
+  display:flex;
+  align-items: center;
+}
+.menu-right {
+  width: 50%;
+
+  padding-right:70px;
+  gap: 70px;
+  display:flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.snow {
+  z-index: 2;
+}
+
+.mp-home {
+  padding:15px;
+  position:absolute;
+  left:25px;
+  bottom:25px;
+
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin:auto;
+
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.6rem;
+}
+
+.menu-bar {
+  margin:1%;
+  height: 70px;
+  width: 98%;
+  background-color: rgba(0, 0, 0, 0.192);
+  z-index: 1;
+
+  flex-direction: row;
+  display:flex;
 }
 
 .webpage-title-cont {
@@ -24,6 +78,12 @@
 .hallways-home-cont {
   height:80vh;
   overflow: auto;
+  scrollbar-width: none;
+}
+
+.hallways-home-cont::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 ::-webkit-scrollbar {
@@ -39,6 +99,7 @@
   font-size: 2rem;
   margin:auto;
   
+  overflow:hidden;
 }
 
 .lower-row {

@@ -1,9 +1,10 @@
 import Hallway from './Hallway';
 import axios from "axios";
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Typography } from '@mui/material'
 import VariableProximity from './assets/VariableProximity';
+import Snowfall from 'react-snowfall'
 import './Home.css';
 /*
   Website Homepage, this is where you view the hallways and all parts of the web page!
@@ -32,6 +33,10 @@ function Home() {
   const [initialDoors, setInitialDoors] = useState('');  
   const [devMode, setDevMode] = useState(false);
   const [correctPass, setCorrectPass] = useState(false);
+
+  const [musicVolume, setMusicVolume] = useState(0.10);
+  const root = document.documentElement;
+  root.style.setProperty('--Secondary-color', "#af1c3cff");
 
   const navigate = useNavigate();
 
@@ -135,6 +140,18 @@ function Home() {
     navigate(`/create-new`);
   }
 
+  const handleHome = () => {
+    //NAVIGATE TO home
+    console.log('navigating home');
+    navigate(`/`);
+  }
+
+  const handleAbout = () => {
+    //NAVIGATE TO /about
+    console.log('navigating to about');
+    navigate(`/about`);
+  }
+
 
   // Splits the door array into defined chunks
   function chunkArray(arr, chunkSize) {
@@ -148,7 +165,6 @@ function Home() {
 
   // calls chunkarray with size of 5, (5 doors per hallway)
   const doorsInHall = chunkArray(initialDoors, 5)
-  console.log(doorsInHall)
 
   const containerRef = useRef(null);
 
@@ -158,9 +174,95 @@ function Home() {
   Everything the user can VISUALLY see in the frontend. 
   */
   return (
+    
           <div className="home-container">
             <div className="background" />
+            {/* Background Music */}
+            <audio
+              src={"https://files.catbox.moe/5tdluv.mp3"}
+              autoPlay
+              loop
+              volume={musicVolume}
+              ref={(audio) => {
+                if (audio) audio.volume = musicVolume;
+              }}
+            />
+          <div className="mp-home">
+            <label className="label">Volume: {(musicVolume * 100).toFixed(0)}%</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={musicVolume}
+              onChange={(e) => setMusicVolume(Number(e.target.value))}
+              style={{ width: "100%" }}
+            />
+          </div>
             <div className="container">
+              <div className="menu-bar">
+                <div className="menu-left">
+                  <Button
+                      className ="button"
+                      onClick={handleHome}
+                      sx={{ 
+                          width: 30,
+                          color: 'white',
+                          scale: 1.5,
+                          textTransform: 'none',
+                          fontSize: 14,
+                          backgroundColor: '#ffffff00'
+                      }}
+                      >
+                          Home
+                  </Button>
+                  <Button
+                      className ="button"
+                      onClick={handleAbout}
+                      sx={{ 
+                          width: 40,
+                          color: 'white',
+                          scale: 1.5,
+                          textTransform: 'none',
+                          fontSize: 14,
+                          backgroundColor: '#ffffff00'
+                      }}
+                      >
+                          About
+                  </Button>
+                </div>
+                <div className = "menu-right">
+                  <Button
+                      className ="button"
+                      onClick={handleDevModeToggle}
+                      sx={{ 
+                          width: 150,
+                          color: 'white',
+                          scale: 1.5,
+                          textTransform: 'none',
+                          fontSize: 14,
+                          backgroundColor: devMode ? 'green' : '#ffffff00'
+                      }}
+                      >
+                          Toggle Developer
+                  </Button>
+                  
+                  <Button
+                      className ="button"
+                      onClick={handleCreateRoom}
+                      sx={{ 
+                          width: 150,
+                          color: 'white',
+                          scale: 1.5,
+                          textTransform: 'none',
+                          fontSize: 14,
+                          backgroundColor: '#ffffff00'
+                      }}
+                      >
+                          Create New Room
+                  </Button>
+                </div>
+              </div>
               <div className="webpage-title-cont"
                 ref={containerRef}
                 style={{position: 'relative'}}
@@ -186,48 +288,8 @@ function Home() {
                   />
                   ))}
                 </div>
-              <div className='lower-row'>
-                <Button
-                    className ="button"
-                    onClick={handleDevModeToggle}
-                    sx={{ 
-                        mt: 2,
-                        width: 100,
-                        color: 'white',
-                        scale: 1.5,
-                        backgroundColor: devMode ? 'green' : '#141420'
-                    }}
-                    >
-                        Toggle DevMode
-                </Button>
-                <Button
-                    className ="button"
-                    onClick={handleCreateRoom}
-                    sx={{ 
-                        mt: 2,
-                        width: 100,
-                        color: 'white',
-                        scale: 1.5,
-                        backgroundColor: '#141420'
-                    }}
-                    >
-                        Create New Room
-                </Button>
-                {/* <Button
-                    className ="button"
-                    onClick={handleRemModeToggle}
-                    sx={{ 
-                        mt: 2,
-                        width: 100,
-                        color: 'white',
-                        scale: 1.5,
-                        backgroundColor: '#141420'
-                    }}
-                    >
-                        Remove Room
-                </Button> */}
-              </div>
             </div>
+            <Snowfall className="snow"></Snowfall>
           </div>
   );
 }

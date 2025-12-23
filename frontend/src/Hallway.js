@@ -37,7 +37,6 @@ const Hallway = ({ devMode, doors, hallwayImage, onUpdateDoor, onRemoveDoor }) =
                 });
             }
             axios.delete(`http://localhost:5000/api/auth/delete/${door.name}`).then(response => {
-                console.log('Auth deleted: ', response.data)
             })
             .catch(error => {
                     console.error("Error deleting auth:", error);

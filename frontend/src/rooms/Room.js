@@ -4,6 +4,7 @@ import { Home, Eye, EyeClosed } from 'lucide-react';
 import { useNavigate,  } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Snowfall from 'react-snowfall';
 import DivEditors from './EditableComponents'
 import axios from 'axios'
 
@@ -28,17 +29,28 @@ function Room() {
   const [description, setDescription] = useState(room.assets.description);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [customHTML, setCustomHTML] = useState(room.assets.customHTML);
+
+  const [bgMusicUrl, setBgMusicUrl] = useState(room.assets.bgMusicUrl || '');
+  const [useBGMusic, setUseBGMusic] = useState(room.assets.useBGMusic || false);
+  const [musicVolume, setMusicVolume] = useState(0.10);
+  const [musicImg, setMusicImg] = useState(room.assets.musicImg);
+  const [musicName, setMusicName] = useState(room.assets.musicName);
+  const [musicArtist, setMusicArtist] = useState(room.assets.musicArtist);
 
   const [passInputVisibility1, setPassInput1Visiblity1] = useState(false);
   function togglePassInputVisibility1() {
     setPassInput1Visiblity1(!passInputVisibility1)
   }
 
-  const [useHTML, setUseHTML] = useState('false');
+  const [useHTML, setUseHTML] = useState(room.assets.useHTML);
+  const [renderSnow, setRenderSnow] = useState(room.assets.renderSnow);
 
 
   root.style.setProperty('--BG-primary-color', BGprimaryColor);
   root.style.setProperty('--BG-secondary-color', BGsecondaryColor);
+  root.style.setProperty('--Primary-color', primaryColor);
+  root.style.setProperty('--Secondary-color', secondaryColor);
 
   // console.log('Room data:', room);
   // console.log('Primary color from room:', room?.assets?.textGradColors?.primary);
@@ -254,7 +266,6 @@ function Room() {
     )
   };
 
-
   /* ------------------------ CONTROLLER ------------------------ */
   useEffect(() => {
     if (room?.assets?.textGradColors?.primary) {
@@ -299,6 +310,10 @@ function Room() {
     setDescription(e.target.value);
   };
 
+    const handleCustomHTMLUpdate = (e) => {
+    setCustomHTML(e.target.value);
+  };
+
   // Handle background primary and secondary
   const handleBGPrimColorChange = (e) => {
     setBGPrimaryColor(e.target.value);
@@ -310,7 +325,6 @@ function Room() {
 
   const handleLogin = async () => {
     const passcode = (document.getElementById('pass-input')).value;
-    console.log("passcode:" + passcode);
 
   try {
     const response = await fetch(`http://localhost:5000/api/auth/login`, {
@@ -440,6 +454,14 @@ const handlers = {
       bgPrimary: BGprimaryColor,
       bgSecondary: BGsecondaryColor,
       roomConfig: roomConfig,
+      renderSnow: renderSnow,
+      useHTML: useHTML,
+      customHTML: customHTML,
+      useBGMusic: useBGMusic,
+      bgMusicUrl: bgMusicUrl,
+      musicArtist: musicArtist,
+      musicName: musicName,
+      musicImg: musicImg,
     })
       .then(response => {
         console.log("Successfully updating room:");
@@ -451,6 +473,13 @@ const handlers = {
 
   const handleToggleHTML = () => {
     setUseHTML(!useHTML);
+  }
+  const handleToggleSnow = () => {
+    setRenderSnow(!renderSnow);
+  }
+
+  const handleToggleMusic = () => {
+    setUseBGMusic(!useBGMusic);
   }
 
   const handleRemoveRoom = () => {
@@ -547,6 +576,44 @@ const handlers = {
   return (
     <div className="Room">
       <div className="background-custom" />
+
+        {/* Background Music */}
+        {useBGMusic && bgMusicUrl && (
+          <audio
+            src={bgMusicUrl}
+            autoPlay
+            loop
+            volume={musicVolume}
+            ref={(audio) => {
+              if (audio) audio.volume = musicVolume;
+            }}
+          />
+        )}
+        <div className="mp">
+          <label className="label">Volume: {(musicVolume * 100).toFixed(0)}%</label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={musicVolume}
+            onChange={(e) => setMusicVolume(Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+          <div className="music-row">
+            <img 
+              className = "music-img"
+              src={musicImg}
+            />
+            <div className="song-artist">
+              <label className ="label-song"> {musicName}</label>
+              <label className ="label-artist"> {musicArtist}</label>
+            </div>
+
+          </div>
+          
+        </div>
+
           {/* Header with back button */}
           <div className="header-nav">
             {/* Top right panel*/}
@@ -588,179 +655,209 @@ const handlers = {
 
               {isLoggedIn=== true && (
                 <div className="logged-in">
-                {/* Color pickers for gradient colors */}
-                <div class="plain-line-editor"></div>
-                <h3 className="section-label">Text Gradient</h3>
-                <div className="color-picker-container">
-                  <div className="color-picker-item">
-                    <label htmlFor="primary-color">Primary Color:</label>
-                    <input
-                      id="primary-color"
-                      type="color"
-                      value={primaryColor}
-                      onChange={handlePrimaryColorChange}
-                      className="color-picker-input"
-                    />
-                  </div>
-                  <div className="color-picker-item">
-                    <label htmlFor="secondary-color">Secondary Color:</label>
-                    <input
-                      id="secondary-color"
-                      type="color"
-                      value={secondaryColor}
-                      onChange={handleSecondaryColorChange}
-                      className="color-picker-input"
-                    />
-                  </div>
-                </div>
-                <div class="plain-line-editor"></div>
-                <h3 className="section-label">Background Gradient</h3>
-                {/* Color pickers for gradient colors */}
-                <div className="color-picker-container">
-                  <div className="color-picker-item">
-                    <label htmlFor="primary-color">Primary Color:</label>
-                    <input
-                      id="primary-color"
-                      type="color"
-                      value={BGprimaryColor}
-                      onChange={handleBGPrimColorChange}
-                      className="color-picker-input"
-                    />
-                  </div>
-                  <div className="color-picker-item">
-                    <label htmlFor="secondary-color">Secondary Color:</label>
-                    <input
-                      id="secondary-color"
-                      type="color"
-                      value={BGsecondaryColor}
-                      onChange={handleBGSecColorChange}
-                      className="color-picker-input"
-                    />
-                  </div>
-                </div>
-                <div class="plain-line-editor"></div>
-
-                <h3 className="section-label">Profile Customization</h3>
-                <div className="profile-info-cont">
-                  <label className="prof-label" htmlFor="name-input">Name:</label>
-                  <input
-                    id="name-input"
-                    value={name}
-                    onChange={handleNameUpdate}
-                  >
-                  </input>
-                  <label className="prof-label" htmlFor="pronoun-input">Pronouns:</label>
-                  <input
-                    id="pronoun-input"
-                    value={pronouns}
-                    onChange={handlePronounUpdate}
-                  >
-                  </input>
-                  <label className="prof-label" htmlFor="pfp-input">Profile Picture:</label>
-                  <input
-                    placeholder='https://website.com/image-link'
-                    id="pfp-input"
-                    value={PFP}
-                    onChange={handlePFPUpdate}
-                  >
-                  </input>
-                  <label className="prof-label" htmlFor="desc-input">Bio/Description:</label>
-                  <textarea
-                    className="desc-input"
-                    placeholder='Enter whatever you would like :)'
-                    id="desc-input"
-                    value={description}
-                    onChange={handleDescUpdate}
-                  >
-                  </textarea>
-                </div>
-                <div class="plain-line-editor"></div>
-
-                {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
-                <h3 className="section-label">Additional Options</h3>
-                <div className="div-editor-container">
-                  <div className="sample-container">
-                    <h2>Available</h2>
-                      <div 
-                        className='available-divs'
-                        onDragOver={handleDragOver}
-                        onDrop={(e) => handleDrop(e, 'available')}  
-                      >
-
-
-                        {Object.entries(availableDivs).map(([key, value], index) => {   
-                          return (
-                            <h4 
-                            key={key} 
-                            className="available" 
-                            draggable="true" 
-                            onDragStart={(e) => handleDragStart(e, key, 'available')}
-                            >
-                              {value.name}
-                            </h4>
-                          );
-                        })}
-
-
+                  {useHTML===false && (
+                    <div className="html-toggle">
+                    {/* Color pickers for gradient colors */}
+                    <div class="plain-line-editor"></div>
+                    <h3 className="section-label">Text Gradient</h3>
+                    <div className="color-picker-container">
+                      <div className="color-picker-item">
+                        <label htmlFor="primary-color">Primary Color:</label>
+                        <input
+                          id="primary-color"
+                          type="color"
+                          value={primaryColor}
+                          onChange={handlePrimaryColorChange}
+                          className="color-picker-input"
+                        />
+                      </div>
+                      <div className="color-picker-item">
+                        <label htmlFor="secondary-color">Secondary Color:</label>
+                        <input
+                          id="secondary-color"
+                          type="color"
+                          value={secondaryColor}
+                          onChange={handleSecondaryColorChange}
+                          className="color-picker-input"
+                        />
                       </div>
                     </div>
-                  <div className="current-container">
-                    <h2>In Use</h2>
-                      <div 
-                        className='enabled-divs'
-                        onDragOver={handleDragOver}
-                        onDrop={(e) => handleDrop(e, 'enabled')}
-                        style={{ 
-                          minHeight: '500px', 
-                        }}
-                      >
-
-
-                        {roomConfig.enabledDivs.map((key, index) => {
-                          const divInfo = availableDivs[key];
-
-                          const isSelected = (key === selectedDiv)
-                          return (
-                            <h4 
-                            onClick={(e) => handleSelectDiv(e, key)}
-                            key={`${key}-${index}`} 
-                            className="enabled" 
-                            draggable="true" 
-                            onDragStart={(e) => handleDragStart(e, key, 'enabled')}
-                            style = {{
-                              backgroundColor: isSelected ? "#00000036" : "#ffffff21"
-                            }}
-                            >
-                              {divInfo?.name}
-                            </h4>
-                          );
-                        })}
-
-
+                    <div class="plain-line-editor"></div>
+                    <h3 className="section-label">Background Gradient</h3>
+                    {/* Color pickers for gradient colors */}
+                    <div className="color-picker-container">
+                      <div className="color-picker-item">
+                        <label htmlFor="primary-color">Primary Color:</label>
+                        <input
+                          id="primary-color"
+                          type="color"
+                          value={BGprimaryColor}
+                          onChange={handleBGPrimColorChange}
+                          className="color-picker-input"
+                        />
                       </div>
-                  </div>
+                      <div className="color-picker-item">
+                        <label htmlFor="secondary-color">Secondary Color:</label>
+                        <input
+                          id="secondary-color"
+                          type="color"
+                          value={BGsecondaryColor}
+                          onChange={handleBGSecColorChange}
+                          className="color-picker-input"
+                        />
+                      </div>
+                    </div>
+                    <div class="plain-line-editor"></div>
 
-                </div>
-                <div class="plain-line-editor"></div>
-
-                  {/* Render Selected Divs */}
-                  {roomConfig.enabledDivs.map((divId, index) => {
-                    const isSelected = (divId === selectedDiv);
-                    
-                    if (!isSelected) return null;
-                    
-                    const DivEditor = DivEditors[divId];
-                    
-                    return DivEditor ? (
-                      <DivEditor
-                        key={`${divId}-${index}`}
-                        roomConfig={roomConfig}
-                        handlers={handlers}
+                    <h3 className="section-label">Profile Customization</h3>
+                    <div className="profile-info-cont">
+                      <label className="prof-label" htmlFor="name-input">Name:</label>
+                      <input
+                        id="name-input"
+                        value={name}
+                        onChange={handleNameUpdate}
+                      >
+                      </input>
+                      <label className="prof-label" htmlFor="pronoun-input">Pronouns:</label>
+                      <input
+                        id="pronoun-input"
+                        value={pronouns}
+                        onChange={handlePronounUpdate}
+                      >
+                      </input>
+                      <label className="prof-label" htmlFor="pfp-input">Profile Picture:</label>
+                      <input
+                        placeholder='https://example.com/image-link'
+                        id="pfp-input"
+                        value={PFP}
+                        onChange={handlePFPUpdate}
+                      >
+                      </input>
+                      <label className="prof-label" htmlFor="desc-input">Bio/Description:</label>
+                      <textarea
+                        className="desc-input"
+                        placeholder='Enter whatever you would like :)'
+                        id="desc-input"
+                        value={description}
+                        onChange={handleDescUpdate}
+                      >
+                      </textarea>
+                      <label className="prof-label">Background Music URL:</label>
+                      <input
+                        type="text"
+                        placeholder="https://example.com/song.mp3"
+                        value={bgMusicUrl}
+                        onChange={(e) => setBgMusicUrl(e.target.value)}
                       />
-                    ) : null;
-                    
-                  })}
+                      <label className="prof-label">Music Icon URL:</label>
+                      <input
+                        type="text"
+                        placeholder="https://example.com/song.png"
+                        value={musicImg}
+                        onChange={(e) => setMusicImg(e.target.value)}
+                      />
+                      <label className="prof-label">Song Name:</label>
+                      <input
+                        type="text"
+                        placeholder="Song"
+                        value={musicName}
+                        onChange={(e) => setMusicName(e.target.value)}
+                      />
+                      <label className="prof-label">Artist:</label>
+                      <input
+                        type="text"
+                        placeholder="Artist"
+                        value={musicArtist}
+                        onChange={(e) => setMusicArtist(e.target.value)}
+                      />
+                    </div>
+                    <div class="plain-line-editor"></div>
 
+                    {/* THIS IS WHERE THE DIV ARRAY VIEWER WILL GO */}
+                    <h3 className="section-label">Additional Options</h3>
+                    <div className="div-editor-container">
+                      <div className="sample-container">
+                        <h2>Available</h2>
+                          <div 
+                            className='available-divs'
+                            onDragOver={handleDragOver}
+                            onDrop={(e) => handleDrop(e, 'available')}  
+                          >
+
+
+                            {Object.entries(availableDivs).map(([key, value], index) => {   
+                              return (
+                                <h4 
+                                key={key} 
+                                className="available" 
+                                draggable="true" 
+                                onDragStart={(e) => handleDragStart(e, key, 'available')}
+                                >
+                                  {value.name}
+                                </h4>
+                              );
+                            })}
+
+
+                          </div>
+                        </div>
+                      <div className="current-container">
+                        <h2>In Use</h2>
+                          <div 
+                            className='enabled-divs'
+                            onDragOver={handleDragOver}
+                            onDrop={(e) => handleDrop(e, 'enabled')}
+                            style={{ 
+                              minHeight: '500px', 
+                            }}
+                          >
+
+
+                            {roomConfig.enabledDivs.map((key, index) => {
+                              const divInfo = availableDivs[key];
+
+                              const isSelected = (key === selectedDiv)
+                              return (
+                                <h4 
+                                onClick={(e) => handleSelectDiv(e, key)}
+                                key={`${key}-${index}`} 
+                                className="enabled" 
+                                draggable="true" 
+                                onDragStart={(e) => handleDragStart(e, key, 'enabled')}
+                                style = {{
+                                  backgroundColor: isSelected ? "#00000036" : "#ffffff21"
+                                }}
+                                >
+                                  {divInfo?.name}
+                                </h4>
+                              );
+                            })}
+
+
+                          </div>
+                      </div>
+
+                    </div>
+                    <div class="plain-line-editor"></div>
+
+                      {/* Render Selected Divs */}
+                      {roomConfig.enabledDivs.map((divId, index) => {
+                        const isSelected = (divId === selectedDiv);
+                        
+                        if (!isSelected) return null;
+                        
+                        const DivEditor = DivEditors[divId];
+                        
+                        return DivEditor ? (
+                          <DivEditor
+                            key={`${divId}-${index}`}
+                            roomConfig={roomConfig}
+                            handlers={handlers}
+                          />
+                        ) : null;
+                        
+                      })}
+                </div>)}
 
                 {/*Save Button (send customization data to database)*/}
                 <h3 className="section-label">Advanced Options</h3>
@@ -775,6 +872,30 @@ const handlers = {
                       </button>
                   </div>
                   <div className="text-row">
+                    <h6 className="text-row-text">Toggle Snowfall: </h6>
+                    <button 
+                      className="editor-html-button"
+                      onClick={handleToggleSnow}
+                      sx={{
+                        backgroundColor: renderSnow ? "blue" :"green"
+                      }}
+                      >
+                        {renderSnow ? "✔":"✘"}
+                      </button>
+                    </div>
+                    <div className="text-row">
+                    <h6 className="text-row-text">Toggle BG Music: </h6>
+                    <button 
+                      className="editor-html-button"
+                      onClick={handleToggleMusic}
+                      sx={{
+                        backgroundColor: useBGMusic ? "blue" :"green"
+                      }}
+                      >
+                        {useBGMusic ? "✔":"✘"}
+                      </button>
+                    </div>
+                  <div className="text-row">
                     <h6 className="text-row-text">Use Custom HTML: </h6>
                     <button 
                       className="editor-html-button"
@@ -783,11 +904,22 @@ const handlers = {
                         backgroundColor: useHTML ? "blue" :"green"
                       }}
                       >
-                        {useHTML ? "✘":"✔"}
+                        {useHTML ? "✔":"✘"}
                       </button>
-                  </div>
+                    </div>
+                  { useHTML === true && (
+                    <div className="profile-info-cont">
+                      <br></br><label className="prof-label" htmlFor="desc-input">Custom HTML:</label>
+                      <textarea
+                        className="html-input"
+                        placeholder='Enter your HTML code here'
+                        id="html-input"
+                        value={customHTML}
+                        onChange={handleCustomHTMLUpdate}
+                      >
+                      </textarea>
 
-
+                  </div>)}
                 </div>
                 <h3 className="section-label">Save Settings</h3>
                 <button className="save-button"
@@ -802,8 +934,14 @@ const handlers = {
 
 
 
-
-
+        {/* ------------------------------ Custom HTML iFRAME Below Editor ----------------------------- */}
+        {useHTML === true && (
+          <iframe 
+            className="html-overlay" 
+            sandbox="allow-scripts"
+            srcDoc={customHTML}
+          />
+        )}
 
 
         {/* --------------------------------- Main Content Display Card -------------------------------- */}
@@ -861,6 +999,9 @@ const handlers = {
               })}
           </div>
         </div>
+        {renderSnow === true && (
+          <Snowfall className="snow"></Snowfall>
+        )}
     </div>
   );
 }
