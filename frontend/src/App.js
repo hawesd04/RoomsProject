@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './Home';
 import Room from './rooms/Room';
 import RoomCreator from './rooms/RoomCreator';
+import About from './About';
 import './App.css';
 /*
   This is the main launcher for the full application. It sets up all web routes you can navigate to.
@@ -20,6 +21,8 @@ function App() {
           element={<Room />} />
         {/* Route for the room-creator element*/}
         <Route path="/create-new" element={<RoomCreator />} />
+
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );
